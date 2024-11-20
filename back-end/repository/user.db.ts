@@ -9,13 +9,13 @@ const createUser = async ({ firstName, lastName, email, password, role }: User):
                 lastName,
                 email,
                 password,
-                role
+                role, // Ensure this matches the enum values in your Prisma schema
             },
         });
         return User.from(userPrisma);
     } catch (error) {
         console.error("Error creating user:", error);
-        throw new Error("error creating user");
+        throw new Error("Database error, See server log for details");
     }
 };
 
@@ -37,7 +37,7 @@ const getUserById = async ({ id }: { id: number }) => {
     try {
         const userPrisma = await database.user.findUnique({
             where: {
-                userId: id
+                id: id // Ensure this matches the primary key field in your Prisma schema
             },
             include: {
                 projects: true,
@@ -47,6 +47,23 @@ const getUserById = async ({ id }: { id: number }) => {
     } catch (error) {
         console.error("Error fetching user by id:", error);
         throw new Error("error fetching user by id");
+    }
+};
+
+const getUserByEmail = async (email: string): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findUnique({
+            where: {
+                email: email
+            },
+            include: {
+                projects: true,
+            }
+        });
+        return userPrisma ? User.from(userPrisma) : null;
+    } catch (error) {
+        console.error("Error fetching user by email:", error);
+        throw new Error("error fetching user by email");
     }
 };
 
@@ -69,5 +86,6 @@ export default {
     createUser,
     getAllUsers,
     getUserById,
-    addUserToProject
+    addUserToProject,
+    getUserByEmail,
 };

@@ -1,11 +1,11 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import express from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import projectRouter from './controller/project.routes';
 import { userRouter } from './controller/user.routes';
+import express, { NextFunction, Request, Response } from 'express';
 
 dotenv.config();
 
@@ -39,6 +39,10 @@ const swaggerOpts = {
 const swaggerSpec = swaggerJSDoc(swaggerOpts);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use('api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use((err: Error, reg: Request, res: Response, next: NextFunction) => {
+    res.status(400).json({status: "application error", message: err.message})
+})
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

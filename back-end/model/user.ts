@@ -20,7 +20,7 @@ export class User {
         password: string;
         role: Role;
         projects?: Project[];
-        tasks?: Task[];
+        tasks?: Task[]; 
     }) {
         this.id = user.id;
         this.firstName = user.firstName;
@@ -33,19 +33,19 @@ export class User {
     }
 
     private validate(user: { id?: number; firstName: string; lastName: string; email: string; password: string; role: Role; projects?: Project[]; tasks?: Task[] }) {
-        if (!user.firstName) {
+        if (!user.firstName?.trim()) {
             throw new Error('First name is required');
         }
-        if (!user.lastName) {
+        if (!user.lastName?.trim()) {
             throw new Error('Last name is required');
         }
-        if (!user.email) {
+        if (!user.email?.trim()) {
             throw new Error('Email is required');
         }
-        if (!user.password) {
+        if (!user.password?.trim()) {
             throw new Error('Password is required');
         }
-        if (!user.role) {
+        if (!user.role?.trim()) {
             throw new Error('Role is required');
         }
         if (user.projects && !Array.isArray(user.projects)) {

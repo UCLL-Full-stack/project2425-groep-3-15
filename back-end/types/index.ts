@@ -4,15 +4,15 @@ import { User } from "../model/user";
 
 type Role = "ADMIN" | "USER";
 
-
 type UserInput = {
-    id: number;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
-    role?: Role;
+    id?: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: Role;
     projects?: Project[];
+    tasks?: Task[];
 };
 
 type ProjectInput = {

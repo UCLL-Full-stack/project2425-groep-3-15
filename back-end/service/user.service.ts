@@ -1,9 +1,33 @@
-import userDB from "../repository/user.db";
 import { User } from "../model/user";
+import bcrypt from 'bcrypt';
+import userDB from "../repository/user.db";
 import { UserInput } from "../types";
 
-const getAllUsers = async (): Promise<User[]> => userDB.getAllUsers();
+const createUser = async ({ firstName, lastName, email, password, role }: UserInput): Promise<User> => {
+    // Check if the user already exists
+    const existingUser = await userDB.getUserByEmail(email);
+    if (existingUser) {
+        throw new Error('User already exists');
+    }
 
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 12);
 
+    // Create the user
+    const user = new User({ firstName, lastName, email, password: hashedPassword, role });
+    return await userDB.createUser(user);
+};
 
-export default { getAllUsers };
+const getAllUsers = async (): Promise<User[]> => {
+    return await userDB.getAllUsers();
+};
+
+const getUserById = async ({ id }: { id: number }) => {
+    return await userDB.getUserById({ id });
+};
+
+const getUserByEmail = async (email: string): Promise<User | null> => {
+    return await userDB.getUserByEmail(email);
+};
+
+export default { createUser, getAllUsers, getUserById, getUserByEmail };

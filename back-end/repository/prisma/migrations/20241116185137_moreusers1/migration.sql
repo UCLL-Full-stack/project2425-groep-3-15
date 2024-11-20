@@ -26,7 +26,7 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "user_projects" (
+CREATE TABLE IF NOT EXISTS "user_projects" (
     "userId" INTEGER NOT NULL,
     "projectId" INTEGER NOT NULL,
     CONSTRAINT "user_projects_pkey" PRIMARY KEY ("userId","projectId")

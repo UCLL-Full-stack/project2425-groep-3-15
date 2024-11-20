@@ -111,7 +111,7 @@ projectRouter.get('/:id', async (req: Request, res: Response) => {
     
   try {
     const project = await prisma.project.findUnique({
-      where: { project_Id },
+      where: { id: project_Id },
       include: {
         tasks: true,
         users: {
@@ -179,7 +179,7 @@ projectRouter.post('/:id/tasks', async (req: Request, res: Response) => {
 
   try {
     const project = await prisma.project.findUnique({
-      where: { project_Id: projectId },
+      where: { id: projectId },
     });
 
     if (!project) {
