@@ -36,4 +36,11 @@ type TaskInput = {
     completed?: boolean;
 };
 
-export { Role, UserInput, ProjectInput, TaskInput, EnrollmentInput };
+type AuthenticationResponse = {
+    token: string;
+    email: string;
+    fullname: string;
+    role: string;
+};
+
+export { Role, UserInput, ProjectInput, TaskInput, EnrollmentInput, AuthenticationResponse };

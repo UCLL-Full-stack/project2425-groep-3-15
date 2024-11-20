@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import userService from '../service/user.service';
 import { UserInput } from '../types';
 
@@ -17,7 +17,7 @@ const userRouter = express.Router();
  *     User:
  *       type: object
  *       properties:
- *         userId:
+ *         id:
  *           type: integer
  *         firstName:
  *           type: string
@@ -37,6 +37,17 @@ const userRouter = express.Router();
  *           type: array
  *           items:
  *             type: object
+ *     AuthenticationResponse:
+ *       type: object
+ *       properties:
+ *         token:
+ *           type: string
+ *         email:
+ *           type: string
+ *         fullname:
+ *           type: string
+ *         role:
+ *           type: string
  */
 
 /**
@@ -179,6 +190,63 @@ userRouter.post('/signup', async (req: Request, res: Response, next: NextFunctio
         const userInput = <UserInput>req.body;
         const user = await userService.createUser(userInput);
         res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Authenticate a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Authenticated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthenticationResponse'
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 errorMessage:
+ *                   type: string
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 errorMessage:
+ *                   type: string
+ */
+userRouter.post("/login", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userInput = <UserInput>req.body;
+        const response = await userService.authenticate(userInput);
+        res.status(200).json({ message: "Authenticated successfully", ...response });
     } catch (error) {
         next(error);
     }

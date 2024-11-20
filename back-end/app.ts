@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import projectRouter from './controller/project.routes';
 import { userRouter } from './controller/user.routes';
 import express, { NextFunction, Request, Response } from 'express';
+import { expressjwt } from 'express-jwt';
 
 dotenv.config();
 
@@ -16,6 +17,11 @@ const port = process.env.APP_PORT || 3000;
 app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
+app.use(expressjwt({
+    secret: process.env.JWT_SECRET as string,
+    algorithms: ['HS256'],
+}).unless({ path: ['/api-docs',/^\/api-docs\/.*./,'/users/login', '/users/register'] }) 
+);
 // Routes
 app.use('/projects', projectRouter);
 app.use('/users', userRouter);
@@ -39,10 +45,13 @@ const swaggerOpts = {
 const swaggerSpec = swaggerJSDoc(swaggerOpts);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use('api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use((err: Error, reg: Request, res: Response, next: NextFunction) => {
-    res.status(400).json({status: "application error", message: err.message})
-})
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).json({status: "application error", message: err.message})
+    } else {
+        res.status(400).json({status: "application error", message: err.message})
+    }
+}); 
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

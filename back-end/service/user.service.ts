@@ -1,7 +1,28 @@
 import { User } from "../model/user";
+import { UserInput, AuthenticationResponse } from "../types";
 import bcrypt from 'bcrypt';
 import userDB from "../repository/user.db";
-import { UserInput } from "../types";
+
+const authenticate = async ({ email, password }: UserInput): Promise<AuthenticationResponse> => {
+    const user = await userDB.getUserByEmail(email);
+
+    if (!user) {
+        throw new Error('User not found.');
+    }
+
+    const isValidPassword = await bcrypt.compare(password, user.getPassword());
+
+    if (!isValidPassword) {
+        throw new Error('Incorrect password.');
+    }
+
+    return {
+        token: '', // Generate and return a valid token here
+        email: email,
+        fullname: `${user.getFirstName()} ${user.getLastName()}`,
+        role: user.getRole(),
+    };
+};
 
 const createUser = async ({ firstName, lastName, email, password, role }: UserInput): Promise<User> => {
     // Check if the user already exists
@@ -30,4 +51,4 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
     return await userDB.getUserByEmail(email);
 };
 
-export default { createUser, getAllUsers, getUserById, getUserByEmail };
+export default { createUser, getAllUsers, getUserById, getUserByEmail, authenticate };
