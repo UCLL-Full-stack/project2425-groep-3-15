@@ -4,9 +4,6 @@ import { Task } from "./task";
 export class Project {
   readonly id?: number;
   readonly name: string;
-  readonly description?: string;
-  readonly startDate?: Date;
-  readonly endDate?: Date;
   readonly tasks: Task[] = [];
   readonly users: User[] = [];
 
@@ -21,9 +18,6 @@ export class Project {
   }) {
     this.id = project.id;
     this.name = project.name;
-    this.description = project.description;
-    this.startDate = project.startDate;
-    this.endDate = project.endDate;
     this.tasks = project.tasks || [];
     this.users = project.users || [];
   }
@@ -32,9 +26,6 @@ export class Project {
     return new Project({
       id: projectPrisma.projectId,
       name: projectPrisma.name,
-      description: projectPrisma.description,
-      startDate: projectPrisma.startDate,
-      endDate: projectPrisma.endDate,
       tasks: projectPrisma.tasks?.map(Task.from) || [],
       users: projectPrisma.users?.map(User.from) || [],
     });

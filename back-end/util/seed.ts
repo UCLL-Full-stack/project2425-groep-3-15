@@ -36,18 +36,12 @@ async function main() {
   const project1 = await database.project.create({
     data: {
       name: 'Project 1',
-      description: 'Description for project 1',
-      startDate: new Date(),
-      endDate: new Date(),
     },
   });
 
   const project2 = await database.project.create({
     data: {
       name: 'Project 2',
-      description: 'Description for project 2',
-      startDate: new Date(),
-      endDate: new Date(),
     },
   });
 
@@ -60,7 +54,7 @@ async function main() {
       description: 'Description for task 1',
       dueDate: new Date(),
       completed: false,
-      projectId: project1.project_Id, // Assign task to project1
+      projectId: project1.id, // Assign task to project1
     },
   });
 
@@ -70,7 +64,7 @@ async function main() {
       description: 'Description for task 2',
       dueDate: new Date(),
       completed: false,
-      projectId: project2.project_Id, // Assign task to project2
+      projectId: project2.id, // Assign task to project2
     },
   });
 
@@ -80,14 +74,14 @@ async function main() {
   await database.userProject.create({
     data: {
       userId: user1.id,
-      projectId: project1.project_Id,
+      projectId: project1.id,
     },
   });
 
   await database.userProject.create({
     data: {
       userId: user2.id,
-      projectId: project2.project_Id,
+      projectId: project2.id,
     },
   });
 
@@ -95,14 +89,14 @@ async function main() {
   await database.userTask.create({
     data: {
       userId: user1.id,
-      taskId: task1.taskId,
+      taskId: task1.id,
     },
   });
 
   await database.userTask.create({
     data: {
       userId: user2.id,
-      taskId: task2.taskId,
+      taskId: task2.id,
     },
   });
 }

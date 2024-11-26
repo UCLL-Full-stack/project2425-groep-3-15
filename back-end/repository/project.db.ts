@@ -6,9 +6,6 @@ async function createProject(name: string, description?: string, startDate?: Dat
       const project = await database.project.create({
         data: {
           name,
-          description,
-          startDate,
-          endDate,
         },
       });
       return project;
@@ -36,7 +33,7 @@ const getAllProjects = async () => {
 const getProjectById = async ({id}: {id: number}) => {
   try {
       const project = await database.project.findUnique({
-          where: { project_Id: id }, // Ensure this matches the primary key field in your Prisma schema
+          where: { id: id }, // Ensure this matches the primary key field in your Prisma schema
           include: {
               users: {
                   include: {
@@ -62,7 +59,7 @@ const addUserToProject = async (projectId: number, userId: number) => {
   try {
       // Fetch the project
       const project = await database.project.findUnique({
-          where: { project_Id: projectId },
+          where: { id: projectId },
           include: { users: true }
       });
 
@@ -81,7 +78,7 @@ const addUserToProject = async (projectId: number, userId: number) => {
 
         // Update the project with the new user
         await database.project.update({
-          where: { project_Id: projectId },
+          where: { id: projectId },
           data: {
               users: {
                   create: {

@@ -20,7 +20,7 @@ async function createTask (
         users: {
           create: users.map(user => ({
             user: {
-              connect: { userId: user.id } // Assuming user object has userId field
+              connect: { id: user.id } // Assuming user object has userId field
             }
           }))
         }
@@ -56,7 +56,7 @@ const getAllTasks = async () => {
 export const getTaskById = async (taskId: number): Promise<Task | null> => {
   try {
     const task = await database.task.findUnique({
-      where: { taskId },
+      where: { id: taskId },
       include: {
         users: true // Include associated users
       }

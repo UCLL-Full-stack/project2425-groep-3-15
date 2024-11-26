@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 async function createProject(data: ProjectInput) {
   try {
     // Check for duplicate project name
-    const existingProject = await prisma.project.findUnique({
-      where: { name: data.name },
+    const existingProject = await prisma.project.findFirst({
+      where: { name: data.name! },
     });
 
     if (existingProject) {
@@ -55,7 +55,7 @@ async function getAllProjects() {
 async function getProjectById(projectId: number) {
   try {
     const project = await prisma.project.findUnique({
-      where: { project_Id: projectId },
+      where: { id: projectId },
       include: {
         users: true,
         tasks: true,
