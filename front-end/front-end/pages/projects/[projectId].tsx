@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import ProjectDetails from '@/components/projects/ProjectDetails';
 import Header from '@/components/header';
-import ProjectService from '@/services/ProjectService';
-import ProjectOverviewTable from '@/components/projects/ProjectOverviewTable';
 import TaskOverviewTable from '@/components/tasks/TaskOverviewTable';
 import { Project, User, Task } from '@prisma/client';
 import UserOverviewTable from '@/components/users/UserOverViewTable';
 import NewTaskForm from '@/components/tasks/NewTaskForm';
+import usersService from '../../services/UserService';
+import UsersTable from '@/components/users/UserTable';
 
 const ProjectPage = () => {
   const router = useRouter();
@@ -16,6 +15,9 @@ const ProjectPage = () => {
   const [selectedProject, setSelectedProject] = useState<Project & { tasks: Task[] } | null>(null);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showAddUserTable, setShowAddUserTable] = useState(false);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+
 
   useEffect(() => {
     if (projectId) {
@@ -31,6 +33,18 @@ const ProjectPage = () => {
       fetchProject();
     }
   }, [projectId]);
+
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      try {
+        const users = await usersService.getAllUsers();
+        setAllUsers(users);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    fetchAllUsers();
+  }, []);
 
   const handleTaskCreated = (newTask: Task) => {
     if (selectedProject) {
@@ -55,6 +69,18 @@ const ProjectPage = () => {
       setSelectedProject({ ...selectedProject, tasks: updatedTasks });
     }
   };
+
+  const handleAddUserToProject = async (userId: string) => {
+    if (selectedProject) {
+      try {
+        await usersService.addUserToProject(projectId as string, userId);
+        const updatedProject = await usersService.getProjectUsers(projectId as string);
+        setSelectedProject(updatedProject);
+      } catch (error) {
+        console.error('Error adding user to project:', error);
+      }
+    }
+  };
   
 
   return (
@@ -71,15 +97,25 @@ const ProjectPage = () => {
 
         {selectedProject ? (
           <div className="flex flex-col w-full max-w-[1200px]">
-            <div className="flex-1 mx-2.5 bg-white rounded-md p-4 shadow-md mb-4">
+                        <div className="flex-1 mx-2.5 bg-white rounded-md p-4 shadow-md mb-4">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Users</h2>
-                <button className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600">
+                <button
+                  className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
+                  onClick={() => setShowAddUserTable(!showAddUserTable)}
+                >
                   + Add User
                 </button>
               </div>
               <UserOverviewTable project={selectedProject} />
-            </div>
+              {showAddUserTable && (
+                <UsersTable
+                  users={allUsers.filter(user => !selectedProject.users.some(u => u.id === user.id))}
+                  onAddUser={handleAddUserToProject}
+                />
+              )}
+            </div>       
+            
             <div className="flex-1 mx-2.5 bg-white rounded-md p-4 shadow-md">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">Tasks</h2>

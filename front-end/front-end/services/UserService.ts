@@ -14,18 +14,25 @@ const getAllUsers = async () => {
 
   return await response.json();
 };
+const getProjectUsers = async (projectId: string) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/users`);
+  return response.json();
+};
+const addUserToProject = async (projectId: string, userId: string) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/users`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userId }),
+  });
+  return response.json();
+};
 
 const UserService = {
   getAllUsers,
-  async addUserToProject(projectId: string, userId: string) {
-    return await fetch(`${apiUrl}/projects/${projectId}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId }),
-    });
-  },
+  addUserToProject,
+  getProjectUsers,  
 };
 
 export default UserService;
