@@ -33,7 +33,6 @@ const parseProjectDates = (project: Project): Project => {
 
 // Helper function to parse dates
 const parseDate = (date: string | Date | null): Date | null => {
-  console.log('Parsing date:', date);
   if (date === null) {
       return null;
   }

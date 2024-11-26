@@ -13,6 +13,7 @@ export default function Home() {
       </Head>
       <Header />
       <main className="flex flex-col items-center p-24 min-h-screen bg-gray-100 rounded-lg">
+      <img src="/PMT.png" alt="Project Management Tool Logo" className="w-48 h-48 mb-8" />
         <h1 className="text-4xl font-bold mb-8">Welcome to Project Management Tool</h1>
         <p className="text-center max-w-screen-md w-full mb-8 text-lg">
           This project aims to build a Project Management Tool that helps teams plan, execute, and monitor their projects and tasks. 
