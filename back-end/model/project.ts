@@ -10,9 +10,6 @@ export class Project {
   constructor(project: {
     id?: number;
     name: string;
-    description?: string;
-    startDate?: Date;
-    endDate?: Date;
     tasks?: Task[];
     users?: User[];
   }) {

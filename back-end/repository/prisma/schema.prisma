@@ -26,13 +26,10 @@ model User {
 }
 
 model Project {
-  projectId   Int           @id @default(autoincrement()) // Primary key
-  name        String        @unique // Project name
-  description String? // Optional project description
-  startDate   DateTime? // Optional project start date
-  endDate     DateTime? // Optional project end date
-  tasks       Task[] // One-to-many relationship with Task
-  users       UserProject[] // Many-to-many relationship with User through UserProject
+  projectId Int           @id @default(autoincrement()) // Primary key
+  name      String        @unique // Project name
+  tasks     Task[] // One-to-many relationship with Task
+  users     UserProject[] // Many-to-many relationship with User through UserProject
 
   @@map("projects") // Maps to 'projects' table in the database
 }
