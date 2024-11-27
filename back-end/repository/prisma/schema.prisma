@@ -1,71 +1,68 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 enum Role {
-  ADMIN
-  USER
+    ADMIN
+    USER
 }
 
 model User {
-  userId    Int           @id @default(autoincrement()) // Primary key
-  firstName String // User's first name
-  lastName  String // User's last name
-  email     String        @unique // User's email (unique)
-  password  String // User's password
-  role      Role // Enum representing user's role
-  projects  UserProject[] // Many-to-many relationship with Project through UserProject
-  UserTask  UserTask[] // Many-to-many relationship with Task through UserTask
+    id        Int           @id @default(autoincrement()) // Primary key
+    firstName String // User's first name
+    lastName  String // User's last name
+    email     String        @unique // User's email (unique)
+    password  String // User's password
+    role      Role // Enum representing user's role
+    projects  UserProject[] // Many-to-many relationship with Project through UserProject
+    UserTask  UserTask[] // Many-to-many relationship with Task through UserTask
 
-  @@map("users") // Maps to 'users' table in the database
+    @@map("users") // Maps to 'users' table in the database
 }
 
 model Project {
-  projectId   Int           @id @default(autoincrement()) // Primary key
-  name        String        @unique // Project name
-  description String? // Optional project description
-  startDate   DateTime? // Optional project start date
-  endDate     DateTime? // Optional project end date
-  tasks       Task[] // One-to-many relationship with Task
-  users       UserProject[] // Many-to-many relationship with User through UserProject
+    id    Int           @id @default(autoincrement()) // Primary key
+    name  String        @unique // Project name
+    tasks Task[] // One-to-many relationship with Task
+    users UserProject[] // Many-to-many relationship with User through UserProject
 
-  @@map("projects") // Maps to 'projects' table in the database
+    @@map("projects") // Maps to 'projects' table in the database
 }
 
 model Task {
-  taskId      Int        @id @default(autoincrement()) // Primary key
-  name        String // Task name
-  description String? // Task description (optional)
-  dueDate     DateTime // Task due date
-  completed   Boolean    @default(false) // Task completion status
-  project     Project?   @relation(fields: [projectId], references: [projectId]) // Many-to-one relationship with Project
-  projectId   Int? // Foreign key for Project
-  users       UserTask[] // Many-to-many relationship with User through UserTask
+    id          Int        @id @default(autoincrement()) // Primary key
+    name        String // Task name
+    description String? // Task description (optional)
+    dueDate     DateTime // Task due date
+    completed   Boolean    @default(false) // Task completion status
+    project     Project?   @relation(fields: [projectId], references: [id]) // Many-to-one relationship with Project
+    projectId   Int? // Foreign key for Project
+    users       UserTask[] // Many-to-many relationship with User through UserTask
 
-  @@map("tasks") // Maps to 'tasks' table in the database
+    @@map("tasks") // Maps to 'tasks' table in the database
 }
 
 model UserProject {
-  userId    Int
-  projectId Int
-  user      User    @relation(fields: [userId], references: [userId]) // Relation to User
-  project   Project @relation(fields: [projectId], references: [projectId]) // Relation to Project
+    userId    Int
+    projectId Int
+    user      User    @relation(fields: [userId], references: [id]) // Relation to User
+    project   Project @relation(fields: [projectId], references: [id]) // Relation to Project
 
-  @@id([userId, projectId]) // Composite primary key
-  @@map("user_projects") // Maps to 'user_projects' table in the database
+    @@id([userId, projectId]) // Composite primary key
+    @@map("user_projects") // Maps to 'user_projects' table in the database
 }
 
 model UserTask {
-  userId Int
-  taskId Int
-  user   User @relation(fields: [userId], references: [userId]) // Relation to User
-  task   Task @relation(fields: [taskId], references: [taskId]) // Relation to Task
+    userId Int
+    taskId Int
+    user   User @relation(fields: [userId], references: [id]) // Relation to User
+    task   Task @relation(fields: [taskId], references: [id]) // Relation to Task
 
-  @@id([userId, taskId]) // Composite primary key
-  @@map("user_tasks") // Maps to 'user_tasks' table in the database
+    @@id([userId, taskId]) // Composite primary key
+    @@map("user_tasks") // Maps to 'user_tasks' table in the database
 }

@@ -57,7 +57,7 @@ const IndexPage: React.FC = () => {
                     {projects.length > 0 ? (
                         <ProjectOverviewTable 
                             projects={projects} 
-                            selectProject={setSelectedProject} 
+                            setProjects={setProjects} 
                         />
                     ) : (
                         <p>No projects...</p>

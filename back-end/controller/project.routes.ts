@@ -3,12 +3,6 @@ import projectService from "../service/project.service"
 import { ProjectInput, EnrollmentInput } from "../types/index"; 
 import prisma from '../repository/database';
 
-/**
- * @swagger
- * tags:
- *   name: Projects
- *   description: Project management
- */
 export const projectRouter = express.Router();
 
 /**
@@ -40,7 +34,6 @@ export const projectRouter = express.Router();
  * /projects:
  *   get:
  *     summary: Retrieve a list of projects
- *     tags: [Projects]
  *     responses:
  *       200:
  *         description: A list of projects
@@ -50,24 +43,14 @@ export const projectRouter = express.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Project'
- *       400:
- *         description: Bad request
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                 errorMessage:
- *                   type: string
  */
 projectRouter.get('/', async (req: Request, res: Response) => {
     try {
         const projects = await projectService.getAllProjects();
         res.status(200).json(projects);
     } catch (error) {
-        res.status(400).json({ status: 'error', errorMessage: (error as Error).message });
+        console.error('Error retrieving projects:', error);
+        res.status(500).json({ status: 'error', errorMessage: (error as Error).message });
     }
 });
 
@@ -76,7 +59,6 @@ projectRouter.get('/', async (req: Request, res: Response) => {
  * /projects:
  *   post:
  *     summary: Create a new project
- *     tags: [Projects]
  *     requestBody:
  *       required: true
  *       content:
@@ -90,26 +72,20 @@ projectRouter.get('/', async (req: Request, res: Response) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Project'
- *       400:
- *         description: Bad request
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                 errorMessage:
- *                   type: string
  */
 projectRouter.post('/', async (req: Request, res: Response) => {
-    try {
-        const project = <ProjectInput>req.body;
-        const result = await projectService.createProject(project); // Ensure the function is awaited
-        res.status(200).json(result);
-    } catch (error) {
-        res.status(400).json({ status: 'error', errorMessage: (error as Error).message });
-    }
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ status: 'error', errorMessage: 'Project name is required' });
+  }
+
+  try {
+    const newProject = await projectService.createProject(name);
+    res.status(201).json(newProject);
+  } catch (error) {
+    console.error('Error creating project:', error);
+    res.status(500).json({ status: 'error', errorMessage: (error as Error).message });
+  }
 });
 /**
  * @swagger
@@ -134,30 +110,19 @@ projectRouter.post('/', async (req: Request, res: Response) => {
  *         description: Project not found
  */
 projectRouter.get('/:id', async (req: Request, res: Response) => {
-  const project_Id = parseInt(req.params.id);
-  if (isNaN(project_Id)) {
+  const projectId = parseInt(req.params.id);
+  if (isNaN(projectId)) {
     return res.status(400).json({ status: 'error', errorMessage: 'Invalid project ID' });
   }
-    
+
   try {
-    const project = await prisma.project.findUnique({
-      where: { id: project_Id },
-      include: {
-        tasks: true,
-        users: {
-          include: {
-            user: true,
-          },
-        },
-      },
-    });
-    
+    const project = await projectService.getProjectById(projectId);
     if (!project) {
       return res.status(404).json({ status: 'error', errorMessage: 'Project not found' });
     }
-    
     res.status(200).json(project);
   } catch (error) {
+    console.error(`Error retrieving project with ID "${projectId}":`, error);
     res.status(500).json({ status: 'error', errorMessage: (error as Error).message });
   }
 });        
@@ -209,7 +174,7 @@ projectRouter.post('/:id/tasks', async (req: Request, res: Response) => {
 
   try {
     const project = await prisma.project.findUnique({
-      where: { id: projectId },
+      where: { projectId: projectId },
     });
 
     if (!project) {
@@ -250,7 +215,7 @@ projectRouter.patch('/tasks/:taskId/status', async (req, res) => {
 
   try {
     const task = await prisma.task.update({
-      where: { id: parsedTaskId },
+      where: { taskId: parsedTaskId },
       data: { completed },
     });
 
@@ -270,13 +235,80 @@ projectRouter.delete('/tasks/:taskId', async (req, res) => {
 
   try {
     const deletedTask = await prisma.task.delete({
-      where: { id: parseInt(taskId) },
+      where: { taskId: parseInt(taskId) },
     });
     res.json(deletedTask);
   } catch (error) {
     res.status(500).json({ error: 'Error deleting task' });
   }
 });
+/**
+ * @swagger
+ * /projects/{id}:
+ *   delete:
+ *     summary: Delete a project
+ *     tags: [Projects]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The project ID
+ *     responses:
+ *       200:
+ *         description: The deleted project
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Project'
+ *       400:
+ *         description: Invalid project ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 errorMessage:
+ *                   type: string
+ *       404:
+ *         description: Project not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 errorMessage:
+ *                   type: string
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 errorMessage:
+ *                   type: string
+ */
+projectRouter.delete('/:id', async (req: Request, res: Response) => {
+  const projectId = parseInt(req.params.id);
+  if (isNaN(projectId)) {
+    return res.status(400).json({ status: 'error', errorMessage: 'Invalid project ID' });
+  }
 
+  try {
+    const project = await projectService.deleteProject(projectId);
+    res.status(200).json(project);
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    res.status(500).json({ status: 'error', errorMessage: (error as Error).message });
+  }
+});
 
 export default projectRouter;

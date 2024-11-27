@@ -33,7 +33,7 @@ const getAllProjects = async () => {
 const getProjectById = async ({id}: {id: number}) => {
   try {
       const project = await database.project.findUnique({
-          where: { id: id }, // Ensure this matches the primary key field in your Prisma schema
+          where: { projectId: id }, // Ensure this matches the primary key field in your Prisma schema
           include: {
               users: {
                   include: {
@@ -59,7 +59,7 @@ const addUserToProject = async (projectId: number, userId: number) => {
   try {
       // Fetch the project
       const project = await database.project.findUnique({
-          where: { id: projectId },
+          where: { projectId: projectId },
           include: { users: true }
       });
 
@@ -69,7 +69,7 @@ const addUserToProject = async (projectId: number, userId: number) => {
 
       // Fetch the user
       const user = await database.user.findUnique({
-          where: {id: userId }
+          where: {userId: userId }
       });
 
       if (!user) {
@@ -78,12 +78,12 @@ const addUserToProject = async (projectId: number, userId: number) => {
 
         // Update the project with the new user
         await database.project.update({
-          where: { id: projectId },
+          where: { projectId: projectId },
           data: {
               users: {
                   create: {
                       user: {
-                          connect: { id: userId }
+                          connect: { userId: userId }
                       }
                   }
               }
@@ -94,9 +94,32 @@ const addUserToProject = async (projectId: number, userId: number) => {
       throw error;
   }
 };
+
+const deleteProject = async (projectId: number) => {
+  try {
+      // Fetch the project
+      const project = await database.project.findUnique({
+          where: { projectId: projectId },
+          include: { users: true }
+      });
+
+      if (!project) {
+          throw new Error(`Project with ID ${projectId} not found`);
+      }
+
+      // Delete the project
+      await database.project.delete({
+          where: { projectId: projectId }
+      });
+  } catch (error) {
+      console.error(`Error deleting project "${projectId}":`, error);
+      throw error;
+  }
+};
 export default {
     createProject,
     getAllProjects,
     getProjectById,
     addUserToProject,
+    deleteProject
 };

@@ -2,17 +2,6 @@
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
 
 -- CreateTable
-CREATE TABLE "projects" (
-    "projectId" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "description" TEXT,
-    "startDate" TIMESTAMP(3),
-    "endDate" TIMESTAMP(3),
-
-    CONSTRAINT "projects_pkey" PRIMARY KEY ("projectId")
-);
-
--- CreateTable
 CREATE TABLE "users" (
     "userId" SERIAL NOT NULL,
     "firstName" TEXT NOT NULL,
@@ -22,6 +11,14 @@ CREATE TABLE "users" (
     "role" "Role" NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("userId")
+);
+
+-- CreateTable
+CREATE TABLE "projects" (
+    "projectId" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "projects_pkey" PRIMARY KEY ("projectId")
 );
 
 -- CreateTable
@@ -53,10 +50,10 @@ CREATE TABLE "user_tasks" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "projects_name_key" ON "projects"("name");
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "projects_name_key" ON "projects"("name");
 
 -- AddForeignKey
 ALTER TABLE "tasks" ADD CONSTRAINT "tasks_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "projects"("projectId") ON DELETE SET NULL ON UPDATE CASCADE;

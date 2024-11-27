@@ -119,11 +119,33 @@ const createProject = async (projectName: string): Promise<Project> => {
   }
 };
 
+const deleteProject = async (projectId: number) => {
+  try {
+    const response = await fetch(`${apiUrl}/projects/${projectId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      throw new Error(`Error deleting project: ${errorDetails.errorMessage}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error(`Error deleting project with ID "${projectId}":`, error);
+    throw error;
+  }
+}
+
 const ProjectService = {
   getAllProjects,
   getProjectById,
   fetchAndParseProjects,
   createProject,
+  deleteProject,
 };
 
 export default ProjectService;
