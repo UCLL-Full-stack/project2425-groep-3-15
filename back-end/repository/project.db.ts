@@ -33,7 +33,7 @@ const getAllProjects = async () => {
 const getProjectById = async ({id}: {id: number}) => {
   try {
       const project = await database.project.findUnique({
-          where: { projectId: id }, // Ensure this matches the primary key field in your Prisma schema
+          where: { id: id }, // Ensure this matches the primary key field in your Prisma schema
           include: {
               users: {
                   include: {
@@ -59,7 +59,7 @@ const addUserToProject = async (projectId: number, userId: number) => {
   try {
       // Fetch the project
       const project = await database.project.findUnique({
-          where: { projectId: projectId },
+          where: { id: projectId },
           include: { users: true }
       });
 
@@ -69,7 +69,7 @@ const addUserToProject = async (projectId: number, userId: number) => {
 
       // Fetch the user
       const user = await database.user.findUnique({
-          where: {userId: userId }
+          where: {id: userId }
       });
 
       if (!user) {
@@ -78,12 +78,12 @@ const addUserToProject = async (projectId: number, userId: number) => {
 
         // Update the project with the new user
         await database.project.update({
-          where: { projectId: projectId },
+          where: { id: projectId },
           data: {
               users: {
                   create: {
                       user: {
-                          connect: { userId: userId }
+                          connect: { id: userId }
                       }
                   }
               }

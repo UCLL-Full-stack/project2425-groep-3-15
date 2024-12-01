@@ -54,7 +54,7 @@ async function main() {
       description: 'Description for task 1',
       dueDate: new Date(),
       completed: false,
-      projectId: project1.projectId, // Assign task to project1
+      projectId: project1.id, // Assign task to project1
     },
   });
 
@@ -64,7 +64,7 @@ async function main() {
       description: 'Description for task 2',
       dueDate: new Date(),
       completed: false,
-      projectId: project2.projectId, // Assign task to project2
+      projectId: project2.id, // Assign task to project2
     },
   });
 
@@ -73,30 +73,30 @@ async function main() {
   // Seed User-Project Relations
   await database.userProject.create({
     data: {
-      userId: user1.userId,
-      projectId: project1.projectId,
+      userId: user1.id,
+      projectId: project1.id,
     },
   });
 
   await database.userProject.create({
     data: {
-      userId: user2.userId,
-      projectId: project2.projectId,
+      userId: user2.id,
+      projectId: project2.id,
     },
   });
 
   // Seed User-Task Relations
   await database.userTask.create({
     data: {
-      userId: user1.userId,
-      taskId: task1.taskId,
+      userId: user1.id,
+      taskId: task1.id,
     },
   });
 
   await database.userTask.create({
     data: {
-      userId: user2.userId,
-      taskId: task2.taskId,
+      userId: user2.id,
+      taskId: task2.id,
     },
   });
 }

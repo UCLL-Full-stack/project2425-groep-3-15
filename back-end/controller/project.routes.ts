@@ -141,7 +141,7 @@ projectRouter.get('/:id', async (req: Request, res: Response) => {
     
   try {
     const project = await prisma.project.findUnique({
-      where: { projectId: project_Id },
+      where: { id: project_Id },
       include: {
         tasks: true,
         users: {
@@ -209,7 +209,7 @@ projectRouter.post('/:id/tasks', async (req: Request, res: Response) => {
 
   try {
     const project = await prisma.project.findUnique({
-      where: { projectId: projectId },
+      where: { id: projectId },
     });
 
     if (!project) {
@@ -250,7 +250,7 @@ projectRouter.patch('/tasks/:taskId/status', async (req, res) => {
 
   try {
     const task = await prisma.task.update({
-      where: { taskId: parsedTaskId },
+      where: { id: parsedTaskId },
       data: { completed },
     });
 
@@ -270,7 +270,7 @@ projectRouter.delete('/tasks/:taskId', async (req, res) => {
 
   try {
     const deletedTask = await prisma.task.delete({
-      where: { taskId: parseInt(taskId) },
+      where: { id: parseInt(taskId) },
     });
     res.json(deletedTask);
   } catch (error) {
