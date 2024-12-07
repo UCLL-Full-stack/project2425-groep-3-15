@@ -9,6 +9,16 @@ import TaskOverviewTable from '@/components/tasks/TaskOverviewTable';
 import { Project, User, Task } from '@prisma/client';
 import UserOverviewTable from '@/components/users/UserOverViewTable';
 import NewTaskForm from '@/components/tasks/NewTaskForm';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from "next-i18next";
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['common'])),
+      },
+    };
+  }
 
 const ProjectPage = () => {
   const router = useRouter();
@@ -16,6 +26,8 @@ const ProjectPage = () => {
   const [selectedProject, setSelectedProject] = useState<Project & { tasks: Task[] } | null>(null);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { t } = useTranslation('common');
+
 
   useEffect(() => {
     if (projectId) {

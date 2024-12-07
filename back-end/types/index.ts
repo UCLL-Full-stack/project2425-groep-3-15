@@ -6,13 +6,14 @@ type Role = "ADMIN" | "USER";
 
 
 type UserInput = {
-    id: number;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
-    role?: Role;
+    id?: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: Role;
     projects?: Project[];
+    tasks?: Task[];
 };
 
 type ProjectInput = {
@@ -36,4 +37,13 @@ type TaskInput = {
     completed?: boolean;
 };
 
-export { Role, UserInput, ProjectInput, TaskInput, EnrollmentInput };
+type AuthenticationResponse = {
+    token: string;
+    email: string;
+    fullname: string;
+};
+
+type TokenPayload = {
+    email: string;
+};
+export { Role, UserInput, ProjectInput, TaskInput, EnrollmentInput, AuthenticationResponse, TokenPayload };

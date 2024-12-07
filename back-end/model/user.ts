@@ -22,6 +22,7 @@ export class User {
         projects?: Project[];
         tasks?: Task[];
     }) {
+        this.validate(user);
         this.id = user.id;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
@@ -32,20 +33,20 @@ export class User {
         this.tasks = user.tasks || [];
     }
 
-    private validate(user: { id?: number; firstName: string; lastName: string; email: string; password: string; role: Role; projects?: Project[]; tasks?: Task[] }) {
-        if (!user.firstName) {
+    validate(user: { firstName: string; lastName: string; email: string; password: string; role: Role; projects?: Project[]; tasks?: Task[] }) {
+        if (!user.firstName?.trim()) {
             throw new Error('First name is required');
         }
-        if (!user.lastName) {
+        if (!user.lastName?.trim()) {
             throw new Error('Last name is required');
         }
-        if (!user.email) {
+        if (!user.email?.trim()) {
             throw new Error('Email is required');
         }
-        if (!user.password) {
+        if (!user.password?.trim()) {
             throw new Error('Password is required');
         }
-        if (!user.role) {
+        if (!user.role?.trim()) {
             throw new Error('Role is required');
         }
         if (user.projects && !Array.isArray(user.projects)) {
@@ -69,35 +70,35 @@ export class User {
         });
     }
 
-    public getId(): number | undefined {
+    getId(): number | undefined {
         return this.id;
     }
 
-    public getFirstName(): string {
+    getFirstName(): string {
         return this.firstName;
     }
 
-    public getLastName(): string {
+    getLastName(): string {
         return this.lastName;
     }
 
-    public getEmail(): string {
+    getEmail(): string {
         return this.email;
     }
 
-    public getPassword(): string {
+    getPassword(): string {
         return this.password;
     }
 
-    public getRole(): Role {
+    getRole(): Role {
         return this.role;
     }
 
-    public getProjects(): Project[] {
+    getProjects(): Project[] {
         return this.projects;
     }
 
-    public getTasks(): Task[] {
+    getTasks(): Task[] {
         return this.tasks;
     }
 

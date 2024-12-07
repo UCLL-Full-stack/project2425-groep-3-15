@@ -1,0 +1,27 @@
+{
+    "app.title": "Projectmanagementtool",
+    "app.description": "Dit project heeft als doel een projectmanagementtool te bouwen die teams helpt bij het plannen, uitvoeren en monitoren van hun projecten en taken. Met het systeem kunnen gebruikers projecten maken en beheren, taken en rollen toewijzen, teams vormen en de voortgang in realtime volgen.",
+    "header": {
+        "welcome": "Welkom bij de Projectmanagementtool",
+        "nav": {
+            "home": "Home",
+            "projectOverview": "Projectoverzicht",
+            "logout": "Uitloggen",
+            "login": "Inloggen"
+        }
+    },
+    "project": {
+        "title": "Project Details",
+        "create": "+ Creëer Project",
+        "noProjects": "Geen projecten..."
+    },
+    "login": {
+        "title": "Inloggen",
+        "email": "E-mail",
+        "password": "Wachtwoord",
+        "button": "Inloggen",
+        "emailRequired": "E-mail is verplicht",
+        "passwordRequired": "Wachtwoord is verplicht",
+        "successMessage": "Inloggen succesvol. Doorverwijzen naar de startpagina..."
+    }
+}

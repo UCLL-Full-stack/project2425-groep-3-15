@@ -1,15 +1,18 @@
+import { PrismaClient } from '@prisma/client';
 import { User } from "../model/user";
 import database from "./database";
 
-const createUser = async ({ firstName, lastName, email, password, role }: User): Promise<User> => {
+const prisma = new PrismaClient();
+
+const createUser = async (user: User): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
             data: {
-                firstName,
-                lastName,
-                email,
-                password,
-                role
+                firstName: user.getFirstName(),
+                lastName: user.getLastName(),
+                email: user.getEmail(),
+                password: user.getPassword(),
+                role: user.getRole(),
             },
         });
         return User.from(userPrisma);
@@ -37,7 +40,7 @@ const getUserById = async ({ id }: { id: number }) => {
     try {
         const userPrisma = await database.user.findUnique({
             where: {
-                id: id            },
+                userId: id            },
             include: {
                 projects: true,
             }
@@ -48,7 +51,24 @@ const getUserById = async ({ id }: { id: number }) => {
         throw new Error("error fetching user by id");
     }
 };
+const getUserByEmail = async (email: string): Promise<User | null> => {
+    const user = await prisma.user.findUnique({
+        where: { email },
+    });
 
+    if (!user) {
+        return null;
+    }
+
+    return new User({
+        id: user.userId,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+    });
+};
 const addUserToProject = async (userId: number, projectId: number) => {
     try {
         const userProject = await database.userProject.create({
@@ -68,5 +88,6 @@ export default {
     createUser,
     getAllUsers,
     getUserById,
-    addUserToProject
+    addUserToProject,
+    getUserByEmail
 };

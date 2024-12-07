@@ -2,17 +2,19 @@ import { StatusMessage } from "@types";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const UserLoginForm: React.FC = () => {
   const router = useRouter();
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [statusMessages, setStatusMessages] = useState<{ message: string; type: string }[]>([]);
+  const { t } = useTranslation('common');
 
   const clearErrors = () => {
-    setNameError('');
+    setEmailError('');
     setPasswordError('');
     setStatusMessages([]);
   };
@@ -20,13 +22,13 @@ const UserLoginForm: React.FC = () => {
   const validate = (): boolean => {
     let result = true;
 
-    if (!name && name.trim() === "") {
-      setNameError("Name is required");
+    if (!email && email.trim() === "") {
+      setEmailError(t("login.emailRequired"));
       result = false;
     }
 
     if (!password || password.trim() === "") {
-      setPasswordError("Password is required");
+      setPasswordError(t("login.passwordRequired"));
       result = false;
     }
 
@@ -41,9 +43,8 @@ const UserLoginForm: React.FC = () => {
       return;
     }
 
-    setStatusMessages([{ message: 'Login successful. Redirecting to homepage...', type: 'success' }]);
-    sessionStorage.setItem("loggedInUser", name);
-
+    setStatusMessages([{ message: t('login.successMessage'), type: 'success' }]);
+    sessionStorage.setItem("loggedInUser", email);
 
     setTimeout(() => {
       router.push("/");
@@ -52,7 +53,6 @@ const UserLoginForm: React.FC = () => {
 
   return (
     <>
-      <h3 className="px-0 text-2xl">Login</h3>
       {statusMessages && (
         <div className="row">
           <ul className="list-none mb-3 mx-auto ">
@@ -72,24 +72,24 @@ const UserLoginForm: React.FC = () => {
         </div>
       )}
       <form onSubmit={handleSubmit}>
-        <label htmlFor="nameInput" className="block mb-2 text-sm font-medium">
-          Username:
+        <label htmlFor="emailInput" className="block mb-2 text-sm font-medium">
+          {t("login.email")}
         </label>
         <div className="block mb-2 text-sm font-medium">
           <input
-            id="nameInput"
-            type="text"
-            value={name}
+            id="emailInput"
+            type="email"
+            value={email}
             onChange={(event) => {
-              setName(event.target.value);
+              setEmail(event.target.value);
             }}
-            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
+            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
-          {nameError && <p className="text-red-800">{nameError}</p>}
+          {emailError && <p className="text-red-800">{emailError}</p>}
         </div>
 
         <label htmlFor="passwordInput" className="block mb-2 text-sm font-medium">
-          Password:
+          {t("login.password")}
         </label>
         <div className="block mb-2 text-sm font-medium">
           <input
@@ -108,7 +108,7 @@ const UserLoginForm: React.FC = () => {
           className="text-black bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           type="submit"
         >
-          Login
+          {t("login.button")}
         </button>
       </form>
     </>

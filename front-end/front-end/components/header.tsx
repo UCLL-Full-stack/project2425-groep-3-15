@@ -1,8 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
+import Language from './language/Language';
 
 export default function Header() {
+  const { t } = useTranslation("common");
+
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
   useEffect(() => {
@@ -26,30 +30,31 @@ export default function Header() {
         
         {loggedInUser && (
           <div className="text-gray-700 text-center">
-            Welcome, {loggedInUser}!
+            {t('header.welcome')}, {loggedInUser}!
           </div>
         )}
 
         <nav>
           <ul className="flex space-x-8 text-gray-700">
             <li>
-              <Link href="/" className="hover:underline">Home</Link>
+              <Link href="/" className="hover:underline">{t('header.nav.home')}</Link>
             </li>
             <li>
-              <Link href="/projects" className="hover:underline">Project Overview</Link>
+              <Link href="/projects" className="hover:underline">{t('header.nav.projectOverview')}</Link>
             </li>
 
             {loggedInUser ? (
               <li>
-                <a onClick={handleLogout} className="hover:underline cursor-pointer">Logout</a>
+                <a onClick={handleLogout} className="hover:underline cursor-pointer">{t('header.nav.logout')}</a>
               </li>
             ) : (
               <li>
-                <Link href="/login" className="hover:underline">Login</Link>
+                <Link href="/login" className="hover:underline">{t('header.nav.login')}</Link>
               </li>
             )}
           </ul>
         </nav>
+        <Language />
       </div>
     </header>
   );
