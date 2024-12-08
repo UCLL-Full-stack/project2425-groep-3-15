@@ -55,7 +55,7 @@ async function getAllProjects() {
 async function getProjectById(projectId: number) {
   try {
     const project = await prisma.project.findUnique({
-      where: { projectId: projectId },
+      where: { id: projectId },
       include: {
         users: true,
         tasks: true,

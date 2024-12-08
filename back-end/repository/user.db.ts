@@ -40,7 +40,7 @@ const getUserById = async ({ id }: { id: number }) => {
     try {
         const userPrisma = await database.user.findUnique({
             where: {
-                userId: id            },
+                id: id            },
             include: {
                 projects: true,
             }
@@ -61,7 +61,7 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
     }
 
     return new User({
-        id: user.userId,
+        id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
