@@ -11,42 +11,45 @@ const parseProjectDates = (project: Project): Project => {
     description: project.description,
     startDate: parseDate(project.startDate), // Parse project start date
     endDate: parseDate(project.endDate), // Parse project end date
-    tasks: project.tasks.map(
-      (task: {
-        taskId: string;
-        name: string;
-        description: string;
-        dueDate: string | Date | null;
-        completed: boolean;
-      }) => {
-        const parsedTaskDueDate = parseDate(task.dueDate);
-        return {
-          id: task.taskId,
-          name: task.name,
-          description: task.description,
-          dueDate: parsedTaskDueDate, // Use parsed date
-          completed: task.completed,
-        };
-      }
-    ),
-    users: project.users.map(
-      (user: {
-        userId: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        role: string;
-      }) => ({
-        id: user.userId,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        role: user.role,
-      })
-    ),
+    tasks: project.tasks
+      ? project.tasks.map(
+          (task: {
+            taskId: string;
+            name: string;
+            description: string;
+            dueDate: string | Date | null;
+            completed: boolean;
+          }) => {
+            const parsedTaskDueDate = parseDate(task.dueDate);
+            return {
+              id: task.taskId,
+              name: task.name,
+              description: task.description,
+              dueDate: parsedTaskDueDate, // Use parsed date
+              completed: task.completed,
+            };
+          }
+        )
+      : [],
+    users: project.users
+      ? project.users.map(
+          (user: {
+            userId: string;
+            firstName: string;
+            lastName: string;
+            email: string;
+            role: string;
+          }) => ({
+            id: user.userId,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role,
+          })
+        )
+      : [],
   };
 };
-
 // Helper function to parse dates
 const parseDate = (date: string | Date | null): Date | null => {
   console.log("Parsing date:", date);
