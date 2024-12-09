@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Header from "@/components/header";
 import ProjectService from "@/services/ProjectService";
-import ProjectOverviewTable from "../../components/projects/ProjectOverviewTable";
-import ProjectDetails from "@/components/projects/ProjectDetails";
+import ProjectOverviewTable from "@/components/projects/ProjectOverviewTable";
 import { Project } from "@types";
-import NewProjectForm from "@/components/projects/NewProjectForm";
+import NewProjectModal from "@/components/projects/NewProjectForm"; // Import the modal component
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
@@ -13,27 +12,29 @@ export async function getServerSideProps({ locale }: { locale: string }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+
+      // Fallback projects in case API fails (optional, add/remove as per your logic)
+      projects: [],
     },
   };
 }
 
 const IndexPage: React.FC = () => {
   const [projects, setProjects] = useState<Array<Project>>([]);
-  const [showNewProjectForm, setShowNewProjectForm] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
   const { t } = useTranslation("common");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleProjectCreated = (newProject: Project) => {
-    setProjects((prevProjects) => [...prevProjects, newProject]);
-    setShowNewProjectForm(false);
+    setProjects((prevProjects) => [...prevProjects, newProject]); // Add new project to state
+    setIsModalOpen(false); // Close the modal
     setSuccessMessage("Project created successfully!");
-
-    setTimeout(() => setSuccessMessage(null), 3000);
+    setTimeout(() => setSuccessMessage(null), 3000); // Clear success message after 3 seconds
   };
 
   const handleDeleteProject = async (projectId: string) => {
     try {
-      await ProjectService.deleteProject(projectId); // Backend call
+      await ProjectService.deleteProject(projectId);
       setProjects((prevProjects) =>
         prevProjects.filter((project) => project.projectId !== projectId)
       );
@@ -49,17 +50,13 @@ const IndexPage: React.FC = () => {
       const data = await ProjectService.fetchAndParseProjects();
       setProjects(data);
     } catch (error) {
-      console.error("Error fetching projects", error);
+      console.error("Error fetching projects:", error);
     }
   };
 
   useEffect(() => {
-    getProjects();
+    getProjects(); // Fetch projects on mount
   }, []);
-
-  const handleCreateProjectClick = () => {
-    setShowNewProjectForm(true);
-  };
 
   return (
     <>
@@ -73,39 +70,50 @@ const IndexPage: React.FC = () => {
         <link rel="icon" href="/logo.ico" />
       </Head>
       <Header />
-      <main className="d-flex flex-column justify-content-center align-items-center">
+      <main className="flex flex-col items-center px-8 py-16 min-h-screen bg-gray-50 rounded-lg justify-start mt-8">
+        {/* Success Message */}
         {successMessage && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-            {successMessage}
+          <div
+            className="flex items-center bg-green-100 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded-lg shadow-lg mb-6 animate-fade-in"
+            role="alert"
+          >
+            <p className="font-medium">{successMessage}</p>
           </div>
         )}
+
+        {/* Page Title */}
         <h1 className="text-3xl font-bold text-blue-700 mb-8">
           {t("project.title")}
         </h1>
-        <section>
-          <div className="flex justify-center">
-            <button
-              className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
-              onClick={handleCreateProjectClick}
-            >
-              {t("project.create")}
-            </button>
-          </div>
-          {showNewProjectForm && (
-            <NewProjectForm
-              onProjectCreated={handleProjectCreated}
-              setSuccessMessage={setSuccessMessage}
-            />
-          )}
+
+        {/* Create Project Button */}
+        <div className="mb-6">
+          <button
+            className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
+            onClick={() => setIsModalOpen(true)} // Open modal on click
+          >
+            {t("project.create")}
+          </button>
+        </div>
+
+        {/* Modal */}
+        {isModalOpen && (
+          <NewProjectModal
+            onProjectCreated={handleProjectCreated} // Pass callback to handle project creation
+            setSuccessMessage={setSuccessMessage}
+            onClose={() => setIsModalOpen(false)} // Close modal on background click
+          />
+        )}
+
+        {/* Project Overview Table */}
+        <section className="w-full max-w-3xl bg-white shadow-md rounded-md p-6 mx-auto">
           {projects.length > 0 ? (
-            <section className="bg-white shadow-md rounded-md p-6">
-              <ProjectOverviewTable
-                projects={projects}
-                onDeleteProject={handleDeleteProject}
-              />
-            </section>
+            <ProjectOverviewTable
+              projects={projects}
+              onDeleteProject={handleDeleteProject} // Pass delete handler
+            />
           ) : (
-            <p>{t("project.noProjects")}</p>
+            <p className="text-gray-500">{t("project.noProjects")}</p>
           )}
         </section>
       </main>

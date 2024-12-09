@@ -50,7 +50,7 @@ const UserOverviewPage: React.FC = () => {
         <link rel="icon" href="/logo.ico" />
       </Head>
       <Header />
-      <main className="container mx-auto p-4">
+      <main className="flex flex-col items-center px-8 py-16 min-h-screen bg-gray-50 rounded-lg justify-start mt-8">
         {successMessage && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
             {successMessage}
@@ -67,7 +67,7 @@ const UserOverviewPage: React.FC = () => {
         {loading ? (
           <p className="text-blue-700">{t("loading")}</p>
         ) : (
-          <section className="bg-white shadow-md rounded-md p-6">
+          <section className="w-full max-w-3xl bg-white shadow-md rounded-md p-6 mx-auto">
             {users.length > 0 ? (
               <OverviewUsers users={users} />
             ) : (

@@ -1,97 +1,123 @@
-import React, { useState } from 'react';
-import TaskService from '@/services/TaskService';
+import React, { useState } from "react";
 
-type Props = {
+type NewTaskModalProps = {
   projectId: string;
-  onTaskCreated: (task: any) => void;
-  onClose: () => void;
+  onTaskCreated: (newTask: {
+    name: string;
+    description: string;
+    dueDate: string;
+  }) => void;
+  onClose: () => void; // Close modal handler
 };
 
-const NewTaskForm: React.FC<Props> = ({ projectId, onTaskCreated, onClose }) => {
-  const [taskName, setTaskName] = useState('');
-  const [taskDescription, setTaskDescription] = useState('');
-  const [taskDueDate, setTaskDueDate] = useState('');
+const NewTaskModal: React.FC<NewTaskModalProps> = ({
+  projectId,
+  onTaskCreated,
+  onClose,
+}) => {
+  const [taskName, setTaskName] = useState("");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!taskName) newErrors.taskName = 'Task name is required';
-    if (!taskDescription) newErrors.taskDescription = 'Task description is required';
-    if (!taskDueDate) {
-      newErrors.taskDueDate = 'Task due date is required';
-    } else {
-      const today = new Date();
-      const dueDate = new Date(taskDueDate);
-      if (dueDate < today) {
-        newErrors.taskDueDate = 'Due date cannot be before today';
-      }
-    }
+    if (!taskName) newErrors.taskName = "Task name is required";
+    if (!description) newErrors.description = "Description is required";
+    if (!dueDate) newErrors.dueDate = "Due date is required";
     return newErrors;
   };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    try {
-      const newTask = await TaskService.createTask(projectId, taskName, taskDescription, taskDueDate);
-      onTaskCreated(newTask);
-      setTaskName('');
-      setTaskDescription('');
-      setTaskDueDate('');
-      setErrors({});
-      onClose(); // Close the form after successful task creation
-    } catch (error) {
-      console.error('Error creating task:', error);
+
+    const newTask = { name: taskName, description, dueDate };
+    onTaskCreated(newTask); // Pass the new task back to the parent component
+    onClose(); // Close the modal
+  };
+
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4">
-      <div className="mb-2">
-        <label className="block text-sm font-medium text-gray-700" htmlFor="taskName">Task Name:</label>
-        <input
-          type="text"
-          id="taskName"
-          value={taskName}
-          onChange={(e) => setTaskName(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        />
-        {errors.taskName && <p className="text-red-500 text-sm">{errors.taskName}</p>}
+    <div
+      className="fixed inset-0 bg-gray-800 bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50"
+      onClick={handleBackgroundClick}
+    >
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h2 className="text-xl font-bold mb-4">Create New Task</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="taskName" className="block text-sm font-medium">
+              Task Name:
+            </label>
+            <input
+              id="taskName"
+              type="text"
+              value={taskName}
+              onChange={(e) => setTaskName(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+            {errors.taskName && (
+              <p className="text-red-500 text-sm mt-1">{errors.taskName}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="description" className="block text-sm font-medium">
+              Description:
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            ></textarea>
+            {errors.description && (
+              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="dueDate" className="block text-sm font-medium">
+              Due Date:
+            </label>
+            <input
+              id="dueDate"
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+            {errors.dueDate && (
+              <p className="text-red-500 text-sm mt-1">{errors.dueDate}</p>
+            )}
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-700 bg-gray-200 px-4 py-2 rounded-md shadow hover:bg-gray-300 mr-2"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
+            >
+              Create Task
+            </button>
+          </div>
+        </form>
       </div>
-      <div className="mb-2">
-        <label className="block text-sm font-medium text-gray-700" htmlFor="taskDescription">Description:</label>
-        <input
-          type="text"
-          id="taskDescription"
-          value={taskDescription}
-          onChange={(e) => setTaskDescription(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        />
-        {errors.taskDescription && <p className="text-red-500 text-sm">{errors.taskDescription}</p>}
-      </div>
-      <div className="mb-2">
-        <label className="block text-sm font-medium text-gray-700" htmlFor="taskDueDate">Due Date:</label>
-        <input
-          type="date"
-          id="taskDueDate"
-          value={taskDueDate}
-          onChange={(e) => setTaskDueDate(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        />
-        {errors.taskDueDate && <p className="text-red-500 text-sm">{errors.taskDueDate}</p>}
-      </div>
-      <button
-        type="submit"
-        className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
-      >
-        Create Task
-      </button>
-    </form>
+    </div>
   );
 };
 
-export default NewTaskForm;
+export default NewTaskModal;

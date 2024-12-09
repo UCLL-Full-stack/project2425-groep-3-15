@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import ProjectDetails from "@/components/projects/ProjectDetails";
 import Header from "@/components/header";
-import ProjectService from "@/services/ProjectService";
-import ProjectOverviewTable from "@/components/projects/ProjectOverviewTable";
 import TaskOverviewTable from "@/components/tasks/TaskOverviewTable";
 import { Project, User, Task } from "@prisma/client";
 import UserOverviewTable from "@/components/users/UserOverViewTable";
@@ -84,11 +81,11 @@ const ProjectPage = () => {
   return (
     <>
       <Head>
-        <title>Project Details</title>
+        <title>Project Overview</title>
         <link rel="icon" href="/logo.ico" />
       </Head>
       <Header />
-      <main className="flex flex-col items-center bg-[#F1111] ">
+      <main className="flex flex-col items-center px-8 py-16 min-h-screen bg-gray-50 rounded-lg justify-start mt-8">
         <h1 className="text-3xl font-bold text-blue-700 mb-8">
           Details of{" "}
           {selectedProject ? selectedProject.name : "Project Details"}
