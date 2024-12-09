@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TaskService from '@/services/TaskService';
+import { useTranslation } from 'next-i18next';
 
 type Props = {
   projectId: string;
@@ -12,23 +13,24 @@ const NewTaskForm: React.FC<Props> = ({ projectId, onTaskCreated, onClose }) => 
   const [taskDescription, setTaskDescription] = useState('');
   const [taskDueDate, setTaskDueDate] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { t } = useTranslation('common');
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!taskName) newErrors.taskName = 'Task name is required';
-    if (!taskDescription) newErrors.taskDescription = 'Task description is required';
+    if (!taskName) newErrors.taskName = t('projectDetails.tasks.nameError');
+    if (!taskDescription) newErrors.taskDescription = t('projectDetails.tasks.descriptionError');
     if (!taskDueDate) {
-      newErrors.taskDueDate = 'Task due date is required';
+      newErrors.taskDueDate = t('projectDetails.tasks.dueError');
     } else {
       const today = new Date();
       const dueDate = new Date(taskDueDate);
       if (dueDate < today) {
-        newErrors.taskDueDate = 'Due date cannot be before today';
+        newErrors.taskDueDate = t('projectDetails.tasks.duePatError');
       }
     }
     return newErrors;
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateForm();
@@ -45,14 +47,14 @@ const NewTaskForm: React.FC<Props> = ({ projectId, onTaskCreated, onClose }) => 
       setErrors({});
       onClose(); // Close the form after successful task creation
     } catch (error) {
-      console.error('Error creating task:', error);
+      console.error(t('projectDetails.tasks.createError'), error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="mt-4">
       <div className="mb-2">
-        <label className="block text-sm font-medium text-gray-700" htmlFor="taskName">Task Name:</label>
+        <label className="block text-sm font-medium text-gray-700" htmlFor="taskName">{t('projectDetails.tasks.name')}:</label>
         <input
           type="text"
           id="taskName"
@@ -63,7 +65,7 @@ const NewTaskForm: React.FC<Props> = ({ projectId, onTaskCreated, onClose }) => 
         {errors.taskName && <p className="text-red-500 text-sm">{errors.taskName}</p>}
       </div>
       <div className="mb-2">
-        <label className="block text-sm font-medium text-gray-700" htmlFor="taskDescription">Description:</label>
+        <label className="block text-sm font-medium text-gray-700" htmlFor="taskDescription">{t('projectDetails.tasks.description')}:</label>
         <input
           type="text"
           id="taskDescription"
@@ -74,7 +76,7 @@ const NewTaskForm: React.FC<Props> = ({ projectId, onTaskCreated, onClose }) => 
         {errors.taskDescription && <p className="text-red-500 text-sm">{errors.taskDescription}</p>}
       </div>
       <div className="mb-2">
-        <label className="block text-sm font-medium text-gray-700" htmlFor="taskDueDate">Due Date:</label>
+        <label className="block text-sm font-medium text-gray-700" htmlFor="taskDueDate">{t('projectDetails.tasks.due')}:</label>
         <input
           type="date"
           id="taskDueDate"
@@ -88,7 +90,7 @@ const NewTaskForm: React.FC<Props> = ({ projectId, onTaskCreated, onClose }) => 
         type="submit"
         className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
       >
-        Create Task
+        {t('projectDetails.tasks.addTask2')}
       </button>
     </form>
   );

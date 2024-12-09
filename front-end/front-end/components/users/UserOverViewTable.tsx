@@ -1,21 +1,23 @@
-import React, { FC } from 'react';
-import { Project } from '@types';
-import { User } from '@/types';
+import React from 'react';
+import { Project, User } from '@/types';
+import { useTranslation } from 'next-i18next';
 
 type Props = {
-  project: Project;
+  project: Project & { users: { user: User }[] };
 };
 
 const UserOverviewTable: React.FC<Props> = ({ project }) => {
+  const { t } = useTranslation('common');
+
   return (
     <>
-      {project && project.users && (
+      {project && project.users && project.users.length > 0 ? (
         <table className="table table-hover">
           <thead>
             <tr>
-              <th>User Id</th>
-              <th>Name</th>
-              <th>Role</th>
+              <th>{t('projectDetails.users.id')}</th>
+              <th>{t('projectDetails.users.name')}</th>
+              <th>{t('projectDetails.users.role')}</th>
             </tr>
           </thead>
           <tbody>
@@ -28,6 +30,8 @@ const UserOverviewTable: React.FC<Props> = ({ project }) => {
             ))}
           </tbody>
         </table>
+      ) : (
+        <p>{t('projectDetails.users.noUsers')}</p>
       )}
     </>
   );

@@ -1,6 +1,7 @@
 import ProjectService from "@/services/ProjectService";
 import { Project } from "@/types";
 import React, { useState } from "react";
+import { useTranslation } from "next-i18next";
 
 type NewProjectFormProps = {
   onProjectCreated: (newProject: Project) => void;
@@ -13,10 +14,11 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({
 }) => {
   const [projectName, setProjectName] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { t } = useTranslation("common");
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!projectName) newErrors.projectName = "Project name is required";
+    if (!projectName) newErrors.projectName = t("project.nameRequired");
     return newErrors;
   };
 
@@ -29,7 +31,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({
     }
     try {
       const newProject = await ProjectService.createProject(projectName);
-      setSuccessMessage("Project created successfully!");
+      setSuccessMessage(t("project.successMessage"));
       setErrors({}); // Clear any previous errors
       onProjectCreated(newProject);
     } catch (error: any) {
@@ -42,7 +44,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({
         setErrors({ projectName: error.response.data.message });
       } else {
         setErrors({
-          projectName: "Project with this name already exists",
+          projectName: t("project.existsMessage"),
         });
       }
     }
@@ -52,7 +54,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="projectName">Project Name:</label>
+          <label htmlFor="projectName">{t("project.name")}</label>
           <input
             type="text"
             id="projectName"
@@ -68,7 +70,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({
           type="submit"
           className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600 mt-4"
         >
-          Create Project
+          {t("project.create2")}
         </button>
       </form>
     </div>

@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Project, Task } from '@types';
 import TaskService from '@/services/TaskService';
+import { useTranslation } from 'next-i18next';
 
 type Props = {
   project: Project & { tasks: Task[] };
@@ -10,6 +11,8 @@ type Props = {
 };
 
 const TaskOverviewTable: React.FC<Props> = ({ project, onStatusChange, onTaskRemoved, isEditing }) => {
+  const { t } = useTranslation('common');
+
   const handleStatusChange = async (taskId: number, currentStatus: boolean) => {
     const newStatus = !currentStatus;
 
@@ -17,7 +20,7 @@ const TaskOverviewTable: React.FC<Props> = ({ project, onStatusChange, onTaskRem
       await TaskService.updateTaskStatus(taskId, newStatus);
       onStatusChange(taskId, newStatus);
     } catch (error) {
-      console.error('Error updating task status:', error);
+      console.error(t('projectDetails.tasks.createError'), error);
     }
   };
 
@@ -26,7 +29,7 @@ const TaskOverviewTable: React.FC<Props> = ({ project, onStatusChange, onTaskRem
       await TaskService.deleteTask(taskId);
       onTaskRemoved(taskId);
     } catch (error) {
-      console.error('Error deleting task:', error);
+      console.error(t('projectDetails.tasks.createError'), error);
     }
   };
 
@@ -34,42 +37,42 @@ const TaskOverviewTable: React.FC<Props> = ({ project, onStatusChange, onTaskRem
     <table className="table table-hover">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Due Date</th>
-          <th>Status</th>
+          <th>{t('projectDetails.tasks.name')}</th>
+          <th>{t('projectDetails.tasks.description')}</th>
+          <th>{t('projectDetails.tasks.due')}</th>
+          <th>{t('projectDetails.tasks.status')}</th>
           {isEditing && <th></th>}
         </tr>
       </thead>
       <tbody>
-        {project.tasks.map((task: { taskId: number; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; dueDate: string | number | Date; completed: boolean; }) => (
+        {project.tasks.map((task: Task) => (
           <tr key={task.taskId}>
             <td>{task.name}</td>
             <td>{task.description}</td>
             <td>{new Date(task.dueDate).toLocaleDateString()}</td>
             <td className={task.completed ? 'text-green-500' : 'text-red-500'}>
-              {task.completed ? 'Completed' : 'Not Completed'}
+              {task.completed ? t('projectDetails.tasks.Complete') : t('projectDetails.tasks.Incomplete')}
             </td>
             {isEditing && (
-                <>
-                  <td>
-                    <button
-                      onClick={() => handleStatusChange(task.taskId, task.completed)}
-                      className="btn btn-primary text-white bg-blue-500 px-2 py-2 rounded-md shadow hover:bg-blue-600"
-                    >
-                      {task.completed ? 'Mark as Incomplete' : 'Mark as Completed'}
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleRemoveTask(task.taskId)}
-                      className="btn btn-danger text-white bg-red-500 px-2 py-2 rounded-md shadow hover:bg-red-600"
-                    >
-                      Remove Task
-                    </button>
-                  </td>
-                </>
-              )}
+              <>
+                <td>
+                  <button
+                    onClick={() => handleStatusChange(task.taskId, task.completed)}
+                    className="btn btn-primary text-white bg-blue-500 px-2 py-2 rounded-md shadow hover:bg-blue-600"
+                  >
+                    {task.completed ? t('projectDetails.tasks.markIncomplete') : t('projectDetails.tasks.markComplete')}
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => handleRemoveTask(task.taskId)}
+                    className="btn btn-danger text-white bg-red-500 px-2 py-2 rounded-md shadow hover:bg-red-600"
+                  >
+                    {t('projectDetails.tasks.remove')}
+                  </button>
+                </td>
+              </>
+            )}
           </tr>
         ))}
       </tbody>

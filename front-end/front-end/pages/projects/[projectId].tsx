@@ -1,14 +1,13 @@
+
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import ProjectDetails from "@/components/projects/ProjectDetails";
 import Header from "@/components/header";
-import ProjectService from "@/services/ProjectService";
-import ProjectOverviewTable from "@/components/projects/ProjectOverviewTable";
-import TaskOverviewTable from "@/components/tasks/TaskOverviewTable";
-import { Project, User, Task } from "@prisma/client";
 import UserOverviewTable from "@/components/users/UserOverViewTable";
+import TaskOverviewTable from "@/components/tasks/TaskOverviewTable";
 import NewTaskForm from "@/components/tasks/NewTaskForm";
+import { Project, Task } from "@prisma/client";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
@@ -29,10 +28,6 @@ const ProjectPage = () => {
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { t } = useTranslation("common");
-
-  const handleProjectCreated = (newProject: Project) => {
-    console.log("New project created:", newProject);
-  };
 
   useEffect(() => {
     if (projectId) {
@@ -84,42 +79,42 @@ const ProjectPage = () => {
   return (
     <>
       <Head>
-        <title>Project Details</title>
+        <title>{t("project.title")}</title>
         <link rel="icon" href="/logo.ico" />
       </Head>
       <Header />
       <main className="flex flex-col items-center bg-[#F1111]">
         <h1 className="text-2xl font-bold mb-8 text-black">
-          Details of{" "}
-          {selectedProject ? selectedProject.name : "Project Details"}
+          {t("project.title")}{" "}
+          {selectedProject ? selectedProject.name : ""}
         </h1>
 
         {selectedProject ? (
           <div className="flex flex-col w-full max-w-[1200px]">
             <div className="flex-1 mx-2.5 bg-white rounded-md p-4 shadow-md mb-4">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Users</h2>
+                <h2 className="text-xl font-bold">{t("projectDetails.users.title")}</h2>
                 <button className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600">
-                  + Add User
+                  {t("projectDetails.users.adduser")}
                 </button>
               </div>
               <UserOverviewTable project={selectedProject} />
             </div>
             <div className="flex-1 mx-2.5 bg-white rounded-md p-4 shadow-md">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Tasks</h2>
+                <h2 className="text-xl font-bold">{t("projectDetails.tasks.title")}</h2>
                 <div className="flex space-x-2">
                   <button
                     className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
                     onClick={() => setShowTaskForm(!showTaskForm)}
                   >
-                    + Create Task
+                    {t("projectDetails.tasks.addtask")}
                   </button>
                   <button
                     className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
                     onClick={() => setIsEditing(!isEditing)}
                   >
-                    {isEditing ? "Stop Editing" : "Edit tasks"}
+                    {isEditing ? t("projectDetails.tasks.editS") : t("projectDetails.tasks.edit")}
                   </button>
                 </div>
               </div>

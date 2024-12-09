@@ -11,9 +11,18 @@
         }
     },
     "project": {
+        "projectname": "Project Name",
+        "select": "Select",
+        "delete": "Delete",
         "title": "Project Details",
-        "create": "+ Create Project",
-        "noProjects": "No projects..."
+        "create": "+ Add Project",
+        "noProjects": "No projects...",
+        "name": "Project Name:",
+        "create2": "Add Project",
+        "nameRequired": "Project name is required",
+        "successMessage": "Project created successfully!",
+        "existsMessage": "Project with this name already exists",
+        "deleteSuccessMessage": "Project deleted successfully!"
     },
     "login": {
         "title": "Login",
@@ -23,5 +32,36 @@
         "emailRequired": "Email is required",
         "passwordRequired": "Password is required",
         "successMessage": "Login successful. Redirecting to homepage..."
+    },
+    "projectDetails": {
+        "users": {
+            "title": "Users",
+            "adduser": "+ Add User",
+            "id": "User Id",
+            "name": "Name",
+            "role": "Role",
+            "noUsers": "No users available"
+        },
+        "tasks": {
+            "title": "Tasks",
+            "addtask": "+ Add Task",
+            "addTask2": "Add Task",
+            "edit": "Edit tasks",
+            "editS": "Stop Editing",
+            "name": "Name",
+            "description": "Description",
+            "due": "Due Date",
+            "status": "Status",
+            "markComplete": "Mark Complete",
+            "markIncomplete": "Mark Incomplete",
+            "Complete": "Complete",
+            "Incomplete": "Incomplete",
+            "remove": "Remove Task",
+            "nameError": "Task name is required",
+            "descriptionError": "Task description is required",
+            "duePatError": "Due date cannot be before today",
+            "dueError": "Task due date is required",
+            "createError": "Error creating task"
+        }
     }
 }

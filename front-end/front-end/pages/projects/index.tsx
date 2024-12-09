@@ -26,7 +26,7 @@ const IndexPage: React.FC = () => {
   const handleProjectCreated = (newProject: Project) => {
     setProjects((prevProjects) => [...prevProjects, newProject]);
     setShowNewProjectForm(false);
-    setSuccessMessage("Project created successfully!");
+    setSuccessMessage(t("project.successMessage"));
 
     setTimeout(() => setSuccessMessage(null), 3000);
   };
@@ -37,7 +37,7 @@ const IndexPage: React.FC = () => {
       setProjects((prevProjects) =>
         prevProjects.filter((project) => project.projectId !== projectId)
       );
-      setSuccessMessage("Project deleted successfully!");
+      setSuccessMessage(t("project.deleteSuccessMessage"));
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
       console.error("Error deleting project:", error);
@@ -67,19 +67,19 @@ const IndexPage: React.FC = () => {
         <title>{t("app.title")}</title>
         <meta
           name="description"
-          content="A tool to help teams plan, execute, and monitor their projects and tasks."
+          content={t("app.description")}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo.ico" />
       </Head>
       <Header />
-      <main className="d-flex flex-column justify-content-center align-items-center">
+      <main className="flex flex-col items-center p-24 min-h-screen bg-gray-100 rounded-lg">
         {successMessage && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
             {successMessage}
           </div>
         )}
-        <h1 className="text-2xl font-bold mb-8">{t("project.title")}</h1>
+        <h1 className="text-4xl font-bold mb-8">{t("project.title")}</h1>
         <section>
           <div className="flex justify-center">
             <button

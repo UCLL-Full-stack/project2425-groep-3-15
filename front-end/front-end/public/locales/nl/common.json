@@ -1,8 +1,8 @@
 {
-    "app.title": "Projectmanagementtool",
-    "app.description": "Dit project heeft als doel een projectmanagementtool te bouwen die teams helpt bij het plannen, uitvoeren en monitoren van hun projecten en taken. Met het systeem kunnen gebruikers projecten maken en beheren, taken en rollen toewijzen, teams vormen en de voortgang in realtime volgen.",
+    "app.title": "Projectbeheer Tool",
+    "app.description": "Dit project heeft als doel een Projectbeheer Tool te ontwikkelen die teams helpt bij het plannen, uitvoeren en monitoren van hun projecten en taken. Het systeem stelt gebruikers in staat om projecten te maken en beheren, taken en rollen toe te wijzen, teams te vormen en voortgang in real-time bij te houden.",
     "header": {
-        "welcome": "Welkom bij de Projectmanagementtool",
+        "welcome": "Welkom bij de Projectbeheer Tool",
         "nav": {
             "home": "Home",
             "projectOverview": "Projectoverzicht",
@@ -11,17 +11,57 @@
         }
     },
     "project": {
-        "title": "Project Details",
-        "create": "+ Creëer Project",
-        "noProjects": "Geen projecten..."
+        "projectname": "Projectnaam",
+        "select": "Selecteer",
+        "delete": "Verwijderen",
+        "title": "Projectdetails",
+        "create": "+ Project toevoegen",
+        "noProjects": "Geen projecten...",
+        "name": "Projectnaam:",
+        "create2": "Project toevoegen",
+        "nameRequired": "Projectnaam is verplicht",
+        "successMessage": "Project succesvol aangemaakt!",
+        "existsMessage": "Er bestaat al een project met deze naam",
+        "deleteSuccessMessage": "Project succesvol verwijderd!"
     },
     "login": {
         "title": "Inloggen",
         "email": "E-mail",
         "password": "Wachtwoord",
         "button": "Inloggen",
-        "emailRequired": "E-mail is verplicht",
+        "emailRequired": "E-mailadres is verplicht",
         "passwordRequired": "Wachtwoord is verplicht",
-        "successMessage": "Inloggen succesvol. Doorverwijzen naar de startpagina..."
+        "successMessage": "Inloggen geslaagd. Omleiden naar startpagina..."
+    },
+    "projectDetails": {
+        "users": {
+            "title": "Gebruikers",
+            "adduser": "+ Gebruiker toevoegen",
+            "id": "Gebruikers-ID",
+            "name": "Naam",
+            "role": "Rol",
+            "noUsers": "Geen gebruikers beschikbaar"
+        },
+        "tasks": {
+            "title": "Taken",
+            "addtask": "+ Taak toevoegen",
+            "addTask2": "Taak toevoegen",
+            "edit": "Taken bewerken",
+            "editS": "Bewerken stoppen",
+            "name": "Naam",
+            "description": "Beschrijving",
+            "due": "Vervaldatum",
+            "status": "Status",
+            "markComplete": "Markeer als voltooid",
+            "markIncomplete": "Markeer als niet voltooid",
+            "Complete": "Voltooid",
+            "Incomplete": "Niet voltooid",
+            "remove": "Taak verwijderen",
+            "nameError": "Taaknaam is verplicht",
+            "descriptionError": "Taakbeschrijving is verplicht",
+            "duePatError": "Vervaldatum kan niet vóór vandaag liggen",
+            "dueError": "Vervaldatum van de taak is verplicht",
+            "createError": "Fout bij het aanmaken van taak"
+        }
     }
 }
