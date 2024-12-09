@@ -63,5 +63,13 @@
             "dueError": "Task due date is required",
             "createError": "Error creating task"
         }
-    }
+    },
+    "users": {
+        "title": "Users",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "noUsers": "No users available"
+    },
+    "loading": "Loading..."
 }

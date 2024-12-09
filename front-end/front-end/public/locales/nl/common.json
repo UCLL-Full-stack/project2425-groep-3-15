@@ -63,5 +63,13 @@
             "dueError": "Vervaldatum van de taak is verplicht",
             "createError": "Fout bij het aanmaken van taak"
         }
-    }
+    },
+    "users": {
+        "title": "Gebruikers",
+        "name": "Naam",
+        "email": "E-mail",
+        "role": "Rol",
+        "noUsers": "Geen gebruikers beschikbaar"
+    },
+    "loading": "Laden..."
 }
