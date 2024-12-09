@@ -28,7 +28,7 @@ const Login: React.FC = () => {
         <link rel="icon" href="/logo.ico" />
       </Head>
       <Header />
-      <main className="flex flex-col items-center p-24 min-h-screen bg-gray-100 rounded-lg">
+      <main className="flex flex-col items-center px-8 py-16 min-h-screen bg-gray-50 rounded-lg justify-start mt-8">
         <h1 className="text-3xl font-bold text-blue-700 mb-8">
           {t("login.title")}
         </h1>

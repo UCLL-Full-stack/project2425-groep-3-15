@@ -6,16 +6,18 @@ import { useTranslation } from "next-i18next";
 
 const UserLoginForm: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [statusMessages, setStatusMessages] = useState<{ message: string; type: string }[]>([]);
-  const { t } = useTranslation('common');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [statusMessages, setStatusMessages] = useState<
+    { message: string; type: string }[]
+  >([]);
+  const { t } = useTranslation("common");
 
   const clearErrors = () => {
-    setEmailError('');
-    setPasswordError('');
+    setEmailError("");
+    setPasswordError("");
     setStatusMessages([]);
   };
 
@@ -43,7 +45,9 @@ const UserLoginForm: React.FC = () => {
       return;
     }
 
-    setStatusMessages([{ message: t('login.successMessage'), type: 'success' }]);
+    setStatusMessages([
+      { message: t("login.successMessage"), type: "success" },
+    ]);
     sessionStorage.setItem("loggedInUser", email);
 
     setTimeout(() => {
@@ -72,7 +76,10 @@ const UserLoginForm: React.FC = () => {
         </div>
       )}
       <form onSubmit={handleSubmit}>
-        <label htmlFor="emailInput" className="block mb-2 text-sm font-medium">
+        <label
+          htmlFor="emailInput"
+          className="block text-black mb-2 font-medium"
+        >
           {t("login.email")}
         </label>
         <div className="block mb-2 text-sm font-medium">
@@ -88,10 +95,13 @@ const UserLoginForm: React.FC = () => {
           {emailError && <p className="text-red-800">{emailError}</p>}
         </div>
 
-        <label htmlFor="passwordInput" className="block mb-2 text-sm font-medium">
+        <label
+          htmlFor="passwordInput"
+          className="block mb-2 text-black font-medium"
+        >
           {t("login.password")}
         </label>
-        <div className="block mb-2 text-sm font-medium">
+        <div className="block mb-2 text-sm font-medium ">
           <input
             id="passwordInput"
             type="password"

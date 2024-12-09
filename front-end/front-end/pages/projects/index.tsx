@@ -98,10 +98,12 @@ const IndexPage: React.FC = () => {
             />
           )}
           {projects.length > 0 ? (
-            <ProjectOverviewTable
-              projects={projects}
-              onDeleteProject={handleDeleteProject}
-            />
+            <section className="bg-white shadow-md rounded-md p-6">
+              <ProjectOverviewTable
+                projects={projects}
+                onDeleteProject={handleDeleteProject}
+              />
+            </section>
           ) : (
             <p>{t("project.noProjects")}</p>
           )}

@@ -21,24 +21,44 @@ export default function Home() {
         <title>{t("app.title")}</title>
         <meta
           name="description"
-          content="A tool to help teams plan, execute, and monitor their projects and tasks."
+          content="A tool to help teams plan, execute, and monitor their projects and tasks in real-time."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo.ico" />
       </Head>
       <Header />
-      <main className="flex flex-col items-center p-24 min-h-screen bg-gray-100 rounded-lg">
+      <main className="flex flex-col items-center px-8 py-16 min-h-screen bg-gray-50 rounded-lg justify-start mt-8">
+        {/* Logo */}
         <img
           src="/PMT.png"
           alt="Project Management Tool Logo"
-          className="w-48 h-48 mb-8"
+          className="w-40 h-40 mb-6"
         />
-        <h1 className="text-4xl font-bold text-blue-700 mb-8">
-          {t("header.welcome")}
+
+        {/* Welcome Text */}
+        <h1 className="text-5xl font-extrabold text-blue-600 mb-4 text-center">
+          {t("app.title")}
         </h1>
-        <p className="text-center max-w-screen-md w-full mb-8 text-lg">
+        <p className="text-center text-gray-700 text-lg max-w-xl mb-8">
           {t("app.description")}
         </p>
+
+        {/* Call to Action */}
+        <div className="flex space-x-4">
+          <Link
+            href="/projects"
+            className="px-6 py-3 text-white bg-blue-600 rounded-md shadow-md text-lg font-medium hover:bg-blue-700"
+          >
+            {t("app.cta.getStarted")}
+          </Link>
+
+          <Link
+            href="/users"
+            className="px-6 py-3 text-blue-600 bg-white rounded-md shadow-md border border-blue-600 text-lg font-medium hover:bg-blue-50"
+          >
+            {t("app.cta.viewUsers")}
+          </Link>
+        </div>
       </main>
     </>
   );

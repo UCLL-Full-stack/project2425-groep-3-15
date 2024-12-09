@@ -88,7 +88,7 @@ const ProjectPage = () => {
         <link rel="icon" href="/logo.ico" />
       </Head>
       <Header />
-      <main className="flex flex-col items-center bg-[#F1111]">
+      <main className="flex flex-col items-center bg-[#F1111] ">
         <h1 className="text-3xl font-bold text-blue-700 mb-8">
           Details of{" "}
           {selectedProject ? selectedProject.name : "Project Details"}
