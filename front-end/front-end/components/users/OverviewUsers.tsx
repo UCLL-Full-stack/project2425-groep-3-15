@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "next-i18next";
 
 type User = {
   userId: string;
@@ -13,13 +14,15 @@ type OverviewUsersProps = {
 };
 
 const OverviewUsers: React.FC<OverviewUsersProps> = ({ users = [] }) => {
+  const { t } = useTranslation("common");
+
   return (
     <table className="table table-hover">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
+          <th>{t("users.name")}</th>
+          <th>{t("users.email")}</th>
+          <th>{t("users.role")}</th>
         </tr>
       </thead>
       <tbody>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Project, Task } from "@types";
 import TaskService from "@/services/TaskService";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   project: Project & { tasks: Task[] };

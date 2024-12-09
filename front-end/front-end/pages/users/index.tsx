@@ -39,12 +39,10 @@ const UserOverviewPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>
-          {t("app.title")} - {t("user.overview")}
-        </title>
+        <title>{t("app.title")}</title>
         <meta
           name="description"
-          content="Manage and view all registered users in the system."
+          content={t("app.description")}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo.ico" />
@@ -62,7 +60,7 @@ const UserOverviewPage: React.FC = () => {
           </div>
         )}
         <h1 className="text-3xl font-bold text-blue-700 mb-8">
-          {t("user.overviewTitle")}
+          {t("users.title")}
         </h1>
         {loading ? (
           <p className="text-blue-700">{t("loading")}</p>
@@ -71,7 +69,7 @@ const UserOverviewPage: React.FC = () => {
             {users.length > 0 ? (
               <OverviewUsers users={users} />
             ) : (
-              <p className="text-blue-700">{t("user.noUsers")}</p>
+              <p className="text-blue-700">{t("users.noUsers")}</p>
             )}
           </section>
         )}

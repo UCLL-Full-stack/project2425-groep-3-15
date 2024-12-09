@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import TaskService from "@/services/TaskService";
+import { useTranslation } from "next-i18next";
 
 type NewTaskModalProps = {
   projectId: string;
@@ -19,16 +21,26 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { t } = useTranslation("common");
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!taskName) newErrors.taskName = "Task name is required";
-    if (!description) newErrors.description = "Description is required";
-    if (!dueDate) newErrors.dueDate = "Due date is required";
+    if (!taskName) newErrors.taskName = t("projectDetails.tasks.nameError");
+    if (!description)
+      newErrors.taskDescription = t("projectDetails.tasks.descriptionError");
+    if (!dueDate) {
+      newErrors.taskDueDate = t("projectDetails.tasks.dueError");
+    } else {
+      const today = new Date();
+      const dueDateValue = new Date(dueDate);
+      if (dueDateValue < today) {
+        newErrors.taskDueDate = t("projectDetails.tasks.duePatError");
+      }
+    }
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
