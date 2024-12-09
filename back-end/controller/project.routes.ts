@@ -282,4 +282,56 @@ projectRouter.delete('/tasks/:taskId', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /projects/{id}:
+ *   delete:
+ *     summary: Delete a project by ID
+ *     tags: [Projects]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The project ID to delete
+ *     responses:
+ *       200:
+ *         description: Project deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Project not found
+ *       500:
+ *         description: Internal server error
+ */
+projectRouter.delete('/:id', async (req: Request, res: Response) => {
+    const projectId = parseInt(req.params.id);
+
+    if (isNaN(projectId)) {
+        return res.status(400).json({ status: 'error', errorMessage: 'Invalid project ID' });
+    }
+
+    try {
+        // Call the deleteProject function from projectService
+        await projectService.deleteProject(projectId);
+
+        res.status(200).json({ message: `Project with ID ${projectId} deleted successfully.` });
+    } catch (error) {
+        console.error(`Error deleting project with ID ${projectId}:`, error);
+
+        // If project not found, handle it gracefully
+        if ((error as any).code === 'P2025') {
+            return res.status(404).json({ status: 'error', errorMessage: 'Project not found' });
+        }
+
+        res.status(500).json({ status: 'error', errorMessage: 'Internal server error' });
+    }
+});
+
 export default projectRouter;

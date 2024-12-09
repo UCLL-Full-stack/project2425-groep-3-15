@@ -19,7 +19,6 @@ export async function getServerSideProps({ locale }: { locale: string }) {
 
 const IndexPage: React.FC = () => {
   const [projects, setProjects] = useState<Array<Project>>([]);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showNewProjectForm, setShowNewProjectForm] = useState(false);
   const { t } = useTranslation("common");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -30,6 +29,19 @@ const IndexPage: React.FC = () => {
     setSuccessMessage("Project created successfully!");
 
     setTimeout(() => setSuccessMessage(null), 3000);
+  };
+
+  const handleDeleteProject = async (projectId: string) => {
+    try {
+      await ProjectService.deleteProject(projectId); // Backend call
+      setProjects((prevProjects) =>
+        prevProjects.filter((project) => project.projectId !== projectId)
+      );
+      setSuccessMessage("Project deleted successfully!");
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
   };
 
   const getProjects = async () => {
@@ -86,7 +98,7 @@ const IndexPage: React.FC = () => {
           {projects.length > 0 ? (
             <ProjectOverviewTable
               projects={projects}
-              selectProject={setSelectedProject}
+              onDeleteProject={handleDeleteProject}
             />
           ) : (
             <p>{t("project.noProjects")}</p>

@@ -138,11 +138,32 @@ const createProject = async (projectName: string): Promise<Project> => {
   }
 };
 
+const deleteProject = async (projectId: string): Promise<void> => {
+  try {
+    const response = await fetch(`${apiUrl}/projects/${projectId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete project with ID "${projectId}"`);
+    }
+
+    console.log(`Project with ID "${projectId}" deleted successfully`);
+  } catch (error) {
+    console.error(`Error deleting project with ID "${projectId}"`, error);
+    throw error;
+  }
+};
+
 const ProjectService = {
   getAllProjects,
   getProjectById,
   fetchAndParseProjects,
   createProject,
+  deleteProject,
 };
 
 export default ProjectService;

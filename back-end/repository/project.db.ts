@@ -93,9 +93,25 @@ const addUserToProject = async (projectId: number, userId: number) => {
         throw error;
     }
 };
+
+const deleteProject = async (projectId: number) => {
+    try {
+        // Delete the project from the database
+        await database.project.delete({
+            where: {
+                projectId: projectId, // Ensure this matches your Prisma schema
+            },
+        });
+        console.log(`Project with ID ${projectId} deleted successfully.`);
+    } catch (error) {
+        console.error(`Error deleting project with ID ${projectId}:`, error);
+        throw new Error(`Failed to delete project with ID ${projectId}`);
+    }
+};
 export default {
     createProject,
     getAllProjects,
     getProjectById,
     addUserToProject,
+    deleteProject,
 };

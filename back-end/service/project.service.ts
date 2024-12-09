@@ -73,8 +73,23 @@ async function getProjectById(projectId: number) {
     }
 }
 
+const deleteProject = async (projectId: number) => {
+    try {
+        await prisma.project.delete({
+            where: {
+                projectId: projectId,
+            },
+        });
+        console.log(`Project with ID ${projectId} deleted successfully.`);
+    } catch (error) {
+        console.error(`Error deleting project with ID ${projectId}:`, error);
+        throw error;
+    }
+};
+
 export default {
     createProject,
     getAllProjects,
     getProjectById,
+    deleteProject,
 };
