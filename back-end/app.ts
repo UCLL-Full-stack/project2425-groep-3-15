@@ -5,7 +5,6 @@ import express from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import projectRouter from './controller/project.routes';
-import { userRouter } from './controller/user.routes';
 import { expressjwt } from 'express-jwt';
 
 dotenv.config();
@@ -16,17 +15,10 @@ const port = process.env.APP_PORT || 3000;
 // Middleware
 app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
-app.use(
-    expressjwt({
-        secret: process.env.JWT_SECRET || 'project_app',
-        algorithms: ['HS256'],
-    }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status'],
-    })
-)
+
 // Routes
 app.use('/projects', projectRouter);
-app.use('/users', userRouter);
+
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Project API is running...' });
