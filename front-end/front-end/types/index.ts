@@ -1,22 +1,21 @@
 export type Task = {
-    id: number;
-    name: string;
-    description: string;
-    dueDate: Date | string;
-    completed: boolean;
+  TaksId: number;
+  name: string;
+  description: string;
+  dueDate: Date | string;
+  completed: boolean;
 };
 
 export type User = {
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-};  
+  UserId: number;
+  name: string;
+  email: string;
+  password: string;
+};
 
 export type Project = {
-    id: number;
-    name: string;
-    tasks: Task[];
-    users: User[];
+  ProjectId: number;
+  name: string;
+  tasks: Task[];
+  users: User[];
 };
-  

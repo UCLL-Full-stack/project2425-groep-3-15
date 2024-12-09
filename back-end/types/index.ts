@@ -1,12 +1,11 @@
-import { Project } from "../model/project";
-import { Task } from "../model/task";
-import { User } from "../model/user";
+import { Project } from '../model/project';
+import { Task } from '../model/task';
+import { User } from '../model/user';
 
-type Role = "ADMIN" | "USER";
-
+type Role = 'ADMIN' | 'USER';
 
 type UserInput = {
-    id?: number;
+    UserId?: number;
     firstName: string;
     lastName: string;
     email: string;
@@ -17,7 +16,7 @@ type UserInput = {
 };
 
 type ProjectInput = {
-    id?: number;
+    ProjectId?: number;
     name?: string;
     users?: User[];
     tasks?: Task[];
@@ -46,4 +45,12 @@ type AuthenticationResponse = {
 type TokenPayload = {
     email: string;
 };
-export { Role, UserInput, ProjectInput, TaskInput, EnrollmentInput, AuthenticationResponse, TokenPayload };
+export {
+    Role,
+    UserInput,
+    ProjectInput,
+    TaskInput,
+    EnrollmentInput,
+    AuthenticationResponse,
+    TokenPayload,
+};

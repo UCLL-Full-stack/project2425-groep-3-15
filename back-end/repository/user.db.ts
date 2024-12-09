@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { User } from "../model/user";
-import database from "./database";
+import { User } from '../model/user';
+import database from './database';
 
 const prisma = new PrismaClient();
 
@@ -17,8 +17,8 @@ const createUser = async (user: User): Promise<User> => {
         });
         return User.from(userPrisma);
     } catch (error) {
-        console.error("Error creating user:", error);
-        throw new Error("error creating user");
+        console.error('Error creating user:', error);
+        throw new Error('error creating user');
     }
 };
 
@@ -27,12 +27,12 @@ const getAllUsers = async (): Promise<User[]> => {
         const usersPrisma = await database.user.findMany({
             include: {
                 projects: true,
-            }
+            },
         });
-        return usersPrisma.map(user => User.from(user));
+        return usersPrisma.map((user) => User.from(user));
     } catch (error) {
-        console.error("Error fetching users:", error);
-        throw new Error("error fetching users");
+        console.error('Error fetching users:', error);
+        throw new Error('error fetching users');
     }
 };
 
@@ -40,15 +40,16 @@ const getUserById = async ({ id }: { id: number }) => {
     try {
         const userPrisma = await database.user.findUnique({
             where: {
-                id: id            },
+                userId: id,
+            },
             include: {
                 projects: true,
-            }
+            },
         });
         return User.from(userPrisma);
     } catch (error) {
-        console.error("Error fetching user by id:", error);
-        throw new Error("error fetching user by id");
+        console.error('Error fetching user by id:', error);
+        throw new Error('error fetching user by id');
     }
 };
 const getUserByEmail = async (email: string): Promise<User | null> => {
@@ -61,7 +62,7 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
     }
 
     return new User({
-        id: user.id,
+        id: user.userId,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
@@ -74,13 +75,13 @@ const addUserToProject = async (userId: number, projectId: number) => {
         const userProject = await database.userProject.create({
             data: {
                 userId,
-                projectId
-            }
+                projectId,
+            },
         });
         return userProject;
     } catch (error) {
-        console.error("Error adding user to project:", error);
-        throw new Error("error adding user to project");
+        console.error('Error adding user to project:', error);
+        throw new Error('error adding user to project');
     }
 };
 
@@ -89,5 +90,5 @@ export default {
     getAllUsers,
     getUserById,
     addUserToProject,
-    getUserByEmail
+    getUserByEmail,
 };
