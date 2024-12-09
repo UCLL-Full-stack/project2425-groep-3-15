@@ -5,6 +5,7 @@ import express from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import projectRouter from './controller/project.routes';
+import userRouter from './controller/user.routes';
 import { expressjwt } from 'express-jwt';
 
 dotenv.config();
@@ -18,7 +19,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/projects', projectRouter);
-
+app.use('/users', userRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Project API is running...' });
