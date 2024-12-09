@@ -1,11 +1,15 @@
-import { User } from "../model/user";
-import { UserInput, AuthenticationResponse } from "../types";
+import { User } from '../model/user';
+import { UserInput, AuthenticationResponse } from '../types';
 import bcrypt from 'bcrypt';
-import userDB from "../repository/user.db";
+import userDB from '../repository/user.db';
 
-
-
-const createUser = async ({ firstName, lastName, email, password, role }: UserInput): Promise<User> => {
+const createUser = async ({
+    firstName,
+    lastName,
+    email,
+    password,
+    role,
+}: UserInput): Promise<User> => {
     // Check if the user already exists
     const existingUser = await userDB.getUserByEmail(email);
     if (existingUser) {

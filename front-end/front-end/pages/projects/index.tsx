@@ -79,7 +79,9 @@ const IndexPage: React.FC = () => {
             {successMessage}
           </div>
         )}
-        <h1 className="text-2xl font-bold mb-8">{t("project.title")}</h1>
+        <h1 className="text-3xl font-bold text-blue-700 mb-8">
+          {t("project.title")}
+        </h1>
         <section>
           <div className="flex justify-center">
             <button

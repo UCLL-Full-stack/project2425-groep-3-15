@@ -1,27 +1,27 @@
 {
-    "app.title": "Project Management Tool",
-    "app.description": "This project aims to build a Project Management Tool that helps teams plan, execute, and monitor their projects and tasks. The system will enable users to create and manage projects, assign tasks and roles, form teams, and track progress in real time.",
-    "header": {
-        "welcome": "Welcome to the Project Management Tool",
-        "nav": {
-            "home": "Home",
-            "projectOverview": "Project Overview",
-            "logout": "Logout",
-            "login": "Login"
-        }
-    },
-    "project": {
-        "title": "Project Details",
-        "create": "+ Create Project",
-        "noProjects": "No projects..."
-    },
-    "login": {
-        "title": "Login",
-        "email": "Email",
-        "password": "Password",
-        "button": "Login",
-        "emailRequired": "Email is required",
-        "passwordRequired": "Password is required",
-        "successMessage": "Login successful. Redirecting to homepage..."
+  "app.title": "Project Management Tool",
+  "app.description": "This project aims to build a Project Management Tool that helps teams plan, execute, and monitor their projects and tasks. The system will enable users to create and manage projects, assign tasks and roles, form teams, and track progress in real time.",
+  "header": {
+    "welcome": "Welcome to the Project Management Tool",
+    "nav": {
+      "home": "Home",
+      "projectOverview": "Project Overview",
+      "logout": "Logout",
+      "login": "Login"
     }
+  },
+  "project": {
+    "title": "Project Overview",
+    "create": "+ Create Project",
+    "noProjects": "No projects..."
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "button": "Login",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "successMessage": "Login successful. Redirecting to homepage..."
+  }
 }

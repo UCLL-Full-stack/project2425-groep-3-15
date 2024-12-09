@@ -33,7 +33,15 @@ export class User {
         this.tasks = user.tasks || [];
     }
 
-    validate(user: { firstName: string; lastName: string; email: string; password: string; role: Role; projects?: Project[]; tasks?: Task[] }) {
+    validate(user: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+        role: Role;
+        projects?: Project[];
+        tasks?: Task[];
+    }) {
         if (!user.firstName?.trim()) {
             throw new Error('First name is required');
         }
@@ -103,13 +111,15 @@ export class User {
     }
 
     equals(user: User): boolean {
-        return this.id === user.getId() &&
+        return (
+            this.id === user.getId() &&
             this.firstName === user.getFirstName() &&
             this.lastName === user.getLastName() &&
             this.email === user.getEmail() &&
             this.password === user.getPassword() &&
             this.role === user.getRole() &&
             this.projects === user.getProjects() &&
-            this.tasks === user.getTasks();
+            this.tasks === user.getTasks()
+        );
     }
 }

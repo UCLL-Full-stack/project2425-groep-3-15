@@ -89,7 +89,7 @@ const ProjectPage = () => {
       </Head>
       <Header />
       <main className="flex flex-col items-center bg-[#F1111]">
-        <h1 className="text-2xl font-bold mb-8 text-black">
+        <h1 className="text-3xl font-bold text-blue-700 mb-8">
           Details of{" "}
           {selectedProject ? selectedProject.name : "Project Details"}
         </h1>
