@@ -45,7 +45,7 @@ const TaskOverviewTable: React.FC<Props> = ({
           <th className="text-left px-4 py-2">
             {t("projectDetails.tasks.name")}
           </th>
-          <th className="text-left px-4 py-2">
+          <th className="px-4 py-2 break-words max-w-xs">
             {t("projectDetails.tasks.description")}
           </th>
           <th className="text-left px-4 py-2">

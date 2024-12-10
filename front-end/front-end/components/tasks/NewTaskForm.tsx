@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
+import TaskService from "@/services/TaskService";
 
 type NewTaskModalProps = {
   projectId: string;
@@ -24,20 +25,37 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!taskName) newErrors.taskName = t("newTask.nameError");
-    if (!description) newErrors.taskDescription = t("newTask.descriptionError");
+    const today = new Date();
+    const maxFutureDate = new Date();
+    maxFutureDate.setFullYear(today.getFullYear() + 50);
+
+    // Validate Task Name
+    if (!taskName) {
+      newErrors.taskName = t("newTask.nameError");
+    }
+
+    // Validate Description
+    if (!description) {
+      newErrors.taskDescription = t("newTask.descriptionError");
+    } else if (description.length > 200) {
+      newErrors.taskDescription = t("newTask.descriptionLengthError");
+    }
+
+    // Validate Due Date
     if (!dueDate) {
       newErrors.taskDueDate = t("newTask.dueError");
     } else {
-      const today = new Date();
       const dueDateValue = new Date(dueDate);
       if (dueDateValue < today) {
         newErrors.taskDueDate = t("newTask.duePatError");
+      } else if (dueDateValue > maxFutureDate) {
+        newErrors.taskDueDate = t("newTask.dueFarError");
       }
     }
+
+    setErrors(newErrors);
     return newErrors;
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateForm();
@@ -46,9 +64,27 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
       return;
     }
 
-    const newTask = { name: taskName, description, dueDate };
-    onTaskCreated(newTask); // Pass the new task back to the parent component
-    onClose(); // Close the modal
+    try {
+      // Pass taskName, description, and dueDate correctly to createTask
+      const newTask = await TaskService.createTask(
+        projectId,
+        taskName,
+        description,
+        dueDate
+      );
+
+      // Pass the created task back to the parent component
+      onTaskCreated(newTask);
+
+      // Reset form and close modal
+      setTaskName("");
+      setDescription("");
+      setDueDate("");
+      setErrors({});
+      onClose();
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
   };
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
@@ -90,8 +126,10 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
               onChange={(e) => setDescription(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             ></textarea>
-            {errors.description && (
-              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            {errors.taskDescription && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.taskDescription}
+              </p>
             )}
           </div>
           <div className="mb-4">
@@ -105,8 +143,8 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
               onChange={(e) => setDueDate(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
-            {errors.dueDate && (
-              <p className="text-red-500 text-sm mt-1">{errors.dueDate}</p>
+            {errors.taskDueDate && (
+              <p className="text-red-500 text-sm mt-1">{errors.taskDueDate}</p>
             )}
           </div>
           <div className="flex justify-end">
