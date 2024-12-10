@@ -45,7 +45,7 @@ const TaskOverviewTable: React.FC<Props> = ({
           <th className="text-left px-4 py-2">
             {t("projectDetails.tasks.name")}
           </th>
-          <th className="px-4 py-2 text-left max-w-xs">
+          <th className="px-4 py-2 break-words max-w-xs overflow-hidden text-ellipsis">
             {t("projectDetails.tasks.description")}
           </th>
           <th className="text-left px-4 py-2">
@@ -58,48 +58,80 @@ const TaskOverviewTable: React.FC<Props> = ({
         </tr>
       </thead>
       <tbody>
-        {project.tasks.map((task) => (
-          <tr key={task.taskId} className="border-t border-gray-200">
-            <td className="px-4 py-2">{task.name}</td>
-            <td className="px-4 py-2 break-words max-w-xs overflow-hidden text-ellipsis">
-              {task.description}
-            </td>
-            <td className="px-4 py-2">
-              {new Date(task.dueDate).toLocaleDateString()}
-            </td>
-            <td
-              className={`px-4 py-2 ${
-                task.completed ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {task.completed
-                ? t("projectDetails.tasks.Complete")
-                : t("projectDetails.tasks.Incomplete")}
-            </td>
-            {isEditing && (
-              <td className="px-4 py-2">
-                <div className="flex justify-end space-x-2">
-                  <button
-                    onClick={() =>
-                      handleStatusChange(task.taskId, task.completed)
-                    }
-                    className="text-white bg-blue-600 hover:bg-blue-700 focus:outline-none font-medium rounded-md text-xs px-3 py-1.5"
-                  >
-                    {task.completed
-                      ? t("projectDetails.tasks.markIncomplete")
-                      : t("projectDetails.tasks.markComplete")}
-                  </button>
-                  <button
-                    onClick={() => handleRemoveTask(task.taskId)}
-                    className="text-white bg-red-600 hover:bg-red-700 focus:outline-none font-medium rounded-md text-xs px-3 py-1.5"
-                  >
-                    {t("projectDetails.tasks.remove")}
-                  </button>
-                </div>
+        {project.tasks.map(
+          (task: {
+            taskId: number;
+            name:
+              | string
+              | number
+              | boolean
+              | React.ReactElement<
+                  any,
+                  string | React.JSXElementConstructor<any>
+                >
+              | React.ReactFragment
+              | React.ReactPortal
+              | Iterable<React.ReactNode>
+              | null
+              | undefined;
+            description:
+              | string
+              | number
+              | boolean
+              | React.ReactElement<
+                  any,
+                  string | React.JSXElementConstructor<any>
+                >
+              | React.ReactFragment
+              | React.ReactPortal
+              | Iterable<React.ReactNode>
+              | null
+              | undefined;
+            dueDate: string | number | Date;
+            completed: boolean;
+          }) => (
+            <tr key={task.taskId} className="border-t border-gray-200">
+              <td className="px-4 py-2">{task.name}</td>
+              <td className="px-4 py-2 break-words max-w-xs overflow-hidden text-ellipsis">
+                {task.description}
               </td>
-            )}
-          </tr>
-        ))}
+              <td className="px-4 py-2">
+                {new Date(task.dueDate).toLocaleDateString()}
+              </td>
+              <td
+                className={`px-4 py-2 ${
+                  task.completed ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {task.completed
+                  ? t("projectDetails.tasks.Complete")
+                  : t("projectDetails.tasks.Incomplete")}
+              </td>
+              {isEditing && (
+                <td className="px-4 py-2">
+                  <div className="flex justify-end space-x-2">
+                    <button
+                      onClick={() =>
+                        handleStatusChange(task.taskId, task.completed)
+                      }
+                      className="text-white bg-blue-600 hover:bg-blue-700 focus:outline-none font-medium rounded-md text-xs px-3 py-1.5"
+                    >
+                      {task.completed
+                        ? t("projectDetails.tasks.markIncomplete")
+                        : t("projectDetails.tasks.markComplete")}
+                    </button>
+                    <button
+                      onClick={() => handleRemoveTask(task.taskId)}
+                      className="text-white bg-red-600 hover:bg-red-700 focus:outline-none font-medium rounded-md text-xs px-3 py-1.5"
+                    >
+                      {t("projectDetails.tasks.remove")}
+                    </button>
+                  </div>
+                </td>
+              )}
+            </tr>
+          )
+        )}
       </tbody>
     </table>
   );
