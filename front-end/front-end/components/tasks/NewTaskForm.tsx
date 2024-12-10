@@ -37,7 +37,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
     // Validate Description
     if (!description) {
       newErrors.taskDescription = t("newTask.descriptionError");
-    } else if (description.length > 200) {
+    } else if (description.length > 50) {
       newErrors.taskDescription = t("newTask.descriptionLengthError");
     }
 

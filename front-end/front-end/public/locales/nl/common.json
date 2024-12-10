@@ -91,7 +91,7 @@
     "dueDate": "Vervaldatum",
     "nameError": "Taaknaam is verplicht",
     "descriptionError": "Taakbeschrijving is verplicht",
-    "descriptionLengthError": "Taakbeschrijving mag niet langer zijn dan 200 tekens",
+    "descriptionLengthError": "Taakbeschrijving mag niet langer zijn dan 30 tekens",
     "dueError": "Vervaldatum van de taak is verplicht",
     "duePatError": "Vervaldatum kan niet vóór vandaag liggen",
     "dueFarError": "Vervaldatum kan niet meer dan 50 jaar in de toekomst liggen"
