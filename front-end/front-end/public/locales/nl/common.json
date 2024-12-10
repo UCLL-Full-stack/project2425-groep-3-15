@@ -86,12 +86,14 @@
   },
   "loading": "Laden...",
   "newTask": {
-    "name": "Taaknaam:",
-    "description": "Beschrijving:",
-    "dueDate": "Vervaldatum:",
+    "name": "Taaknaam",
+    "description": "Beschrijving",
+    "dueDate": "Vervaldatum",
     "nameError": "Taaknaam is verplicht",
     "descriptionError": "Taakbeschrijving is verplicht",
+    "descriptionLengthError": "Taakbeschrijving mag niet langer zijn dan 200 tekens",
     "dueError": "Vervaldatum van de taak is verplicht",
-    "duePatError": "Vervaldatum kan niet vóór vandaag liggen"
+    "duePatError": "Vervaldatum kan niet vóór vandaag liggen",
+    "dueFarError": "Vervaldatum kan niet meer dan 50 jaar in de toekomst liggen"
   }
 }

@@ -60,7 +60,7 @@
       "addtask": "+ Add Task",
       "addTask2": "Add Task",
       "edit": "Edit tasks",
-      "editS": "Stop Editing",
+      "edits": "Stop Editing",
       "name": "Name",
       "description": "Description",
       "due": "Due Date",
@@ -86,12 +86,14 @@
   },
   "loading": "Loading...",
   "newTask": {
-    "name": "Task Name:",
-    "description": "Description:",
-    "dueDate": "Due Date:",
+    "name": "Task Name",
+    "description": "Description",
+    "dueDate": "Due Date",
     "nameError": "Task name is required",
     "descriptionError": "Task description is required",
+    "descriptionLengthError": "Task description cannot be longer than 200 characters",
     "dueError": "Task due date is required",
-    "duePatError": "Due date cannot be before today"
+    "duePatError": "Due date cannot be before today",
+    "dueFarError": "Due date cannot be more than 50 years in the future"
   }
 }
