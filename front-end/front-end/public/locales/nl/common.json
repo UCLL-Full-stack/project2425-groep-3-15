@@ -1,20 +1,32 @@
 {
-  "app.title": "Projectbeheer Tool",
-  "app.description": "Dit project heeft als doel een Projectbeheer Tool te ontwikkelen die teams helpt bij het plannen, uitvoeren en monitoren van hun projecten en taken. Het systeem stelt gebruikers in staat om projecten te maken en beheren, taken en rollen toe te wijzen, teams te vormen en voortgang in real-time bij te houden.",
+  "app": {
+    "title": "Project Management Tool",
+    "description": "Een tool om teams te helpen bij het plannen, uitvoeren en monitoren van hun projecten en taken in realtime.",
+    "cta": {
+      "getStarted": "Aan de slag",
+      "viewUsers": "Gebruikers bekijken"
+    }
+  },
   "header": {
     "welcome": "Welkom bij de Projectbeheer Tool",
     "nav": {
       "home": "Home",
       "projectOverview": "Projectoverzicht",
+      "useroverview": "Gebruikersoverzicht",
       "logout": "Uitloggen",
       "login": "Inloggen"
     }
+  },
+  "common": {
+    "cancel": "Annuleer",
+    "createTask": "Taak Aanmaken",
+    "createNewTask": "Nieuwe Taak Aanmaken"
   },
   "project": {
     "projectname": "Projectnaam",
     "select": "Selecteer",
     "delete": "Verwijderen",
-    "title": "Projectdetails",
+    "title": "Project Overzicht",
     "create": "+ Project toevoegen",
     "noProjects": "Geen projecten...",
     "name": "Projectnaam:",
@@ -34,10 +46,11 @@
     "successMessage": "Inloggen geslaagd. Omleiden naar startpagina..."
   },
   "projectDetails": {
+    "title": "Details van",
     "users": {
       "title": "Gebruikers",
       "adduser": "+ Gebruiker toevoegen",
-      "id": "Gebruikers-ID",
+      "id": "ID",
       "name": "Naam",
       "role": "Rol",
       "noUsers": "Geen gebruikers beschikbaar"
@@ -47,7 +60,7 @@
       "addtask": "+ Taak toevoegen",
       "addTask2": "Taak toevoegen",
       "edit": "Taken bewerken",
-      "editS": "Bewerken stoppen",
+      "edits": "Bewerken stoppen",
       "name": "Naam",
       "description": "Beschrijving",
       "due": "Vervaldatum",
@@ -71,5 +84,14 @@
     "role": "Rol",
     "noUsers": "Geen gebruikers beschikbaar"
   },
-  "loading": "Laden..."
+  "loading": "Laden...",
+  "newTask": {
+    "name": "Taaknaam:",
+    "description": "Beschrijving:",
+    "dueDate": "Vervaldatum:",
+    "nameError": "Taaknaam is verplicht",
+    "descriptionError": "Taakbeschrijving is verplicht",
+    "dueError": "Vervaldatum van de taak is verplicht",
+    "duePatError": "Vervaldatum kan niet vóór vandaag liggen"
+  }
 }

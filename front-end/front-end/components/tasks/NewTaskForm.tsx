@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import TaskService from "@/services/TaskService";
 import { useTranslation } from "next-i18next";
 
 type NewTaskModalProps = {
@@ -25,16 +24,15 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!taskName) newErrors.taskName = t("projectDetails.tasks.nameError");
-    if (!description)
-      newErrors.taskDescription = t("projectDetails.tasks.descriptionError");
+    if (!taskName) newErrors.taskName = t("newTask.nameError");
+    if (!description) newErrors.taskDescription = t("newTask.descriptionError");
     if (!dueDate) {
-      newErrors.taskDueDate = t("projectDetails.tasks.dueError");
+      newErrors.taskDueDate = t("newTask.dueError");
     } else {
       const today = new Date();
       const dueDateValue = new Date(dueDate);
       if (dueDateValue < today) {
-        newErrors.taskDueDate = t("projectDetails.tasks.duePatError");
+        newErrors.taskDueDate = t("newTask.duePatError");
       }
     }
     return newErrors;
@@ -65,11 +63,11 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
       onClick={handleBackgroundClick}
     >
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-xl font-bold mb-4">Create New Task</h2>
+        <h2 className="text-xl font-bold mb-4">{t("common.createNewTask")}</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="taskName" className="block text-sm font-medium">
-              Task Name:
+              {t("newTask.name")}
             </label>
             <input
               id="taskName"
@@ -84,7 +82,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
           </div>
           <div className="mb-4">
             <label htmlFor="description" className="block text-sm font-medium">
-              Description:
+              {t("newTask.description")}
             </label>
             <textarea
               id="description"
@@ -98,7 +96,7 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
           </div>
           <div className="mb-4">
             <label htmlFor="dueDate" className="block text-sm font-medium">
-              Due Date:
+              {t("newTask.dueDate")}
             </label>
             <input
               id="dueDate"
@@ -117,13 +115,13 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
               onClick={onClose}
               className="text-gray-700 bg-gray-200 px-4 py-2 rounded-md shadow hover:bg-gray-300 mr-2"
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               type="submit"
               className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
             >
-              Create Task
+              {t("common.createTask")}
             </button>
           </div>
         </form>

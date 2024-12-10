@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ProjectService from "@/services/ProjectService";
 import { Project } from "@/types";
+import { useTranslation } from "next-i18next";
 
 type NewProjectModalProps = {
   onProjectCreated: (newProject: Project) => void;
@@ -16,9 +17,11 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
   const [projectName, setProjectName] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  const { t } = useTranslation("common");
+
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!projectName) newErrors.projectName = "Project name is required";
+    if (!projectName) newErrors.projectName = t("project.nameRequired");
     return newErrors;
   };
 
@@ -31,7 +34,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
     }
     try {
       const newProject = await ProjectService.createProject(projectName);
-      setSuccessMessage("Project created successfully!");
+      setSuccessMessage(t("project.successMessage"));
       setErrors({});
       onProjectCreated(newProject);
       onClose(); // Close the modal after successful project creation
@@ -44,7 +47,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
         setErrors({ projectName: error.response.data.message });
       } else {
         setErrors({
-          projectName: "Project with this name already exists",
+          projectName: t("project.existsMessage"),
         });
       }
     }
@@ -63,7 +66,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
     >
       <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-          Create New Project
+          {t("project.create2")}
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
@@ -71,7 +74,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
               htmlFor="projectName"
               className="block text-sm font-medium text-gray-700"
             >
-              Project Name:
+              {t("project.name")}
             </label>
             <input
               type="text"
@@ -90,13 +93,13 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
               onClick={onClose}
               className="text-gray-600 bg-gray-200 px-4 py-2 rounded-md shadow hover:bg-gray-300 transition"
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               type="submit"
               className="text-white bg-blue-600 px-5 py-2 rounded-md shadow hover:bg-blue-700 transition"
             >
-              Create Project
+              {t("project.create2")}
             </button>
           </div>
         </form>

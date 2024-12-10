@@ -74,7 +74,7 @@ export default function Header() {
                     : "text-gray-700"
                 } hover:text-blue-500 hover:underline`}
               >
-                User Overview
+                {t("header.nav.useroverview")}
               </Link>
             </li>
             {loggedInUser ? (

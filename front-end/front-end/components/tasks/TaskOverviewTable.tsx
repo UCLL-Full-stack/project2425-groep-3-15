@@ -16,6 +16,8 @@ const TaskOverviewTable: React.FC<Props> = ({
   onTaskRemoved,
   isEditing,
 }) => {
+  const { t } = useTranslation("common"); // Access the translations
+
   const handleStatusChange = async (taskId: number, currentStatus: boolean) => {
     const newStatus = !currentStatus;
 
@@ -23,7 +25,7 @@ const TaskOverviewTable: React.FC<Props> = ({
       await TaskService.updateTaskStatus(taskId, newStatus);
       onStatusChange(taskId, newStatus);
     } catch (error) {
-      console.error("Error updating task status:", error);
+      console.error(t("projectDetails.tasks.createError"), error);
     }
   };
 
@@ -32,7 +34,7 @@ const TaskOverviewTable: React.FC<Props> = ({
       await TaskService.deleteTask(taskId);
       onTaskRemoved(taskId);
     } catch (error) {
-      console.error("Error deleting task:", error);
+      console.error(t("projectDetails.tasks.createError"), error);
     }
   };
 
@@ -40,10 +42,18 @@ const TaskOverviewTable: React.FC<Props> = ({
     <table className="table table-hover">
       <thead>
         <tr>
-          <th className="text-left px-4 py-2">Name</th>
-          <th className="text-left px-4 py-2">Description</th>
-          <th className="text-left px-4 py-2">Due Date</th>
-          <th className="text-left px-4 py-2">Status</th>
+          <th className="text-left px-4 py-2">
+            {t("projectDetails.tasks.name")}
+          </th>
+          <th className="text-left px-4 py-2">
+            {t("projectDetails.tasks.description")}
+          </th>
+          <th className="text-left px-4 py-2">
+            {t("projectDetails.tasks.due")}
+          </th>
+          <th className="text-left px-4 py-2">
+            {t("projectDetails.tasks.status")}
+          </th>
           {isEditing && <th className="text-right px-4 py-2"></th>}
         </tr>
       </thead>
@@ -91,7 +101,9 @@ const TaskOverviewTable: React.FC<Props> = ({
                   task.completed ? "text-green-500" : "text-red-500"
                 }`}
               >
-                {task.completed ? "Completed" : "Not Completed"}
+                {task.completed
+                  ? t("projectDetails.tasks.Complete")
+                  : t("projectDetails.tasks.Incomplete")}
               </td>
               {isEditing && (
                 <td className="px-4 py-2">
@@ -103,14 +115,14 @@ const TaskOverviewTable: React.FC<Props> = ({
                       className="text-white bg-blue-600 hover:bg-blue-700 focus:outline-none font-medium rounded-md text-xs px-3 py-1.5"
                     >
                       {task.completed
-                        ? "Mark as Incomplete"
-                        : "Mark as Completed"}
+                        ? t("projectDetails.tasks.markIncomplete")
+                        : t("projectDetails.tasks.markComplete")}
                     </button>
                     <button
                       onClick={() => handleRemoveTask(task.taskId)}
                       className="text-white bg-red-600 hover:bg-red-700 focus:outline-none font-medium rounded-md text-xs px-3 py-1.5"
                     >
-                      Remove Task
+                      {t("projectDetails.tasks.remove")}
                     </button>
                   </div>
                 </td>

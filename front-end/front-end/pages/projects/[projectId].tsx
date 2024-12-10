@@ -87,7 +87,7 @@ const ProjectPage = () => {
       <Header />
       <main className="flex flex-col items-center px-8 py-16 min-h-screen bg-gray-50 rounded-lg justify-start mt-8">
         <h1 className="text-3xl font-bold text-blue-700 mb-8">
-          Details of{" "}
+          {t("projectDetails.title")}{" "}
           {selectedProject ? selectedProject.name : "Project Details"}
         </h1>
 
@@ -95,28 +95,34 @@ const ProjectPage = () => {
           <div className="flex flex-col w-full max-w-[1200px]">
             <div className="flex-1 mx-2.5 bg-white rounded-md p-4 shadow-md mb-4">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Users</h2>
+                <h2 className="text-xl font-bold">
+                  {t("projectDetails.users.title")}
+                </h2>
                 <button className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600">
-                  + Add User
+                  {t("projectDetails.users.adduser")}
                 </button>
               </div>
               <UserOverviewTable project={selectedProject} />
             </div>
             <div className="flex-1 mx-2.5 bg-white rounded-md p-4 shadow-md">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Tasks</h2>
+                <h2 className="text-xl font-bold">
+                  {t("projectDetails.tasks.title")}
+                </h2>
                 <div className="flex space-x-2">
                   <button
                     className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
                     onClick={() => setShowTaskForm(!showTaskForm)}
                   >
-                    + Create Task
+                    {t("projectDetails.tasks.addtask")}
                   </button>
                   <button
                     className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600"
                     onClick={() => setIsEditing(!isEditing)}
                   >
-                    {isEditing ? "Stop Editing" : "Edit tasks"}
+                    {isEditing
+                      ? t("projectDetails.tasks.edits")
+                      : t("projectDetails.tasks.edit")}
                   </button>
                 </div>
               </div>
@@ -142,7 +148,7 @@ const ProjectPage = () => {
             </div>
           </div>
         ) : (
-          <p>Loading...</p>
+          <p>{t("loading")}</p>
         )}
       </main>
     </>

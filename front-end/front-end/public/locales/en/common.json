@@ -1,27 +1,39 @@
 {
-  "app.title": "Project Management Tool",
-  "app.description": "This project aims to build a Project Management Tool that helps teams plan, execute, and monitor their projects and tasks. The system will enable users to create and manage projects, assign tasks and roles, form teams, and track progress in real time.",
+  "app": {
+    "title": "Project Management Tool",
+    "description": "A tool to help teams plan, execute, and monitor their projects and tasks in real-time.",
+    "cta": {
+      "getStarted": "Get Started",
+      "viewUsers": "View Users"
+    }
+  },
   "header": {
     "welcome": "Welcome to the Project Management Tool",
     "nav": {
       "home": "Home",
       "projectOverview": "Project Overview",
+      "useroverview": "User Overview",
       "logout": "Logout",
       "login": "Login"
     }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "createTask": "Create Task",
+    "createNewTask": "Create New Task"
   },
   "project": {
     "projectname": "Project Name",
     "select": "Select",
     "delete": "Delete",
-    "title": "Project Details",
+    "title": "Project Overview",
     "create": "+ Add Project",
     "noProjects": "No projects...",
     "name": "Project Name:",
     "create2": "Add Project",
     "nameRequired": "Project name is required",
-    "successMessage": "Project created successfully!",
     "existsMessage": "Project with this name already exists",
+    "successMessage": "Project created successfully!",
     "deleteSuccessMessage": "Project deleted successfully!"
   },
   "login": {
@@ -34,10 +46,11 @@
     "successMessage": "Login successful. Redirecting to homepage..."
   },
   "projectDetails": {
+    "title": "Details of",
     "users": {
       "title": "Users",
       "adduser": "+ Add User",
-      "id": "User Id",
+      "id": "ID",
       "name": "Name",
       "role": "Role",
       "noUsers": "No users available"
@@ -71,5 +84,14 @@
     "role": "Role",
     "noUsers": "No users available"
   },
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "newTask": {
+    "name": "Task Name:",
+    "description": "Description:",
+    "dueDate": "Due Date:",
+    "nameError": "Task name is required",
+    "descriptionError": "Task description is required",
+    "dueError": "Task due date is required",
+    "duePatError": "Due date cannot be before today"
+  }
 }
