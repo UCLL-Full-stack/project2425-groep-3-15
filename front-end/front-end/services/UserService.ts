@@ -15,7 +15,6 @@ const login = async (email: string, password: string) => {
   }
 
   const data = await response.json();
-  localStorage.setItem("token", data.token); // Store the token in local storage
   return data;
 };
 
@@ -38,12 +37,10 @@ const UserService = {
   login,
   getAllUsers,
   async addUserToProject(projectId: string, userId: string) {
-    const token = localStorage.getItem("token");
     return await fetch(`${apiUrl}/projects/${projectId}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include the token in the Authorization header
       },
       body: JSON.stringify({ userId }),
     });
