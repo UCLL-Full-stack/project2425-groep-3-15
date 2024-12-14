@@ -94,9 +94,6 @@ const ProjectPage = () => {
                 <h2 className="text-xl font-bold">
                   {t("projectDetails.users.title")}
                 </h2>
-                <button className="text-white bg-blue-500 px-4 py-2 rounded-md shadow hover:bg-blue-600">
-                  {t("projectDetails.users.adduser")}
-                </button>
               </div>
               <UserOverviewTable project={selectedProject} />
             </div>

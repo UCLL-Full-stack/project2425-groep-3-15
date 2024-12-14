@@ -2,7 +2,7 @@ import { Project } from '../model/project';
 import { Task } from '../model/task';
 import { User } from '../model/user';
 
-type Role = 'ADMIN' | 'USER';
+type Role = 'ADMIN' | 'USER' | 'MASTER';
 
 type UserInput = {
     UserId?: number;

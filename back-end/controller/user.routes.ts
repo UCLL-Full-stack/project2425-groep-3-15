@@ -159,7 +159,9 @@ const validateSignup = [
         .withMessage('Password must be at least 8 characters long'),
     check('firstName').notEmpty().withMessage('First name is required'),
     check('lastName').notEmpty().withMessage('Last name is required'),
-    check('role').isIn(['ADMIN', 'USER']).withMessage('Invalid role, must be ADMIN or USER'),
+    check('role')
+        .isIn(['ADMIN', 'USER', 'MASTER'])
+        .withMessage('Invalid role, must be ADMIN, MASTER or USER'),
 ];
 
 userRouter.post(

@@ -203,6 +203,34 @@ const UserLoginForm: React.FC = () => {
           {t("login.button")}
         </button>
       </form>
+      <div className="border border-blue-500">
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Role</th>
+              <th scope="col">Email</th>
+              <th scope="col">Password</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Admin</td>
+              <td>john.admin@example.com</td>
+              <td>admin1234</td>
+            </tr>
+            <tr>
+              <td>Master</td>
+              <td>alice.master@example.com</td>
+              <td>master1234</td>
+            </tr>
+            <tr>
+              <td>User</td>
+              <td>jane.user@example.com</td>
+              <td>user1234</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
