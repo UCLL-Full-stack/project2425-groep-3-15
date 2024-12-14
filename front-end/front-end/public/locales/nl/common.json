@@ -12,6 +12,7 @@
     "logoutConfirmation": "Ben je zeker dat je wilt uitloggen?",
     "cancel": "Nee",
     "confirm": "Log uit",
+    "loggedInAs": "Ingelogd als ",
     "nav": {
       "home": "Home",
       "projectOverview": "Projectoverzicht",

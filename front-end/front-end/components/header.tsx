@@ -1,22 +1,36 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Language from "./language/Language";
+import UserProfile from "./users/UserProfile";
 
 export default function Header() {
   const { t } = useTranslation("common");
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false); // State to toggle the logout confirmation modal
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    const user = sessionStorage.getItem("loggedInUser");
-    if (user) {
-      setLoggedInUser(user);
-    }
+    const email = sessionStorage.getItem("email");
+    setUserEmail(email);
   }, []);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen); // Toggles the modal state
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      setIsModalOpen(false);
+    }
+  };
 
   const handleLogout = async () => {
     // Call a logout API endpoint to clear the cookie
@@ -31,6 +45,28 @@ export default function Header() {
     // Redirect to login page
     router.push("/login");
   };
+  useEffect(() => {
+    // Retrieve the user's role from sessionStorage
+    const role = sessionStorage.getItem("userRole");
+    setUserRole(role);
+
+    const user = sessionStorage.getItem("loggedInUser");
+    if (user) {
+      setLoggedInUser(user);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isModalOpen]);
 
   const isActive = (path: string) => router.pathname === path;
 
@@ -108,8 +144,40 @@ export default function Header() {
           </nav>
         )}
 
-        {/* Language Selector - Always Visible */}
-        <div className="flex items-center">
+        {/* Language Selector and User Profile - Always Visible */}
+        <div className="flex items-center gap-4">
+          {loggedInUser && (
+            <div className="relative">
+              <img
+                src="/profilevector.jpg"
+                alt="User Profile"
+                width={45}
+                height={45}
+                className="cursor-pointer rounded-full shadow-md"
+                onClick={toggleModal} // Toggle modal on click
+              />
+              {isModalOpen && (
+                <div
+                  ref={modalRef}
+                  className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-72 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
+                >
+                  {" "}
+                  {loggedInUser && (
+                    <UserProfile
+                      fullName={loggedInUser}
+                      email={userEmail}
+                      role={
+                        userRole &&
+                        userRole
+                          .toLowerCase()
+                          .replace(/(?:^|\s)\S/g, (a) => a.toUpperCase())
+                      }
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
           <Language />
         </div>
       </div>

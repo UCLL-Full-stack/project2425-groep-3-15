@@ -64,6 +64,7 @@ const UserLoginForm: React.FC = () => {
         // Store non-sensitive data locally (e.g., user details, not the token)
         sessionStorage.setItem("loggedInUser", data.fullname);
         sessionStorage.setItem("userRole", data.role);
+        sessionStorage.setItem("email", email);
 
         setTimeout(() => router.push("/"), 2000);
       } else {

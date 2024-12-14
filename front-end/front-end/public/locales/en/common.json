@@ -12,6 +12,7 @@
     "logoutConfirmation": "Are you sure you want to log out?",
     "cancel": "No",
     "confirm": "Log Out",
+    "loggedInAs": "Logged in as ",
     "nav": {
       "home": "Home",
       "projectOverview": "Project Overview",
