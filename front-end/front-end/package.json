@@ -6,22 +6,16 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "@prisma/client": "^6.0.1",
     "@types/react": "18.0.28",
-    "bootstrap": "5.2.3",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
-    "dayjs": "^1.11.7",
     "i18next": "^23.7.6",
-    "jsonwebtoken": "^9.0.2",
     "next": "^14.2.17",
     "next-i18next": "^15.0.0",
     "react": "^18.3.1",
-    "react-datepicker": "^4.16.0",
     "react-dom": "^18.3.1",
-    "react-i18next": "^13.4.1",
-    "react-image-filler": "^1.0.1",
-    "swr": "^2.2.0",
-    "use-interval": "^1.4.0"
+    "react-i18next": "^13.4.1"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.7",

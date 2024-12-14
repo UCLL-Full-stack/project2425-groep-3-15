@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import Header from "@/components/header";
+import Header from "@/components/common/header";
 import OverviewUsers from "@/components/users/OverviewUsers";
 import UserService from "@/services/UserService";
 import { useTranslation } from "next-i18next";

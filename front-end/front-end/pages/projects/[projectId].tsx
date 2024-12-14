@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Header from "@/components/header";
+import Header from "@/components/common/header";
 import TaskOverviewTable from "@/components/tasks/TaskOverviewTable";
 import { Project, User, Task } from "@prisma/client";
 import UserOverviewTable from "@/components/users/UserOverViewTable";

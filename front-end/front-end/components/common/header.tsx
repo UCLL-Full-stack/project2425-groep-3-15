@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import Language from "./language/Language";
-import UserProfile from "./users/UserProfile";
+import Language from "../language/Language";
+import UserProfile from "../users/UserProfile";
 
 export default function Header() {
   const { t } = useTranslation("common");

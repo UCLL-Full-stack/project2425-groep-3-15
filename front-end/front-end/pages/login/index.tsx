@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Header from "../../components/header";
+import Header from "../../components/common/header";
 import React from "react";
 import UserLoginForm from "@/components/users/UserLoginForm";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

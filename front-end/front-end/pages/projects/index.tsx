@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import Header from "@/components/header";
+import Header from "@/components/common/header";
 import ProjectService from "@/services/ProjectService";
 import ProjectOverviewTable from "@/components/projects/ProjectOverviewTable";
 import { Project } from "@types";
