@@ -52,7 +52,6 @@ const parseProjectDates = (project: Project): Project => {
 };
 // Helper function to parse dates
 const parseDate = (date: string | Date | null): Date | null => {
-  console.log("Parsing date:", date);
   if (date === null) {
     return null;
   }
@@ -150,8 +149,6 @@ const deleteProject = async (projectId: string): Promise<void> => {
     if (!response.ok) {
       throw new Error(`Failed to delete project with ID "${projectId}"`);
     }
-
-    console.log(`Project with ID "${projectId}" deleted successfully`);
   } catch (error) {
     console.error(`Error deleting project with ID "${projectId}"`, error);
     throw error;

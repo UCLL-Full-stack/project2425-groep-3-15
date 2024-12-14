@@ -27,10 +27,6 @@ const ProjectPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { t } = useTranslation("common");
 
-  const handleProjectCreated = (newProject: Project) => {
-    console.log("New project created:", newProject);
-  };
-
   useEffect(() => {
     if (projectId) {
       const fetchProject = async () => {

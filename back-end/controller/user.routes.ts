@@ -177,7 +177,6 @@ userRouter.post(
 
             // Hash the password before storing
             const hashedPassword = await bcrypt.hash(password, 10);
-            console.log('Signup - Hashed Password:', hashedPassword);
 
             // Prepare the user input for the service
             const userInput: UserInput = {
@@ -190,7 +189,6 @@ userRouter.post(
 
             // Create the user
             const user = await userService.createUser(userInput);
-            console.log('Signup - Created User:', user);
 
             // Respond with the created user's details (excluding sensitive fields)
             res.status(201).json({
@@ -245,31 +243,22 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     try {
         const { email, password }: { email: string; password: string } = req.body;
 
-        // Log the incoming request
-        console.log('Login Attempt - Email:', email);
-
         // Find the user by email
         const user = await userService.getUserByEmail(email);
         if (!user) {
-            console.log('User not found');
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
         // Compare provided password with hashed password
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        console.log('Password Valid:', isPasswordValid); // Debugging password comparison
 
         if (!isPasswordValid) {
-            console.log('Invalid password');
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
         // Generate a JWT token
         const tokenPayload = { email: user.email, role: user.role };
         const token = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '1h' });
-
-        // Log the token for debugging
-        console.log('Generated Token:', token);
 
         // Set the token as an HttpOnly cookie
         res.cookie('token', token, {

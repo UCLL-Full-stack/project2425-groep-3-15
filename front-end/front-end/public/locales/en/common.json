@@ -37,7 +37,8 @@
     "nameRequired": "Project name is required",
     "existsMessage": "Project with this name already exists",
     "successMessage": "Project created successfully!",
-    "deleteSuccessMessage": "Project deleted successfully!"
+    "deleteSuccessMessage": "Project deleted successfully!",
+    "deleteError": "Error deleting project..."
   },
   "login": {
     "title": "Login",
@@ -61,11 +62,14 @@
     "button": "Sign Up",
     "emailRequired": "Email is required.",
     "passwordRequired": "Password is required.",
-    "passwordMismatch": "Passwords do not match.",
     "successMessage": "Signup successful! Redirecting...",
     "loginLink": "Login",
     "alreadyAccount": "Already have an account?",
-    "errorMessage": "User with this email already exists"
+    "errorMessage": "User with this email already exists",
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+    "passwordsMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 8 characters long"
   },
   "projectDetails": {
     "title": "Details of",

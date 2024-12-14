@@ -35,7 +35,6 @@ const UserOverviewPage: React.FC = () => {
   useEffect(() => {
     // Check role in sessionStorage
     const userRole = sessionStorage.getItem("userRole");
-    console.log("User Role:", userRole);
 
     if (userRole === "ADMIN") {
       setIsAdmin(true); // Grant access if user is admin

@@ -3,6 +3,7 @@ import Header from "@/components/header";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import { useState, useEffect } from "react";
 
 export async function getServerSideProps({ locale }: { locale: string }) {
   return {
@@ -14,6 +15,13 @@ export async function getServerSideProps({ locale }: { locale: string }) {
 
 export default function Home() {
   const { t } = useTranslation("common");
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch the user role from sessionStorage
+    const role = sessionStorage.getItem("userRole");
+    setUserRole(role);
+  }, []);
 
   return (
     <>
@@ -45,6 +53,7 @@ export default function Home() {
 
         {/* Call to Action */}
         <div className="flex space-x-4">
+          {/* 'Get Started' Button: Visible to all users */}
           <Link
             href="/projects"
             className="px-6 py-3 text-white bg-blue-600 rounded-md shadow-md text-lg font-medium hover:bg-blue-700"
@@ -52,12 +61,15 @@ export default function Home() {
             {t("app.cta.getStarted")}
           </Link>
 
-          <Link
-            href="/users"
-            className="px-6 py-3 text-blue-600 bg-white rounded-md shadow-md border border-blue-600 text-lg font-medium hover:bg-blue-50"
-          >
-            {t("app.cta.viewUsers")}
-          </Link>
+          {/* 'View Users' Button: Only visible to Admin */}
+          {userRole === "ADMIN" && (
+            <Link
+              href="/users"
+              className="px-6 py-3 text-blue-600 bg-white rounded-md shadow-md border border-blue-600 text-lg font-medium hover:bg-blue-50"
+            >
+              {t("app.cta.viewUsers")}
+            </Link>
+          )}
         </div>
       </main>
     </>

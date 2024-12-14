@@ -28,7 +28,7 @@ const IndexPage: React.FC = () => {
   const handleProjectCreated = (newProject: Project) => {
     setProjects((prevProjects) => [...prevProjects, newProject]); // Add new project to state
     setIsModalOpen(false); // Close the modal
-    setSuccessMessage("Project created successfully!");
+    setSuccessMessage(t("project.successMessage")); // Set success message
     setTimeout(() => setSuccessMessage(null), 3000); // Clear success message after 3 seconds
   };
 
@@ -38,10 +38,10 @@ const IndexPage: React.FC = () => {
       setProjects((prevProjects) =>
         prevProjects.filter((project) => project.projectId !== projectId)
       );
-      setSuccessMessage("Project deleted successfully!");
+      setSuccessMessage(t("project.deleteSuccessMessage"));
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
-      console.error("Error deleting project:", error);
+      console.error(t("project.deleteError"), error);
     }
   };
 

@@ -67,7 +67,7 @@ export default function Header() {
                     isActive("/")
                       ? "text-blue-500 font-semibold"
                       : "text-gray-700"
-                  } hover:text-blue-500 hover:underline`}
+                  } hover:text-blue-500 hover:underline text-xl font-bold`}
                 >
                   {t("header.nav.home")}
                 </Link>
@@ -79,7 +79,7 @@ export default function Header() {
                     isActive("/projects")
                       ? "text-blue-500 font-semibold"
                       : "text-gray-700"
-                  } hover:text-blue-500 hover:underline`}
+                  } hover:text-blue-500 hover:underline text-xl font-bold`}
                 >
                   {t("header.nav.projectOverview")}
                 </Link>
@@ -91,7 +91,7 @@ export default function Header() {
                     isActive("/users")
                       ? "text-blue-500 font-semibold"
                       : "text-gray-700"
-                  } hover:text-blue-500 hover:underline`}
+                  } hover:text-blue-500 hover:underline text-xl font-bold`}
                 >
                   {t("header.nav.useroverview")}
                 </Link>
@@ -99,7 +99,7 @@ export default function Header() {
               <li>
                 <a
                   onClick={confirmLogout} // Show the confirmation popup
-                  className="hover:underline cursor-pointer text-gray-700 hover:text-red-500"
+                  className="text-red-500 hover:underline cursor-pointer text-gray-700 hover:text-red-500 text-xl font-bold"
                 >
                   {t("header.nav.logout")}
                 </a>

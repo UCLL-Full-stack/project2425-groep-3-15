@@ -102,7 +102,6 @@ const deleteProject = async (projectId: number) => {
                 projectId: projectId, // Ensure this matches your Prisma schema
             },
         });
-        console.log(`Project with ID ${projectId} deleted successfully.`);
     } catch (error) {
         console.error(`Error deleting project with ID ${projectId}:`, error);
         throw new Error(`Failed to delete project with ID ${projectId}`);

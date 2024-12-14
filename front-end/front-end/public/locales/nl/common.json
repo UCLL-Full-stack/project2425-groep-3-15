@@ -37,7 +37,8 @@
     "nameRequired": "Projectnaam is verplicht",
     "successMessage": "Project succesvol aangemaakt!",
     "existsMessage": "Er bestaat al een project met deze naam",
-    "deleteSuccessMessage": "Project succesvol verwijderd!"
+    "deleteSuccessMessage": "Project succesvol verwijderd!",
+    "deleteError": "Error verwijderen project..."
   },
   "login": {
     "title": "Inloggen",
@@ -60,11 +61,14 @@
     "button": "Registreren",
     "emailRequired": "E-mailadres is verplicht.",
     "passwordRequired": "Wachtwoord is verplicht.",
-    "passwordMismatch": "Wachtwoorden komen niet overeen.",
+    "passwordsMismatch": "Wachtwoorden komen niet overeen.",
     "successMessage": "Registratie geslaagd! Omleiden...",
     "loginLink": "Inloggen",
     "alreadyAccount": "Heb je al een account?",
-    "errorMessage": "Gebruiker met dit e-mailadres bestaat al"
+    "errorMessage": "Gebruiker met dit e-mailadres bestaat al",
+    "firstNameRequired": "Voornaam is verplicht",
+    "lastNameRequired": "Achternaam is verplicht",
+    "passwordTooShort": "Wachtwoord moet minimaal 8 tekens lang zijn"
   },
   "projectDetails": {
     "title": "Details van",

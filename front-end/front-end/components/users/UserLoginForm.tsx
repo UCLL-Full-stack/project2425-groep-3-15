@@ -91,8 +91,8 @@ const UserLoginForm: React.FC = () => {
               <li
                 key={index}
                 className={classNames({
-                  "text-red-800": type === "error",
-                  "text-green-800": type === "success",
+                  "text-red-500": type === "error",
+                  "text-green-500": type === "success",
                   "text-base": true,
                 })}
               >
@@ -117,7 +117,7 @@ const UserLoginForm: React.FC = () => {
             onChange={(event) => setEmail(event.target.value)}
             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           />
-          {emailError && <p className="text-red-800">{emailError}</p>}
+          {emailError && <p className="text-red-500">{emailError}</p>}
         </div>
 
         <label
@@ -184,7 +184,7 @@ const UserLoginForm: React.FC = () => {
               </svg>
             )}
           </button>
-          {passwordError && <p className="text-red-800">{passwordError}</p>}
+          {passwordError && <p className="text-red-500">{passwordError}</p>}
         </div>
 
         <div className="mt-4 text-center">

@@ -22,7 +22,6 @@ export class User {
         projects?: Project[];
         tasks?: Task[];
     }) {
-        console.log('Password Passed to User Class:', user.password);
         this.validate(user);
         this.id = user.id;
         this.firstName = user.firstName;

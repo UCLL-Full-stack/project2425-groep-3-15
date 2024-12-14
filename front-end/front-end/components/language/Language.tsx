@@ -18,10 +18,7 @@ const Language: React.FC = () => {
   };
 
   return (
-    <div className="ml-6">
-      <label htmlFor="language" className="text-white">
-        Language
-      </label>
+    <div>
       <select
         id="language"
         className="ml-2 p-1 border-2 border-2 border-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
