@@ -9,6 +9,9 @@
   },
   "header": {
     "welcome": "Welkom bij de Projectbeheer Tool",
+    "logoutConfirmation": "Ben je zeker dat je wilt uitloggen?",
+    "cancel": "Nee",
+    "confirm": "Log uit",
     "nav": {
       "home": "Home",
       "projectOverview": "Projectoverzicht",
@@ -113,5 +116,8 @@
     "dueError": "Vervaldatum van de taak is verplicht",
     "duePatError": "Vervaldatum kan niet vóór vandaag liggen",
     "dueFarError": "Vervaldatum kan niet meer dan 50 jaar in de toekomst liggen"
+  },
+  "access": {
+    "denied": "Geen toegang"
   }
 }

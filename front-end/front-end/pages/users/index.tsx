@@ -4,6 +4,15 @@ import Header from "@/components/header";
 import OverviewUsers from "@/components/users/OverviewUsers";
 import UserService from "@/services/UserService";
 import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+export async function getServerSideProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
 
 const UserOverviewPage: React.FC = () => {
   const [users, setUsers] = useState([]);

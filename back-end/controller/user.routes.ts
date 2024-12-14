@@ -291,4 +291,16 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     }
 });
 
+userRouter.post('/logout', (req: Request, res: Response) => {
+    // Clear the token cookie
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        sameSite: 'strict',
+    });
+
+    // Respond with a success message
+    res.status(200).json({ message: 'Logged out successfully' });
+});
+
 export default userRouter;

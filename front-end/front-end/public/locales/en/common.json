@@ -9,6 +9,9 @@
   },
   "header": {
     "welcome": "Welcome to the Project Management Tool",
+    "logoutConfirmation": "Are you sure you want to log out?",
+    "cancel": "No",
+    "confirm": "Log Out",
     "nav": {
       "home": "Home",
       "projectOverview": "Project Overview",
@@ -114,5 +117,8 @@
     "dueError": "Task due date is required",
     "duePatError": "Due date cannot be before today",
     "dueFarError": "Due date cannot be more than 50 years in the future"
+  },
+  "access": {
+    "denied": "Access Denied"
   }
 }
