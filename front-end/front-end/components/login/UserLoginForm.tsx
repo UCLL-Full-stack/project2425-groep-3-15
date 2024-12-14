@@ -1,4 +1,3 @@
-import { StatusMessage } from "@types";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
