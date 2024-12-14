@@ -4,7 +4,7 @@ import TaskService from "@/services/TaskService";
 import { useTranslation } from "next-i18next";
 
 type Props = {
-  project: Project & { tasks: Task[] };
+  project: Project & { tasks?: Task[] };
   onStatusChange: (taskId: number, newStatus: boolean) => void;
   onTaskRemoved: (taskId: number) => void;
   isEditing: boolean;
