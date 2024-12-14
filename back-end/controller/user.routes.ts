@@ -1,7 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
+import { check, validationResult } from 'express-validator';
 import userService from '../service/user.service';
-import { Router } from 'express';
-import { UserInput } from '../types';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { AuthenticationResponse, UserInput } from '../types';
 
 /**
  * @swagger
@@ -145,11 +147,126 @@ userRouter.get('/email/:email', async (req: Request, res: Response) => {
  *                 errorMessage:
  *                   type: string
  */
-userRouter.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+
+const validateSignup = [
+    check('email')
+        .isEmail()
+        .withMessage('Invalid email format')
+        .notEmpty()
+        .withMessage('Email is required'),
+    check('password')
+        .isLength({ min: 8 })
+        .withMessage('Password must be at least 8 characters long'),
+    check('firstName').notEmpty().withMessage('First name is required'),
+    check('lastName').notEmpty().withMessage('Last name is required'),
+    check('role').isIn(['ADMIN', 'USER']).withMessage('Invalid role, must be ADMIN or USER'),
+];
+
+userRouter.post(
+    '/signup',
+    validateSignup,
+    async (req: Request, res: Response, next: NextFunction) => {
+        // Validate the incoming request
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        try {
+            const { firstName, lastName, email, password, role }: UserInput = req.body;
+
+            // Hash the password before storing
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            // Prepare the user input for the service
+            const userInput: UserInput = {
+                firstName,
+                lastName,
+                email,
+                password: hashedPassword,
+                role,
+            };
+
+            // Create the user
+            const user = await userService.createUser(userInput);
+
+            // Respond with the created user's details (excluding sensitive fields)
+            res.status(201).json({
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                role: user.role,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Login to the application
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User logged in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthenticationResponse'
+ *       401:
+ *         description: Invalid email or password
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
+userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userInput = <UserInput>req.body;
-        const user = await userService.createUser(userInput);
-        res.status(200).json(user);
+        const { email, password }: { email: string; password: string } = req.body;
+
+        // Find the user by email
+        const user = await userService.getUserByEmail(email);
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        // Compare provided password with hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        // Generate a JWT token
+        const tokenPayload = { email: user.email, role: user.role };
+        const token = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '1h' });
+
+        // Respond with the token
+        const authResponse: AuthenticationResponse = {
+            token,
+            email: user.email,
+            fullname: `${user.firstName} ${user.lastName}`,
+        };
+
+        res.status(200).json(authResponse);
     } catch (error) {
         next(error);
     }

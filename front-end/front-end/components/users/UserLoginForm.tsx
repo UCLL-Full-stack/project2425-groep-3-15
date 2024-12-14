@@ -114,6 +114,15 @@ const UserLoginForm: React.FC = () => {
           {passwordError && <p className="text-red-800">{passwordError}</p>}
         </div>
 
+        <div className="mt-4 text-center">
+          <p className="text-sm">
+            {t("login.noAccount")}{" "}
+            <a href="/signup" className="text-blue-500 hover:underline">
+              {t("login.signupLink")}
+            </a>
+          </p>
+        </div>
+
         <button
           className="text-black bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           type="submit"

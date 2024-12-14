@@ -43,7 +43,21 @@
     "button": "Inloggen",
     "emailRequired": "E-mailadres is verplicht",
     "passwordRequired": "Wachtwoord is verplicht",
-    "successMessage": "Inloggen geslaagd. Omleiden naar startpagina..."
+    "successMessage": "Inloggen geslaagd. Omleiden naar startpagina...",
+    "noAccount": "Nog geen account?",
+    "signupLink": "Registreer hier"
+  },
+  "signup": {
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "confirmPassword": "Bevestig Wachtwoord",
+    "button": "Registreren",
+    "emailRequired": "E-mailadres is verplicht.",
+    "passwordRequired": "Wachtwoord is verplicht.",
+    "passwordMismatch": "Wachtwoorden komen niet overeen.",
+    "successMessage": "Registratie geslaagd! Omleiden...",
+    "loginLink": "Inloggen",
+    "alreadyAccount": "Heb je al een account?"
   },
   "projectDetails": {
     "title": "Details van",

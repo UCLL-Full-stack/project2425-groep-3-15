@@ -16,11 +16,8 @@ const createUser = async ({
         throw new Error('User already exists');
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 12);
-
     // Create the user
-    const user = new User({ firstName, lastName, email, password: hashedPassword, role });
+    const user = new User({ firstName, lastName, email, password: password, role });
     return await userDB.createUser(user);
 };
 

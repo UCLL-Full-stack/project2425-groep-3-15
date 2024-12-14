@@ -13,6 +13,9 @@ dotenv.config();
 const app = express();
 const port = process.env.APP_PORT || 3000;
 
+const JWT_SECRET = process.env.JWT_SECRET!;
+console.log('Your JWT secret is:', JWT_SECRET);
+
 // Middleware
 app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
@@ -20,6 +23,22 @@ app.use(bodyParser.json());
 // Routes
 app.use('/projects', projectRouter);
 app.use('/users', userRouter);
+
+app.use(
+    expressjwt({
+        secret:
+            process.env.JWT_SECRET ||
+            'bbae8e42586e9e9b3aabf10c88a0c06006c1039f050070dfceca575e99839961',
+        algorithms: ['HS256'], // Match the algorithm used to sign the JWT
+    }).unless({
+        path: [
+            '/users/login', // Allow public routes
+            '/users/signup',
+            /^\/api-docs/, // Example of excluding Swagger docs
+            '/status',
+        ],
+    })
+);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Project API is running...' });

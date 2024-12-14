@@ -43,7 +43,21 @@
     "button": "Login",
     "emailRequired": "Email is required",
     "passwordRequired": "Password is required",
-    "successMessage": "Login successful. Redirecting to homepage..."
+    "successMessage": "Login successful. Redirecting to homepage...",
+    "noAccount": "Don't have an account?",
+    "signupLink": "Sign up here"
+  },
+  "signup": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "button": "Sign Up",
+    "emailRequired": "Email is required.",
+    "passwordRequired": "Password is required.",
+    "passwordMismatch": "Passwords do not match.",
+    "successMessage": "Signup successful! Redirecting...",
+    "loginLink": "Login",
+    "alreadyAccount": "Already have an account?"
   },
   "projectDetails": {
     "title": "Details of",
