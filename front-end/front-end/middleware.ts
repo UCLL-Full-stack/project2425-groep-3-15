@@ -20,17 +20,14 @@ export function middleware(req: NextRequest) {
 
   if (pathname === "/login" || pathname === "/signup") {
     if (token) {
-      console.log("Middleware - User logged in, redirecting to home");
       return NextResponse.redirect(new URL("/", req.url));
     }
     return NextResponse.next();
   }
 
   if (!token) {
-    console.log("Middleware - No token found, redirecting to /login");
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  console.log("Middleware - Token exists, allowing access");
   return NextResponse.next();
 }
