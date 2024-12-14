@@ -48,6 +48,9 @@
     "signupLink": "Sign up here"
   },
   "signup": {
+    "title": "Sign Up",
+    "firstName": "First Name",
+    "lastName": "Last Name",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
@@ -57,7 +60,8 @@
     "passwordMismatch": "Passwords do not match.",
     "successMessage": "Signup successful! Redirecting...",
     "loginLink": "Login",
-    "alreadyAccount": "Already have an account?"
+    "alreadyAccount": "Already have an account?",
+    "errorMessage": "User with this email already exists"
   },
   "projectDetails": {
     "title": "Details of",

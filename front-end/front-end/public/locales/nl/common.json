@@ -48,6 +48,9 @@
     "signupLink": "Registreer hier"
   },
   "signup": {
+    "title": "Registreren",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
     "email": "E-mail",
     "password": "Wachtwoord",
     "confirmPassword": "Bevestig Wachtwoord",
@@ -57,7 +60,8 @@
     "passwordMismatch": "Wachtwoorden komen niet overeen.",
     "successMessage": "Registratie geslaagd! Omleiden...",
     "loginLink": "Inloggen",
-    "alreadyAccount": "Heb je al een account?"
+    "alreadyAccount": "Heb je al een account?",
+    "errorMessage": "Gebruiker met dit e-mailadres bestaat al"
   },
   "projectDetails": {
     "title": "Details van",
