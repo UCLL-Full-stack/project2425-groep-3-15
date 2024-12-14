@@ -26,7 +26,7 @@ const ProjectOverviewTable: React.FC<Props> = ({
     router.push(`/projects/${projectId}`);
   };
 
-  const handleClick = (projectId: string) => {
+  const handleDoubleClick = (projectId: string) => {
     router.push(`/projects/${projectId}`);
   };
 
@@ -48,7 +48,7 @@ const ProjectOverviewTable: React.FC<Props> = ({
                 <tr
                   key={index}
                   className="border-t border-gray-300 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleClick(project.projectId)}
+                  onDoubleClick={() => handleDoubleClick(project.projectId)}
                 >
                   <td className="text-left px-2 py-3 text-lg">
                     {project.name}
