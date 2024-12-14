@@ -45,7 +45,8 @@
     "passwordRequired": "Password is required",
     "successMessage": "Login successful. Redirecting to homepage...",
     "noAccount": "Don't have an account?",
-    "signupLink": "Sign up here"
+    "signupLink": "Sign up here",
+    "errorMessage": "Invalid email or password"
   },
   "signup": {
     "title": "Sign Up",

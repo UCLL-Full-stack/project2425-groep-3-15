@@ -14,10 +14,20 @@ const app = express();
 const port = process.env.APP_PORT || 3000;
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-console.log('Your JWT secret is:', JWT_SECRET);
+import cookieParser from 'cookie-parser';
+app.use(cookieParser());
 
+// Set secure cookie options
+app.use((req, res, next) => {
+    res.cookie('token', req.cookies.token, {
+        httpOnly: true, // Prevent JavaScript access
+        secure: process.env.NODE_ENV === 'production', // Send cookies only over HTTPS in production
+        sameSite: 'strict', // Protect against CSRF
+    });
+    next();
+});
 // Middleware
-app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
 app.use(bodyParser.json());
 
 // Routes
@@ -26,10 +36,9 @@ app.use('/users', userRouter);
 
 app.use(
     expressjwt({
-        secret:
-            process.env.JWT_SECRET ||
-            'bbae8e42586e9e9b3aabf10c88a0c06006c1039f050070dfceca575e99839961',
+        secret: JWT_SECRET,
         algorithms: ['HS256'], // Match the algorithm used to sign the JWT
+        getToken: (req) => req.cookies?.token,
     }).unless({
         path: [
             '/users/login', // Allow public routes

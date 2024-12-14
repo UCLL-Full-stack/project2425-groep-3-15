@@ -52,19 +52,18 @@ const UserLoginForm: React.FC = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        credentials: "include", // Ensures cookies are sent with the request
       });
 
       if (response.ok) {
+        const data = await response.json();
         setStatusMessages([
           { message: t("login.successMessage"), type: "success" },
         ]);
 
-        // Option 1: If using a JWT token
-        const data = await response.json();
-        sessionStorage.setItem("token", data.token); // Save the token in sessionStorage
+        // Store non-sensitive data locally (e.g., user details, not the token)
         sessionStorage.setItem("loggedInUser", data.fullname);
-        // Option 2: If using HTTP-only cookies, no need to manually handle the token
-        // Cookies will be automatically managed by the browser
+        sessionStorage.setItem("userRole", data.role);
 
         setTimeout(() => router.push("/"), 2000);
       } else {

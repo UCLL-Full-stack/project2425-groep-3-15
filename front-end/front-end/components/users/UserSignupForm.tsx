@@ -60,17 +60,15 @@ const UserSignupForm: React.FC = () => {
     event.preventDefault();
     clearErrors();
 
-    if (!validate()) {
-      return;
-    }
+    if (!validate()) return;
 
     try {
       const response = await fetch("http://localhost:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName, // Extract first name from email as a placeholder
-          lastName, // Adjust if you capture these fields in the form
+          firstName,
+          lastName,
           email,
           password,
           role: "USER", // Default role
@@ -82,12 +80,14 @@ const UserSignupForm: React.FC = () => {
           { message: t("signup.successMessage"), type: "success" },
         ]);
 
-        // Clear the form
+        // Clear form fields after success
+        setFirstName("");
+        setLastName("");
         setEmail("");
         setPassword("");
         setConfirmPassword("");
 
-        // Redirect after 2 seconds
+        // Redirect to login page after success
         setTimeout(() => {
           router.push("/login");
         }, 2000);

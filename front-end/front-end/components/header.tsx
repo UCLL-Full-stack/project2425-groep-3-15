@@ -19,7 +19,9 @@ export default function Header() {
 
   const handleLogout = () => {
     sessionStorage.removeItem("loggedInUser");
-    setLoggedInUser(null);
+    sessionStorage.removeItem("userRole");
+    sessionStorage.removeItem("token"); // If you're storing the token in sessionStorage
+    router.push("/login"); // Redirect to the login page
   };
 
   const isActive = (path: string) => router.pathname === path;

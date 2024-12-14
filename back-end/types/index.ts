@@ -37,9 +37,9 @@ type TaskInput = {
 };
 
 type AuthenticationResponse = {
-    token: string;
     email: string;
     fullname: string;
+    role: Role;
 };
 
 type TokenPayload = {
