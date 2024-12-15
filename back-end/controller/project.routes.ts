@@ -269,6 +269,31 @@ projectRouter.patch('/tasks/:taskId/status', async (req, res) => {
     }
 });
 
+projectRouter.put('/tasks/:taskId/status', async (req: Request, res: Response) => {
+    const { taskId } = req.params;
+    const { completed } = req.body;
+
+    const parsedTaskId = parseInt(taskId, 10);
+
+    if (isNaN(parsedTaskId)) {
+        return res.status(400).json({ status: 'error', errorMessage: 'Invalid task ID' });
+    }
+
+    if (typeof completed !== 'boolean') {
+        return res
+            .status(400)
+            .json({ status: 'error', errorMessage: 'Completed status must be a boolean' });
+    }
+
+    try {
+        const task = await projectService.updateTaskStatus(parsedTaskId, completed);
+        res.status(200).json(task);
+    } catch (error) {
+        console.error('Error updating task status:', error);
+        res.status(500).json({ status: 'error', errorMessage: 'Internal server error' });
+    }
+});
+
 projectRouter.delete('/tasks/:taskId', async (req, res) => {
     const { taskId } = req.params;
 
