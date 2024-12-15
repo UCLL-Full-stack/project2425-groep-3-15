@@ -269,7 +269,7 @@ projectRouter.patch('/tasks/:taskId/status', async (req, res) => {
     }
 });
 
-projectRouter.put('/tasks/:taskId/status', async (req, res) => {
+projectRouter.put('/tasks/:taskId/status', async (req: Request, res: Response) => {
     const { taskId } = req.params;
     const { completed } = req.body;
 
@@ -286,15 +286,7 @@ projectRouter.put('/tasks/:taskId/status', async (req, res) => {
     }
 
     try {
-        const task = await prisma.task.update({
-            where: { taskId: parsedTaskId },
-            data: { completed },
-        });
-
-        if (!task) {
-            return res.status(404).json({ status: 'error', errorMessage: 'Task not found' });
-        }
-
+        const task = await projectService.updateTaskStatus(parsedTaskId, completed);
         res.status(200).json(task);
     } catch (error) {
         console.error('Error updating task status:', error);
