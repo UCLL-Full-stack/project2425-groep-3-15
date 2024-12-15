@@ -86,9 +86,23 @@ const deleteProject = async (projectId: number) => {
     }
 };
 
+async function updateTaskStatus(taskId: number, completed: boolean) {
+    const task = await prisma.task.update({
+        where: { taskId },
+        data: { completed },
+    });
+
+    if (!task) {
+        throw new Error('Task not found');
+    }
+
+    return task;
+}
+
 export default {
     createProject,
     getAllProjects,
     getProjectById,
     deleteProject,
+    updateTaskStatus, // Add this line
 };
