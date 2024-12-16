@@ -1,8 +1,8 @@
 // pages/projects/[projectId].tsx
 import React from "react";
 import Head from "next/head";
-import Header from "@/components/common/Header";
-import ProjectPageContent from "@/components/projects/ProjectPageContent";
+import Header from "../../components/common/header";
+import ProjectPageContent from "../../components/projects/ProjectPageContent";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps({ locale }: { locale: string }) {

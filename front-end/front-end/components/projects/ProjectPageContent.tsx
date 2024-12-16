@@ -1,9 +1,9 @@
 // components/projects/ProjectPageContent.tsx
 import React from "react";
 import { useRouter } from "next/router";
-import useProjectDetails from "@/hooks/useProjectDetails";
-import TaskSection from "@/components/projects/TaskSection";
-import UserOverviewTable from "@/components/users/UserOverviewTable";
+import useProjectDetails from "../../hooks/useProjectDetails";
+import TaskSection from "../../components/projects/TaskSection";
+import UserOverviewTable from "../../components/users/UserOverViewTable";
 import { useTranslation } from "next-i18next";
 
 const ProjectPageContent: React.FC = () => {

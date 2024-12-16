@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ProjectService from "@/services/ProjectService";
-import { Project } from "@/types";
+import ProjectService from "../../services/ProjectService";
+import { Project } from "../../types";
 import { useTranslation } from "next-i18next";
 
 type NewProjectModalProps = {

@@ -1,4 +1,3 @@
-// components/common/SuccessMessage.tsx
 import React from "react";
 
 type SuccessMessageProps = {

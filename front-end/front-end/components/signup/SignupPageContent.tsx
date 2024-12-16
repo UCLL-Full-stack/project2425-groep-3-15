@@ -1,6 +1,6 @@
 // components/users/SignupPageContent.tsx
 import React from "react";
-import UserSignupForm from "@/components/signup/UserSignupForm";
+import UserSignupForm from "../../components/signup/UserSignupForm";
 import { useTranslation } from "next-i18next";
 
 const SignupPageContent: React.FC = () => {

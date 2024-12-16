@@ -1,9 +1,9 @@
 // pages/projects/index.tsx
 import React from "react";
 import Head from "next/head";
-import Header from "@/components/common/Header";
-import ProjectPageContent from "@/components/projects/ProjectsPage";
-import useProjects from "@/hooks/useProjects";
+import Header from "../../components/common/header";
+import ProjectPageContent from "../../components/projects/ProjectsPage";
+import useProjects from "../../hooks/useProjects";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps({ locale }: { locale: string }) {

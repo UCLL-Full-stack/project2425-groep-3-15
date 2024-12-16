@@ -1,10 +1,10 @@
 // pages/index.tsx
 import Head from "next/head";
-import Header from "@/components/common/Header";
-import Logo from "@/components/common/Logo";
-import WelcomeText from "@/components/common/WelcomeText";
-import CTAButtons from "@/components/common/CTAButtons";
-import useUserRole from "@/hooks/useUserRole";
+import Header from "../components/common/header";
+import Logo from "../components/common/Logo";
+import WelcomeText from "../components/common/WelcomeText";
+import CTAButtons from "../components/common/CTAButtons";
+import useUserRole from "../hooks/useUserRole";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 

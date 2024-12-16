@@ -1,8 +1,8 @@
 // components/projects/ProjectPageContent.tsx
 import React, { useState } from "react";
-import ProjectOverviewTable from "@/components/projects/ProjectOverviewTable";
-import NewProjectModal from "@/components/projects/NewProjectForm";
-import SuccessMessage from "@/components/common/SuccessMessage";
+import ProjectOverviewTable from "../../components/projects/ProjectOverviewTable";
+import NewProjectModal from "../../components/projects/NewProjectForm";
+import SuccessMessage from "../../components/common/SuccessMessage";
 import { Project } from "@types";
 import { useTranslation } from "next-i18next";
 

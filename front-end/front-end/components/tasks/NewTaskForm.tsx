@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
-import TaskService from "@/services/TaskService";
+import TaskService from "../../services/TaskService";
 
 type NewTaskModalProps = {
   projectId: string;

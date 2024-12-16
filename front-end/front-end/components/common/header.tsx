@@ -165,12 +165,13 @@ export default function Header() {
                   {loggedInUser && (
                     <UserProfile
                       fullName={loggedInUser}
-                      email={userEmail}
+                      email={userEmail || ""}
                       role={
-                        userRole &&
-                        userRole
-                          .toLowerCase()
-                          .replace(/(?:^|\s)\S/g, (a) => a.toUpperCase())
+                        (userRole &&
+                          userRole
+                            .toLowerCase()
+                            .replace(/(?:^|\s)\S/g, (a) => a.toUpperCase())) ||
+                        "User"
                       }
                     />
                   )}

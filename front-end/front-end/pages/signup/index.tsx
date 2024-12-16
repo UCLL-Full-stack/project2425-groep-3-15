@@ -1,9 +1,9 @@
 // pages/signup/index.tsx
 import Head from "next/head";
-import Header from "@/components/common/Header";
+import Header from "../../components/common/header";
 import React from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import SignupPageContent from "@/components/signup/SignupPageContent";
+import SignupPageContent from "../../components/signup/SignupPageContent";
 
 export async function getServerSideProps({ locale }: { locale: string }) {
   return {

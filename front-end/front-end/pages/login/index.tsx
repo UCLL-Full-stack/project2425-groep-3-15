@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Header from "@/components/common/Header";
+import Header from "../../components/common/header";
 import React from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import LoginPageContent from "@/components/login/LoginPageContent";
+import LoginPageContent from "../../components/login/LoginPageContent";
 
 export async function getServerSideProps({ locale }: { locale: string }) {
   return {

@@ -1,7 +1,7 @@
 // hooks/useProjects.ts
 import { useState, useEffect } from "react";
 import { Project } from "@types";
-import ProjectService from "@/services/ProjectService";
+import ProjectService from "../services/ProjectService";
 import { useTranslation } from "next-i18next";
 
 const useProjects = () => {

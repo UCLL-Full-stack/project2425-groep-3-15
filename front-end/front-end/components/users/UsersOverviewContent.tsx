@@ -1,5 +1,5 @@
 import React from "react";
-import OverviewUsers from "@/components/users/OverviewUsers";
+import OverviewUsers from "../../components/users/OverviewUsers";
 
 type UsersOverviewContentProps = {
   users: any[];

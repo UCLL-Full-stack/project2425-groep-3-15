@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import StatusMessages from "@/components/common/StatusMessages";
+import StatusMessages from "../../components/common/StatusMessages";
 
 const UserSignupForm: React.FC = () => {
   const router = useRouter();

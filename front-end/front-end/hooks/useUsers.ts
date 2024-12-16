@@ -1,6 +1,6 @@
 // hooks/useUsers.ts
 import { useState, useEffect } from "react";
-import UserService from "@/services/UserService";
+import UserService from "../services/UserService";
 
 export default function useUsers(t: (key: string) => string) {
   const [users, setUsers] = useState([]);
