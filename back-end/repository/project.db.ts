@@ -107,10 +107,22 @@ const deleteProject = async (projectId: number) => {
         throw new Error(`Failed to delete project with ID ${projectId}`);
     }
 };
+
+const getProjectWithDetails = async (projectId: number) => {
+    return await database.project.findUnique({
+        where: { projectId },
+        include: {
+            tasks: true,
+            users: { include: { user: true } },
+        },
+    });
+};
+
 export default {
     createProject,
     getAllProjects,
     getProjectById,
     addUserToProject,
     deleteProject,
+    getProjectWithDetails,
 };

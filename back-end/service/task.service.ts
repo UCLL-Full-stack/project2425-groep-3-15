@@ -1,73 +1,95 @@
-import taskDB from "../repository/task.db";
-import { Task } from "../model/task";
-import { TaskInput } from "../types";
+import taskDB from '../repository/task.db';
+import { Task } from '../model/task';
+import { TaskInput } from '../types';
 
-const createTask = async ({
-    name,
-    description,
-    dueDate,
-    users,
-    completed = false
-}: TaskInput): Promise<Task> => {
-    // Validation logic: Ensure required fields are provided
-    if (!name) {
-        throw new Error("Task name is required");
+async function createTask(input: TaskInput): Promise<Task> {
+    try {
+        // Validate Task input using the domain model
+        Task.validateInput(input);
+
+        // Delegate task creation to the repository
+        const taskData = await taskDB.createTask(
+            input.name!,
+            input.description || null,
+            input.dueDate!,
+            input.completed || false,
+            input.users || []
+        );
+
+        return Task.from(taskData);
+    } catch (error) {
+        console.error('Error creating task:', error);
+        throw new Error('Failed to create task');
     }
-    if (!description) {
-        throw new Error("Task description is required");
+}
+
+async function getAllTasks(): Promise<Task[]> {
+    try {
+        const tasks = await taskDB.getAllTasks();
+        return tasks.map(Task.from);
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        throw new Error('Failed to fetch tasks');
     }
-    if (!(dueDate instanceof Date) || isNaN(dueDate.getTime())) {
-        throw new Error("Due date must be a valid date");
+}
+
+async function getTaskById(taskId: number): Promise<Task> {
+    try {
+        const task = await taskDB.getTaskById(taskId);
+        if (!task) throw new Error(`Task with ID ${taskId} not found`);
+
+        return Task.from(task);
+    } catch (error) {
+        console.error(`Error fetching task by ID ${taskId}:`, error);
+        throw new Error('Failed to fetch task');
     }
-    if (dueDate < new Date()) {
-        throw new Error("Due date cannot be in the past");
+}
+async function updateTaskStatus(taskId: number, completed: boolean): Promise<Task> {
+    try {
+        // Delegate to repository to update the task status
+        const updatedTask = await taskDB.updateTaskStatus(taskId, completed);
+
+        // Map the raw result to the Task domain object
+        return Task.from(updatedTask);
+    } catch (error) {
+        console.error(`Error updating task status for ID ${taskId}:`, error);
+        throw new Error('Failed to update task status');
     }
-    if (!users || users.length === 0) {
-        throw new Error("At least one user is required");
+}
+
+async function createTaskForProject(
+    projectId: number,
+    input: { name: string; description?: string | null; dueDate: Date; completed?: boolean }
+): Promise<Task> {
+    try {
+        // Validate input using the Task domain model
+        Task.validateInput({
+            name: input.name,
+            dueDate: input.dueDate,
+            users: [], // No users are added at task creation in this context
+        });
+
+        // Delegate the creation to the repository
+        const taskData = await taskDB.createTaskForProject(
+            projectId,
+            input.name,
+            input.description || null,
+            input.dueDate,
+            input.completed || false
+        );
+
+        // Map the raw database result to the Task domain model
+        return Task.from(taskData);
+    } catch (error) {
+        console.error('Error creating task for project:', error);
+        throw new Error('Failed to create task for the project');
     }
-
-    // Call to taskDB to create the task in the database
-    const task = await taskDB.createTask(
-        name,
-        description,
-        dueDate,
-        completed,
-        users
-    );
-
-    if (!task) {
-        throw new Error("Task creation failed");
-    }
-
-    // Return a Task model instance using the created task data
-    return Task.from(task);
-};
-
-
-const getAllTasks = async (): Promise<Task[]> => {
-    const tasks = await taskDB.getAllTasks();
-
-    if (!tasks || tasks.length === 0) {
-        throw new Error("No tasks found");
-    }
-
-    // Map the list of tasks to instances of Project
-    return tasks.map(Task.from);
-};
-const getTaskById = async (id: number): Promise<Task> => {
-    // Retrieve a task by its id from the database
-    const task = await taskDB.getTaskById(id);
-
-    if (!task) {
-        throw new Error(`Task with id "${id}" doesn't exist`);
-    }
-
-    // Return a Task model instance for the found task
-    return Task.from(task);
-};
+}
 
 export default {
     createTask,
     getAllTasks,
     getTaskById,
+    updateTaskStatus,
+    createTaskForProject,
 };

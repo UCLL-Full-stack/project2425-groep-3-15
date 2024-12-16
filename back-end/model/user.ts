@@ -1,6 +1,6 @@
 import { Project } from './project';
 import { Task } from './task';
-import { Role } from '../types';
+import { Role, UserInput } from '../types';
 
 export class User {
     readonly id?: number;
@@ -121,5 +121,20 @@ export class User {
             this.projects === user.getProjects() &&
             this.tasks === user.getTasks()
         );
+    }
+
+    static validateInput(input: UserInput) {
+        if (!input.firstName || !input.lastName) {
+            throw new Error('First name and last name are required');
+        }
+        if (!input.email || !input.email.includes('@')) {
+            throw new Error('Valid email is required');
+        }
+        if (!input.password || input.password.length < 8) {
+            throw new Error('Password must be at least 8 characters long');
+        }
+        if (!['ADMIN', 'USER', 'MASTER'].includes(input.role)) {
+            throw new Error('Role must be ADMIN, USER, or MASTER');
+        }
     }
 }

@@ -26,8 +26,8 @@ const OverviewUsers: React.FC<OverviewUsersProps> = ({ users = [] }) => {
         </tr>
       </thead>
       <tbody>
-        {users.map((user) => (
-          <tr key={user.userId}>
+        {users.map((user, index) => (
+          <tr key={`${user.userId}-${index}`}>
             <td>
               {user.firstName} {user.lastName}
             </td>

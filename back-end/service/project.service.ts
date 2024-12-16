@@ -1,102 +1,59 @@
-import { PrismaClient } from '@prisma/client';
+import projectDB from '../repository/project.db';
+import { Project } from '../model/project';
 import { ProjectInput } from '../types';
 
-const prisma = new PrismaClient();
-
-async function createProject(data: ProjectInput) {
+async function createProject(input: ProjectInput): Promise<Project> {
     try {
-        // Check for duplicate project name
-        const existingProject = await prisma.project.findFirst({
-            where: { name: data.name! },
-        });
+        // Validate input using the Project domain model
+        Project.validateInput(input);
 
-        if (existingProject) {
-            throw new Error(`Project with name "${data.name}" already exists`);
-        }
+        // Delegate creation to the repository
+        const createdProject = await projectDB.createProject(input.name!);
 
-        // Create the project if no duplicate
-        if (!data.name) {
-            throw new Error('Project name is required');
-        }
-
-        const project = await prisma.project.create({
-            data: {
-                name: data.name,
-                users: {
-                    connect: [],
-                },
-                tasks: {
-                    connect: [],
-                },
-            },
-        });
-
-        return project;
+        // Map raw repository output to a domain object
+        return Project.from(createdProject);
     } catch (error) {
         console.error('Error creating project:', error);
         throw new Error('Failed to create project');
     }
 }
 
-async function getAllProjects() {
+async function getAllProjects(): Promise<Project[]> {
     try {
-        return await prisma.project.findMany({
-            include: {
-                users: true,
-                tasks: true,
-            },
-        });
+        const projects = await projectDB.getAllProjects();
+        return projects.map(Project.from);
     } catch (error) {
         console.error('Error fetching all projects:', error);
         throw new Error('Failed to fetch projects');
     }
 }
 
-async function getProjectById(projectId: number) {
+async function getProjectById(projectId: number): Promise<Project> {
     try {
-        const project = await prisma.project.findUnique({
-            where: { projectId: projectId },
-            include: {
-                users: true,
-                tasks: true,
-            },
-        });
+        const project = await projectDB.getProjectById({ id: projectId });
+        if (!project) throw new Error(`Project with ID ${projectId} not found`);
 
-        if (!project) {
-            throw new Error(`Project with ID "${projectId}" not found`);
-        }
-
-        return project;
+        return Project.from(project);
     } catch (error) {
-        console.error(`Error fetching project by ID "${projectId}":`, error);
-        throw new Error(`Failed to fetch project with ID "${projectId}"`);
+        console.error(`Error fetching project with ID ${projectId}:`, error);
+        throw new Error('Failed to fetch project');
     }
 }
 
-const deleteProject = async (projectId: number) => {
+async function deleteProject(projectId: number): Promise<void> {
     try {
-        await prisma.project.delete({
-            where: {
-                projectId: projectId,
-            },
-        });
+        await projectDB.deleteProject(projectId);
     } catch (error) {
         console.error(`Error deleting project with ID ${projectId}:`, error);
-        throw error;
+        throw new Error('Failed to delete project');
     }
-};
+}
 
-async function updateTaskStatus(taskId: number, completed: boolean) {
-    const task = await prisma.task.update({
-        where: { taskId },
-        data: { completed },
-    });
+async function getProjectWithDetails(projectId: number): Promise<Project> {
+    const project = await projectDB.getProjectWithDetails(projectId);
+    if (!project) throw new Error(`Project with ID ${projectId} not found`);
 
-    if (!task) {
-        throw new Error('Task not found');
-    }
-
-    return task;
+    return Project.from(project);
 }
 
 export default {
@@ -104,5 +61,5 @@ export default {
     getAllProjects,
     getProjectById,
     deleteProject,
-    updateTaskStatus, // Add this line
+    getProjectWithDetails,
 };

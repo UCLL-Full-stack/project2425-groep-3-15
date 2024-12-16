@@ -1,53 +1,57 @@
-import { User } from "./user";
-import { Task } from "./task";
+import { User } from './user';
+import { Task } from './task';
+import { ProjectInput } from '../types';
 
 export class Project {
-  readonly id?: number;
-  readonly name: string;
-  readonly tasks: Task[] = [];
-  readonly users: User[] = [];
+    readonly id?: number;
+    readonly name: string;
+    readonly tasks: Task[] = [];
+    readonly users: User[] = [];
 
-  constructor(project: {
-    id?: number;
-    name: string;
-    tasks?: Task[];
-    users?: User[];
-  }) {
-    this.id = project.id;
-    this.name = project.name;
-    this.tasks = project.tasks || [];
-    this.users = project.users || [];
-  }
+    constructor(project: { id?: number; name: string; tasks?: Task[]; users?: User[] }) {
+        this.id = project.id;
+        this.name = project.name;
+        this.tasks = project.tasks || [];
+        this.users = project.users || [];
+    }
 
-  static from(projectPrisma: any): Project {
-    return new Project({
-      id: projectPrisma.projectId,
-      name: projectPrisma.name,
-      tasks: projectPrisma.tasks?.map(Task.from) || [],
-      users: projectPrisma.users?.map(User.from) || [],
-    });
-  }
+    static from(projectPrisma: any): Project {
+        return new Project({
+            id: projectPrisma.projectId,
+            name: projectPrisma.name,
+            tasks: projectPrisma.tasks?.map(Task.from) || [],
+            users: projectPrisma.users?.map(User.from) || [],
+        });
+    }
 
-  public getProjectId(): number | undefined {
-    return this.id;
-  }
+    public getProjectId(): number | undefined {
+        return this.id;
+    }
 
-  public getName(): string {
-    return this.name;
-  }
+    public getName(): string {
+        return this.name;
+    }
 
-  public getUsers(): User[] {
-    return this.users;
-  }
+    public getUsers(): User[] {
+        return this.users;
+    }
 
-  public getTasks(): Task[] {
-    return this.tasks;
-  }
+    public getTasks(): Task[] {
+        return this.tasks;
+    }
 
-  equals(project: Project): boolean {
-    return this.id === project.getProjectId() &&
-      this.name === project.getName() &&
-      this.users === project.getUsers() &&
-      this.tasks === project.getTasks();
-  }
+    static validateInput(input: ProjectInput) {
+        if (!input.name || input.name.trim() === '') {
+            throw new Error('Project name is required');
+        }
+    }
+
+    equals(project: Project): boolean {
+        return (
+            this.id === project.getProjectId() &&
+            this.name === project.getName() &&
+            this.users === project.getUsers() &&
+            this.tasks === project.getTasks()
+        );
+    }
 }

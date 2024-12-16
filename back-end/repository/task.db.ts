@@ -71,8 +71,58 @@ export const getTaskById = async (taskId: number): Promise<Task | null> => {
     }
 };
 
+export const updateTaskStatus = async (taskId: number, completed: boolean) => {
+    try {
+        const task = await database.task.update({
+            where: { taskId },
+            data: { completed },
+        });
+        return task;
+    } catch (error) {
+        console.error(`Error updating task status:`, error);
+        throw new Error('Failed to update task status');
+    }
+};
+
+export const createTaskForProject = async (
+    projectId: number,
+    name: string,
+    description: string | null,
+    dueDate: Date,
+    completed: boolean
+) => {
+    try {
+        // Ensure the project exists before creating the task
+        const project = await database.project.findUnique({
+            where: { projectId },
+        });
+
+        if (!project) {
+            throw new Error(`Project with ID ${projectId} not found`);
+        }
+
+        // Create the task and associate it with the project
+        const task = await database.task.create({
+            data: {
+                name,
+                description,
+                dueDate,
+                completed,
+                projectId,
+            },
+        });
+
+        return task;
+    } catch (error) {
+        console.error('Error creating task for project:', error);
+        throw error;
+    }
+};
+
 export default {
     createTask,
     getAllTasks,
     getTaskById,
+    updateTaskStatus,
+    createTaskForProject,
 };

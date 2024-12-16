@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import projectService from '../service/project.service';
-import { ProjectInput, EnrollmentInput } from '../types/index';
+import { ProjectInput } from '../types/index';
 import prisma from '../repository/database';
+import taskService from '../service/task.service';
 
 /**
  * @swagger
@@ -136,31 +137,16 @@ projectRouter.post('/', async (req: Request, res: Response) => {
  *         description: Project not found
  */
 projectRouter.get('/:id', async (req: Request, res: Response) => {
-    const project_Id = parseInt(req.params.id);
-    if (isNaN(project_Id)) {
-        return res.status(400).json({ status: 'error', errorMessage: 'Invalid project ID' });
+    const projectId = parseInt(req.params.id);
+    if (isNaN(projectId)) {
+        return res.status(400).json({ error: 'Invalid project ID' });
     }
 
     try {
-        const project = await prisma.project.findUnique({
-            where: { projectId: project_Id },
-            include: {
-                tasks: true,
-                users: {
-                    include: {
-                        user: true,
-                    },
-                },
-            },
-        });
-
-        if (!project) {
-            return res.status(404).json({ status: 'error', errorMessage: 'Project not found' });
-        }
-
+        const project = await projectService.getProjectWithDetails(projectId);
         res.status(200).json(project);
-    } catch (error) {
-        res.status(500).json({ status: 'error', errorMessage: (error as Error).message });
+    } catch (error: any) {
+        res.status(404).json({ error: error.message });
     }
 });
 
@@ -198,12 +184,15 @@ projectRouter.get('/:id', async (req: Request, res: Response) => {
  */
 projectRouter.post('/:id/tasks', async (req: Request, res: Response) => {
     const projectId = parseInt(req.params.id);
+
+    // Input validation for project ID
     if (isNaN(projectId)) {
         return res.status(400).json({ status: 'error', errorMessage: 'Invalid project ID' });
     }
 
     const { name, description, dueDate, completed } = req.body;
 
+    // Input validation for task details
     if (!name || !dueDate) {
         return res
             .status(400)
@@ -211,27 +200,20 @@ projectRouter.post('/:id/tasks', async (req: Request, res: Response) => {
     }
 
     try {
-        const project = await prisma.project.findUnique({
-            where: { projectId: projectId },
-        });
-
-        if (!project) {
-            return res.status(404).json({ status: 'error', errorMessage: 'Project not found' });
-        }
-
-        const task = await prisma.task.create({
-            data: {
-                name,
-                description,
-                dueDate: new Date(dueDate),
-                completed: completed !== undefined ? completed : false,
-                projectId: projectId,
-            },
+        // Delegate task creation to the service
+        const task = await taskService.createTaskForProject(projectId, {
+            name,
+            description,
+            dueDate: new Date(dueDate),
+            completed,
         });
 
         res.status(201).json(task);
-    } catch (error) {
-        console.error('Error creating task:', error);
+    } catch (error: any) {
+        if (error.message.includes('not found')) {
+            return res.status(404).json({ status: 'error', errorMessage: error.message });
+        }
+
         res.status(500).json({ status: 'error', errorMessage: 'Internal server error' });
     }
 });
@@ -286,7 +268,7 @@ projectRouter.put('/tasks/:taskId/status', async (req: Request, res: Response) =
     }
 
     try {
-        const task = await projectService.updateTaskStatus(parsedTaskId, completed);
+        const task = await taskService.updateTaskStatus(parsedTaskId, completed);
         res.status(200).json(task);
     } catch (error) {
         console.error('Error updating task status:', error);
