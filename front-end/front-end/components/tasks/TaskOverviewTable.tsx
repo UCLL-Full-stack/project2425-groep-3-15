@@ -69,7 +69,7 @@ const TaskOverviewTable: React.FC<Props> = ({
                   any,
                   string | React.JSXElementConstructor<any>
                 >
-              | React.ReactFragment
+              | React.ReactNode
               | React.ReactPortal
               | Iterable<React.ReactNode>
               | null
@@ -82,7 +82,7 @@ const TaskOverviewTable: React.FC<Props> = ({
                   any,
                   string | React.JSXElementConstructor<any>
                 >
-              | React.ReactFragment
+              | React.ReactNode
               | React.ReactPortal
               | Iterable<React.ReactNode>
               | null

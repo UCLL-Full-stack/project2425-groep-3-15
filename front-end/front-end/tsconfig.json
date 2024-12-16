@@ -14,7 +14,13 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./components/*", "./hooks/*", "./utils/*"]
+      "@/*": [
+        "./components/*",
+        "./hooks/*",
+        "./utils/*",
+        "../components/*",
+        "../../components/*"
+      ]
     },
     "forceConsistentCasingInFileNames": true
   },

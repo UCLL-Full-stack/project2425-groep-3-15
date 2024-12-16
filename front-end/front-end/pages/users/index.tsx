@@ -1,11 +1,11 @@
 // pages/users/index.tsx
 import React from "react";
 import Head from "next/head";
-import Header from "@/components/common/Header";
-import Loading from "@/components/common/Loading";
-import AccessDenied from "@/components/common/AccessDenied";
-import UsersOverviewContent from "@/components/users/UsersOverviewContent";
-import useUsers from "@/hooks/useUsers";
+import Header from "@/../components/common/header";
+import Loading from "@/../components/common/Loading";
+import AccessDenied from "@/../components/common/AccessDenied";
+import UsersOverviewContent from "@/../components/users/UsersOverviewContent";
+import useUsers from "@/../hooks/useUsers";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
