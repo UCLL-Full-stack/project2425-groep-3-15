@@ -70,7 +70,9 @@
     "firstNameRequired": "First name is required",
     "lastNameRequired": "Last name is required",
     "passwordsMismatch": "Passwords do not match",
-    "passwordTooShort": "Password must be at least 8 characters long"
+    "passwordTooShort": "Password must be at least 8 characters long",
+    "passwordMustContainNumber": "Password must contain at least one number",
+    "passwordMustContainSymbol": "Password must contain at least one symbol"
   },
   "projectDetails": {
     "title": "Details of",

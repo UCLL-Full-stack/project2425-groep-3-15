@@ -50,6 +50,10 @@ const UserSignupForm: React.FC = () => {
       newErrors.password = t("signup.passwordRequired");
     } else if (formData.password.length < 8) {
       newErrors.password = t("signup.passwordTooShort");
+    } else if (!/[0-9]/.test(formData.password)) {
+      newErrors.password = t("signup.passwordMustContainNumber");
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
+      newErrors.password = t("signup.passwordMustContainSymbol");
     }
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = t("signup.passwordsMismatch");
