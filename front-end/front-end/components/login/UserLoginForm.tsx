@@ -215,17 +215,17 @@ const UserLoginForm: React.FC = () => {
           <tbody>
             <tr>
               <td>john.admin@example.com</td>
-              <td>admin1234</td>
+              <td>admin123?</td>
               <td>Admin</td>
             </tr>
             <tr>
               <td>alice.master@example.com</td>
-              <td>master1234</td>
+              <td>master123?</td>
               <td>Master</td>
             </tr>
             <tr>
               <td>jane.user@example.com</td>
-              <td>user1234</td>
+              <td>user123?</td>
               <td>User</td>
             </tr>
           </tbody>
