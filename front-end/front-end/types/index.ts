@@ -8,9 +8,11 @@ export type Task = {
 
 export type User = {
   UserId: number;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
+  role: string;
 };
 
 export type Project = {

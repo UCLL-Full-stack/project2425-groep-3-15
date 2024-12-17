@@ -1,5 +1,5 @@
 import React from "react";
-import { Project, User } from "@types";
+import { Project, User } from "../../types";
 import { useTranslation } from "next-i18next";
 
 type Props = {
@@ -23,7 +23,7 @@ const UserOverviewTable: React.FC<Props> = ({ project }) => {
           <tbody>
             {project.users.map(({ user }: { user: User }, index: number) => (
               <tr key={index}>
-                <td>{user.userId}</td>
+                <td>{user.UserId}</td>
                 <td>{`${user.firstName} ${user.lastName}`}</td>
                 <td>{user.role}</td>
               </tr>

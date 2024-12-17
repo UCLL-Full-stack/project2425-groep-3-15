@@ -18,7 +18,7 @@ async function main() {
             firstName: 'John',
             lastName: 'Doe',
             email: 'john.admin@example.com',
-            password: await bcrypt.hash('admin1234', 10),
+            password: await bcrypt.hash('admin123?', 10),
             role: Role.ADMIN,
         },
     });
@@ -28,7 +28,7 @@ async function main() {
             firstName: 'Jane',
             lastName: 'Smith',
             email: 'jane.user@example.com',
-            password: await bcrypt.hash('user1234', 10),
+            password: await bcrypt.hash('user123?', 10),
             role: Role.USER,
         },
     });
@@ -38,7 +38,7 @@ async function main() {
             firstName: 'Alice',
             lastName: 'Johnson',
             email: 'alice.master@example.com',
-            password: await bcrypt.hash('master1234', 10),
+            password: await bcrypt.hash('master123?', 10),
             role: Role.MASTER,
         },
     });
@@ -48,7 +48,7 @@ async function main() {
             firstName: 'Bob',
             lastName: 'Williams',
             email: 'bob.williams@example.com',
-            password: await bcrypt.hash('user1234', 10),
+            password: await bcrypt.hash('user123?', 10),
             role: Role.USER,
         },
     });
@@ -58,7 +58,7 @@ async function main() {
             firstName: 'Emily',
             lastName: 'Davis',
             email: 'emily.davis@example.com',
-            password: await bcrypt.hash('user1234', 10),
+            password: await bcrypt.hash('user123?', 10),
             role: Role.USER,
         },
     });
