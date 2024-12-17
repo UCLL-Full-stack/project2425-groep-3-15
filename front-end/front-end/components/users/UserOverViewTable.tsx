@@ -15,7 +15,6 @@ const UserOverviewTable: React.FC<Props> = ({ project }) => {
         <table className="table table-hover">
           <thead>
             <tr>
-              <th>{t("projectDetails.users.id")}</th>
               <th>{t("projectDetails.users.name")}</th>
               <th>{t("projectDetails.users.role")}</th>
             </tr>
@@ -23,7 +22,6 @@ const UserOverviewTable: React.FC<Props> = ({ project }) => {
           <tbody>
             {project.users.map(({ user }: { user: User }, index: number) => (
               <tr key={index}>
-                <td>{user.UserId}</td>
                 <td>{`${user.firstName} ${user.lastName}`}</td>
                 <td>{user.role}</td>
               </tr>
