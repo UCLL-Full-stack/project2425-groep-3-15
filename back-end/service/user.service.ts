@@ -1,6 +1,5 @@
 import { User } from '../model/user';
 import { UserInput, AuthenticationResponse } from '../types';
-import bcrypt from 'bcrypt';
 import userDB from '../repository/user.db';
 
 const createUser = async ({

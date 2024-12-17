@@ -8,11 +8,9 @@ describe('Task Domain Object Tests', () => {
     });
 
     beforeEach(async () => {
-        // Delete dependent records first
+        // Cleanup dependent records first
         await prisma.userTask.deleteMany();
         await prisma.userProject.deleteMany();
-
-        // Then delete tasks, projects, and users
         await prisma.task.deleteMany();
         await prisma.project.deleteMany();
         await prisma.user.deleteMany();
@@ -65,7 +63,6 @@ describe('Task Domain Object Tests', () => {
     });
 
     test('should assign a Task to multiple Users', async () => {
-        // Create Users
         const user1 = await prisma.user.create({
             data: {
                 firstName: 'Alice',
@@ -86,12 +83,12 @@ describe('Task Domain Object Tests', () => {
             },
         });
 
-        // Create Project
         const project = await prisma.project.create({
-            data: { name: 'Project Delta' },
+            data: {
+                name: 'Project Delta',
+            },
         });
 
-        // Create Task
         const task = await prisma.task.create({
             data: {
                 name: 'Code Review',
@@ -99,27 +96,20 @@ describe('Task Domain Object Tests', () => {
                 dueDate: new Date(),
                 completed: false,
                 projectId: project.projectId,
+                users: {
+                    create: [
+                        { user: { connect: { userId: user1.userId } } },
+                        { user: { connect: { userId: user2.userId } } },
+                    ],
+                },
+            },
+            include: {
+                users: true,
             },
         });
 
-        // Assign Users to Task
-        await prisma.userTask.createMany({
-            data: [
-                { userId: user1.userId, taskId: task.taskId },
-                { userId: user2.userId, taskId: task.taskId },
-            ],
-        });
-
-        // Fetch the Task with Users
-        const taskWithUsers = await prisma.task.findUnique({
-            where: { taskId: task.taskId },
-            include: { users: true },
-        });
-
-        // Assertions
-        expect(taskWithUsers).not.toBeNull();
-        expect(taskWithUsers?.users.length).toBe(2);
-        expect(taskWithUsers?.users.map((u) => u.userId)).toEqual(
+        expect(task.users.length).toBe(2);
+        expect(task.users.map((u) => u.userId)).toEqual(
             expect.arrayContaining([user1.userId, user2.userId])
         );
     });
