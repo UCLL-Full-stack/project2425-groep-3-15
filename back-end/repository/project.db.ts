@@ -1,5 +1,4 @@
 import database from './database';
-import { Project } from '../model/project';
 
 async function createProject(name: string, description?: string, startDate?: Date, endDate?: Date) {
     try {
@@ -107,10 +106,33 @@ const deleteProject = async (projectId: number) => {
         throw new Error(`Failed to delete project with ID ${projectId}`);
     }
 };
+
+const updateProjectUsers = async (projectId: number, userIds: number[]) => {
+    try {
+        // First, clear the existing users from the project
+        await database.userProject.deleteMany({
+            where: {
+                projectId: projectId,
+            },
+        });
+
+        // Then, add the new users to the project
+        await database.userProject.createMany({
+            data: userIds.map((userId) => ({
+                userId,
+                projectId,
+            })),
+        });
+    } catch (error) {
+        console.error('Error updating project users:', error);
+        throw new Error('Error updating project users');
+    }
+};
 export default {
     createProject,
     getAllProjects,
     getProjectById,
     addUserToProject,
     deleteProject,
+    updateProjectUsers,
 };

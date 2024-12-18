@@ -127,5 +127,11 @@
   },
   "access": {
     "denied": "Access Denied"
+  },
+  "projects": {
+    "title": "Projects for {{name}}",
+    "subtitle": "Projects where {{name}} is part of:",
+    "name": "Project(s):",
+    "userCount": "User Count"
   }
 }

@@ -33,6 +33,37 @@ const getAllUsers = async () => {
   return await response.json();
 };
 
+const getUserProjects = async (userId: string) => {
+  const response = await fetch(`${apiUrl}/users/${userId}/projects`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch projects for user");
+  }
+
+  return await response.json();
+};
+
+const updateProjectUsers = async (projectId: string, userIds: string[]) => {
+  const response = await fetch(`${apiUrl}/projects/${projectId}/users`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userIds }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update project users");
+  }
+
+  return await response.json();
+};
+
 const UserService = {
   login,
   getAllUsers,
@@ -45,6 +76,8 @@ const UserService = {
       body: JSON.stringify({ userId }),
     });
   },
+  getUserProjects,
+  updateProjectUsers,
 };
 
 export default UserService;

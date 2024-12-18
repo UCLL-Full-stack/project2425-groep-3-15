@@ -3,7 +3,7 @@ import { Task } from './task';
 import { Role } from '../types';
 
 export class User {
-    readonly id?: number;
+    readonly userId?: number;
     readonly firstName: string;
     readonly lastName: string;
     readonly email: string;
@@ -13,7 +13,7 @@ export class User {
     readonly tasks: Task[] = [];
 
     constructor(user: {
-        id?: number;
+        userId?: number;
         firstName: string;
         lastName: string;
         email: string;
@@ -23,7 +23,7 @@ export class User {
         tasks?: Task[];
     }) {
         this.validate(user);
-        this.id = user.id;
+        this.userId = user.userId;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.email = user.email;
@@ -67,7 +67,7 @@ export class User {
 
     static from(userPrisma: any): User {
         return new User({
-            id: userPrisma.id,
+            userId: userPrisma.userId,
             firstName: userPrisma.firstName,
             lastName: userPrisma.lastName,
             email: userPrisma.email,
@@ -79,7 +79,7 @@ export class User {
     }
 
     getId(): number | undefined {
-        return this.id;
+        return this.userId;
     }
 
     getFirstName(): string {
@@ -112,7 +112,7 @@ export class User {
 
     equals(user: User): boolean {
         return (
-            this.id === user.getId() &&
+            this.userId === user.getId() &&
             this.firstName === user.getFirstName() &&
             this.lastName === user.getLastName() &&
             this.email === user.getEmail() &&

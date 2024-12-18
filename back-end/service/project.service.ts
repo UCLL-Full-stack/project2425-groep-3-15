@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { ProjectInput } from '../types';
+import projectDB from '../repository/project.db';
 
 const prisma = new PrismaClient();
 
@@ -99,10 +100,15 @@ async function updateTaskStatus(taskId: number, completed: boolean) {
     return task;
 }
 
+const updateProjectUsers = async (projectId: number, userIds: number[]) => {
+    return await projectDB.updateProjectUsers(projectId, userIds);
+};
+
 export default {
     createProject,
     getAllProjects,
     getProjectById,
     deleteProject,
-    updateTaskStatus, // Add this line
+    updateTaskStatus,
+    updateProjectUsers,
 };

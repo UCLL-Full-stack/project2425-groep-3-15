@@ -19,7 +19,7 @@ async function createTask(
                 users: {
                     create: users.map((user) => ({
                         user: {
-                            connect: { userId: user.id }, // Assuming user object has userId field
+                            connect: { userId: user.userId }, // Assuming user object has userId field
                         },
                     })),
                 },

@@ -359,4 +359,17 @@ projectRouter.delete('/:id', async (req: Request, res: Response) => {
     }
 });
 
+projectRouter.put('/:projectId/users', async (req: Request, res: Response) => {
+    const { projectId } = req.params;
+    const { userIds } = req.body;
+
+    try {
+        await projectService.updateProjectUsers(Number(projectId), userIds);
+        res.status(200).json({ message: 'Project users updated successfully' });
+    } catch (error) {
+        console.error('Error updating project users:', error);
+        res.status(500).json({ error: 'Error updating project users' });
+    }
+});
+
 export default projectRouter;
