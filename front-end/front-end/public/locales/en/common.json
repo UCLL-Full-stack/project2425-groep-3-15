@@ -78,11 +78,13 @@
     "title": "Details of",
     "users": {
       "title": "Users",
-      "adduser": "+ Add User",
+      "adduser": "Add User",
       "id": "ID",
       "name": "Name",
       "role": "Role",
-      "noUsers": "No users available"
+      "noUsers": "No users available",
+      "addusers": "Save",
+      "adduserss": "Edit Users for Project"
     },
     "tasks": {
       "title": "Tasks",
@@ -111,7 +113,8 @@
     "name": "Name",
     "email": "Email",
     "role": "Role",
-    "noUsers": "No users available"
+    "noUsers": "No users available",
+    "select": "Select"
   },
   "loading": "Loading...",
   "newTask": {

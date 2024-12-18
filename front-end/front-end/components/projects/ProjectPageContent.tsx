@@ -49,7 +49,7 @@ const ProjectPageContent: React.FC = () => {
                 className="bg-blue-500 text-white px-2 py-2 rounded-md"
                 onClick={handleOpenModal}
               >
-                + {t("projectDetails.users.addUsers")}
+                + {t("projectDetails.users.adduser")}
               </button>
             </div>
             <UserOverviewTable project={selectedProject} />
