@@ -27,7 +27,7 @@ const useProjects = () => {
     setTimeout(() => setSuccessMessage(null), 3000);
   };
 
-  const handleDeleteProject = async (projectId: string) => {
+  const handleDeleteProject = async (projectId: number) => {
     try {
       await ProjectService.deleteProject(projectId);
       setProjects((prevProjects) =>

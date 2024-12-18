@@ -11,7 +11,7 @@ type ProjectPageContentProps = {
   successMessage: string | null;
   setSuccessMessage: (message: string | null) => void;
   onProjectCreated: (newProject: Project) => void;
-  onDeleteProject: (projectId: string) => void;
+  onDeleteProject: (projectId: number) => void;
 };
 
 const ProjectPageContent: React.FC<ProjectPageContentProps> = ({

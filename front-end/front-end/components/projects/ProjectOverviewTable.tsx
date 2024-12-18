@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 
 type Props = {
   projects: Array<Project>;
-  onDeleteProject: (projectId: string) => void;
+  onDeleteProject: (projectId: number) => void;
 };
 
 const ProjectOverviewTable: React.FC<Props> = ({
@@ -22,11 +22,11 @@ const ProjectOverviewTable: React.FC<Props> = ({
     setUserRole(role);
   }, []);
 
-  const handleSelectClick = (projectId: string) => {
+  const handleSelectClick = (projectId: number) => {
     router.push(`/projects/${projectId}`);
   };
 
-  const handleDoubleClick = (projectId: string) => {
+  const handleDoubleClick = (projectId: number) => {
     router.push(`/projects/${projectId}`);
   };
 

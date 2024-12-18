@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import UserService from "services/UserService";
 
 type User = {
-  userId: string;
+  userId: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -11,7 +11,7 @@ type User = {
 };
 
 type Project = {
-  projectId: string;
+  projectId: number;
   project: {
     name: string;
     userCount: number;

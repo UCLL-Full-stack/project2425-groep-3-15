@@ -4,18 +4,20 @@ import { User, Project } from "@types"; // Adjust the import path as needed
 import { useTranslation } from "react-i18next";
 
 type AddUsersModalProps = {
-  projectId: string;
+  projectId: number;
   selectedProject: Project;
   onClose: () => void;
+  onUsersUpdated: () => void;
 };
 
 const AddUsersModal: React.FC<AddUsersModalProps> = ({
   projectId,
   selectedProject,
   onClose,
+  onUsersUpdated,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const { t } = useTranslation("common");
   useEffect(() => {
     const fetchUsers = async () => {
@@ -34,7 +36,7 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({
     fetchUsers();
   }, [selectedProject]);
 
-  const handleUserToggle = (userId: string) => {
+  const handleUserToggle = (userId: number) => {
     setSelectedUsers((prevSelectedUsers) =>
       prevSelectedUsers.includes(userId)
         ? prevSelectedUsers.filter((id) => id !== userId)
@@ -45,6 +47,7 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({
   const handleSave = async () => {
     try {
       await UserService.updateProjectUsers(projectId, selectedUsers);
+      onUsersUpdated();
       onClose();
     } catch (error) {
       console.error("Error updating project users", error);
@@ -53,7 +56,7 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-md shadow-md w-full max-w-lg">
+      <div className="bg-white p-6 rounded-md shadow-md w-full max-w-xl">
         <h2 className="text-xl font-bold mb-4">
           {t("projectDetails.users.adduserss")}
         </h2>
@@ -79,7 +82,7 @@ const AddUsersModal: React.FC<AddUsersModalProps> = ({
                       checked={selectedUsers.includes(user.userId)}
                       onChange={() => handleUserToggle(user.userId)}
                       className="mr-2"
-                      onClick={(e) => e.stopPropagation()} // Prevent row click when clicking checkbox
+                      onClick={(e) => e.stopPropagation()}
                     />
                   </td>
                   <td>

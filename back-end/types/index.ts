@@ -16,7 +16,7 @@ type UserInput = {
 };
 
 type ProjectInput = {
-    ProjectId?: number;
+    projectId?: number;
     name?: string;
     users?: User[];
     tasks?: Task[];

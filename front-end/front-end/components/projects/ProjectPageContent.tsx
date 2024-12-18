@@ -19,7 +19,8 @@ const ProjectPageContent: React.FC = () => {
     handleTaskCreated,
     handleStatusChange,
     handleTaskRemoved,
-  } = useProjectDetails(projectId);
+    refreshProjectUsers,
+  } = useProjectDetails(Number(projectId));
   const { t } = useTranslation("common");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,9 +71,10 @@ const ProjectPageContent: React.FC = () => {
       )}
       {isModalOpen && (
         <AddUsersModal
-          projectId={projectId}
+          projectId={Number(projectId)}
           selectedProject={selectedProject}
           onClose={handleCloseModal}
+          onUsersUpdated={refreshProjectUsers}
         />
       )}
     </main>

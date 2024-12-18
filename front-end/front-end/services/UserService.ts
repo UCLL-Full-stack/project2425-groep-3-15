@@ -33,7 +33,7 @@ const getAllUsers = async () => {
   return await response.json();
 };
 
-const getUserProjects = async (userId: string) => {
+const getUserProjects = async (userId: number) => {
   const response = await fetch(`${apiUrl}/users/${userId}/projects`, {
     method: "GET",
     headers: {
@@ -48,7 +48,7 @@ const getUserProjects = async (userId: string) => {
   return await response.json();
 };
 
-const updateProjectUsers = async (projectId: string, userIds: string[]) => {
+const updateProjectUsers = async (projectId: number, userIds: number[]) => {
   const response = await fetch(`${apiUrl}/projects/${projectId}/users`, {
     method: "PUT",
     headers: {
@@ -67,7 +67,7 @@ const updateProjectUsers = async (projectId: string, userIds: string[]) => {
 const UserService = {
   login,
   getAllUsers,
-  async addUserToProject(projectId: string, userId: string) {
+  async addUserToProject(projectId: number, userId: number) {
     return await fetch(`${apiUrl}/projects/${projectId}/users`, {
       method: "POST",
       headers: {
