@@ -1,4 +1,3 @@
-// components/projects/TaskSection.tsx
 import React from "react";
 import TaskOverviewTable from "../../components/tasks/TaskOverviewTable";
 import NewTaskForm from "../../components/tasks/NewTaskForm";

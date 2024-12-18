@@ -1,4 +1,3 @@
-// hooks/useUsers.ts
 import { useState, useEffect } from "react";
 import UserService from "../services/UserService";
 
@@ -21,13 +20,12 @@ export default function useUsers(t: (key: string) => string) {
       }
     };
 
-    // Check the user role in sessionStorage
     const userRole = sessionStorage.getItem("userRole");
     if (userRole === "ADMIN") {
-      setIsAdmin(true); // Allow access if the user is an admin
+      setIsAdmin(true);
       fetchUsers();
     } else {
-      setIsAdmin(false); // Deny access otherwise
+      setIsAdmin(false);
       setLoading(false);
     }
   }, [t]);

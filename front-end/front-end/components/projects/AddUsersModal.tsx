@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UserService from "services/UserService";
-import { User, Project } from "@types"; // Adjust the import path as needed
+import { User, Project } from "@types";
 import { useTranslation } from "react-i18next";
 
 type AddUsersModalProps = {

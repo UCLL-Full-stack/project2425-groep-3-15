@@ -1,4 +1,3 @@
-// hooks/useProjects.ts
 import { useState, useEffect } from "react";
 import { Project } from "@types";
 import ProjectService from "../services/ProjectService";

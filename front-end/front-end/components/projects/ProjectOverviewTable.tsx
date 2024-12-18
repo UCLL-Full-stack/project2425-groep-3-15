@@ -17,7 +17,6 @@ const ProjectOverviewTable: React.FC<Props> = ({
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    // Retrieve the user's role from sessionStorage
     const role = sessionStorage.getItem("userRole");
     setUserRole(role);
   }, []);

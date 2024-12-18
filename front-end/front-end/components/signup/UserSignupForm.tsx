@@ -1,4 +1,3 @@
-// components/users/UserSignupForm.tsx
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -8,7 +7,6 @@ const UserSignupForm: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation("common");
 
-  // State
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -29,7 +27,7 @@ const UserSignupForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    setErrors({ ...errors, [e.target.id]: "" }); // Clear individual field errors
+    setErrors({ ...errors, [e.target.id]: "" });
   };
 
   const validateForm = (): boolean => {
@@ -82,7 +80,7 @@ const UserSignupForm: React.FC = () => {
         setStatusMessages([
           { message: t("signup.successMessage"), type: "success" },
         ]);
-        setTimeout(() => router.push("/login"), 2000); // Redirect after success
+        setTimeout(() => router.push("/login"), 2000);
       } else {
         const errorData = await response.json();
         if (errorData.error === "Error: User already exists") {

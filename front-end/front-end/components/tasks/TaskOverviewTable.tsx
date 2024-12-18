@@ -16,7 +16,7 @@ const TaskOverviewTable: React.FC<Props> = ({
   onTaskRemoved,
   isEditing,
 }) => {
-  const { t } = useTranslation("common"); // Access the translations
+  const { t } = useTranslation("common");
 
   const handleStatusChange = async (taskId: number, currentStatus: boolean) => {
     const newStatus = !currentStatus;

@@ -1,4 +1,3 @@
-// pages/signup/index.tsx
 import Head from "next/head";
 import Header from "../../components/common/header";
 import React from "react";

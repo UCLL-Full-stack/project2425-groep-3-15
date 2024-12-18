@@ -11,7 +11,7 @@ export default function Header() {
   const { t } = useTranslation("common");
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
-  const [showLogoutModal, setShowLogoutModal] = useState(false); // State to toggle the logout confirmation modal
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -24,7 +24,7 @@ export default function Header() {
   }, []);
 
   const toggleModal = () => {
-    setIsModalOpen(!isModalOpen); // Toggles the modal state
+    setIsModalOpen(!isModalOpen);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -34,20 +34,16 @@ export default function Header() {
   };
 
   const handleLogout = async () => {
-    // Call a logout API endpoint to clear the cookie
     await fetch("http://localhost:3000/users/logout", {
       method: "POST",
-      credentials: "include", // Include credentials to ensure the cookie is cleared
+      credentials: "include",
     });
 
-    // Clear any client-side storage
     sessionStorage.clear();
 
-    // Redirect to login page
     router.push("/login");
   };
   useEffect(() => {
-    // Retrieve the user's role from sessionStorage
     const role = sessionStorage.getItem("userRole");
     setUserRole(role);
 
@@ -72,11 +68,11 @@ export default function Header() {
   const isActive = (path: string) => router.pathname === path;
 
   const confirmLogout = () => {
-    setShowLogoutModal(true); // Show the logout confirmation modal
+    setShowLogoutModal(true);
   };
 
   const cancelLogout = () => {
-    setShowLogoutModal(false); // Close the modal without logging out
+    setShowLogoutModal(false);
   };
 
   return (
@@ -135,7 +131,7 @@ export default function Header() {
               </li>
               <li>
                 <a
-                  onClick={confirmLogout} // Show the confirmation popup
+                  onClick={confirmLogout}
                   className="text-red-500 hover:underline cursor-pointer text-gray-700 hover:text-red-500 text-xl font-bold"
                 >
                   {t("header.nav.logout")}
@@ -145,7 +141,6 @@ export default function Header() {
           </nav>
         )}
 
-        {/* Language Selector and User Profile - Always Visible */}
         <div className="flex items-center gap-4">
           {loggedInUser && (
             <div className="relative">
@@ -155,7 +150,7 @@ export default function Header() {
                 width={45}
                 height={45}
                 className="cursor-pointer rounded-full shadow-md"
-                onClick={toggleModal} // Toggle modal on click
+                onClick={toggleModal}
               />
               {isModalOpen && (
                 <div

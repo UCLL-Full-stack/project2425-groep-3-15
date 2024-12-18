@@ -3,14 +3,13 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 import { Project } from "@types";
 import { parseISO, isValid } from "date-fns";
 
-// Function to parse date strings into Date objects
 const parseProjectDates = (project: Project): Project => {
   return {
-    projectId: project.projectId, // Adjusted to match your data structure
+    projectId: project.projectId,
     name: project.name,
     description: project.description,
-    startDate: parseDate(project.startDate), // Parse project start date
-    endDate: parseDate(project.endDate), // Parse project end date
+    startDate: parseDate(project.startDate),
+    endDate: parseDate(project.endDate),
     tasks: project.tasks
       ? project.tasks.map(
           (task: {
@@ -25,7 +24,7 @@ const parseProjectDates = (project: Project): Project => {
               id: task.taskId,
               name: task.name,
               description: task.description,
-              dueDate: parsedTaskDueDate, // Use parsed date
+              dueDate: parsedTaskDueDate,
               completed: task.completed,
             };
           }
@@ -50,7 +49,6 @@ const parseProjectDates = (project: Project): Project => {
       : [],
   };
 };
-// Helper function to parse dates
 const parseDate = (date: string | Date | null): Date | null => {
   if (date === null) {
     return null;
@@ -110,7 +108,6 @@ const getProjectById = async (projectId: number): Promise<Project> => {
 
   const project = await response.json();
 
-  // Ensure the project.users array contains user objects
   if (project.users) {
     project.users = project.users.map((userProject: any) => ({
       ...userProject,
