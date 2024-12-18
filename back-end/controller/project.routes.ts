@@ -335,27 +335,15 @@ projectRouter.delete('/tasks/:taskId', async (req, res) => {
  *       500:
  *         description: Internal server error
  */
-projectRouter.delete('/:id', async (req: Request, res: Response) => {
-    const projectId = parseInt(req.params.id);
-
-    if (isNaN(projectId)) {
-        return res.status(400).json({ status: 'error', errorMessage: 'Invalid project ID' });
-    }
+projectRouter.delete('/:projectId', async (req: Request, res: Response) => {
+    const { projectId } = req.params;
 
     try {
-        // Call the deleteProject function from projectService
-        await projectService.deleteProject(projectId);
-
-        res.status(200).json({ message: `Project with ID ${projectId} deleted successfully.` });
+        await projectService.deleteProject(Number(projectId));
+        res.status(200).json({ message: 'Project deleted successfully' });
     } catch (error) {
-        console.error(`Error deleting project with ID ${projectId}:`, error);
-
-        // If project not found, handle it gracefully
-        if ((error as any).code === 'P2025') {
-            return res.status(404).json({ status: 'error', errorMessage: 'Project not found' });
-        }
-
-        res.status(500).json({ status: 'error', errorMessage: 'Internal server error' });
+        console.error('Error deleting project:', error);
+        res.status(500).json({ error: 'Error deleting project' });
     }
 });
 

@@ -75,16 +75,7 @@ async function getProjectById(projectId: number) {
 }
 
 const deleteProject = async (projectId: number) => {
-    try {
-        await prisma.project.delete({
-            where: {
-                projectId: projectId,
-            },
-        });
-    } catch (error) {
-        console.error(`Error deleting project with ID ${projectId}:`, error);
-        throw error;
-    }
+    return await projectDB.deleteProject(projectId);
 };
 
 async function updateTaskStatus(taskId: number, completed: boolean) {

@@ -95,15 +95,25 @@ const addUserToProject = async (projectId: number, userId: number) => {
 
 const deleteProject = async (projectId: number) => {
     try {
-        // Delete the project from the database
+        // Delete related records in the user_projects table
+        await database.userProject.deleteMany({
+            where: { projectId },
+        });
+
+        // Delete related records in the tasks table
+        await database.task.deleteMany({
+            where: { projectId },
+        });
+
+        // Delete the project
         await database.project.delete({
             where: {
-                projectId: projectId, // Ensure this matches your Prisma schema
+                projectId,
             },
         });
     } catch (error) {
         console.error(`Error deleting project with ID ${projectId}:`, error);
-        throw new Error(`Failed to delete project with ID ${projectId}`);
+        throw error;
     }
 };
 
