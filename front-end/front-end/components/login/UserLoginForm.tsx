@@ -115,7 +115,12 @@ const UserLoginForm: React.FC = () => {
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            onPaste={(event) => {
+              event.preventDefault();
+              const paste = (event.clipboardData || window.Clipboard).getData('text');
+              setEmail(paste.trim());
+            }}
+            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 tracking-tight"
           />
           {emailError && <p className="text-red-500">{emailError}</p>}
         </div>
@@ -132,7 +137,12 @@ const UserLoginForm: React.FC = () => {
             type={passwordVisible ? "text" : "password"}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+            onPaste={(event) => {
+              event.preventDefault();
+              const paste = (event.clipboardData || window.Clipboard).getData('text');
+              setPassword(paste.trim());
+            }}
+            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 tracking-tight"
           />
           <button
             type="button"
@@ -234,5 +244,6 @@ const UserLoginForm: React.FC = () => {
     </>
   );
 };
+
 
 export default UserLoginForm;
