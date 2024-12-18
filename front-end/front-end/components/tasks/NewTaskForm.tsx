@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import TaskService from "../../services/TaskService";
 
 type NewTaskModalProps = {
-  projectId: string;
+  projectId: number;
   onTaskCreated: (newTask: {
     name: string;
     description: string;

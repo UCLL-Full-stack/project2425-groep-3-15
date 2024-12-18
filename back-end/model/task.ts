@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User } from './user';
 import { Task as prismaTask } from '@prisma/client';
 
 export class Task {
@@ -8,33 +8,33 @@ export class Task {
     readonly dueDate: Date;
     readonly completed: boolean;
     readonly users: User[];
-  
-    constructor(task: { 
-      taskId: number, 
-      name: string, 
-      description: string | null, // description is now nullable
-      dueDate: Date, 
-      completed: boolean, 
-      users: User[] 
+
+    constructor(task: {
+        taskId: number;
+        name: string;
+        description: string | null; // description is now nullable
+        dueDate: Date;
+        completed: boolean;
+        users: User[];
     }) {
-      this.validate(task);
-      this.taskId = task.taskId;
-      this.name = task.name;
-      this.description = task.description ?? null; // Default to null if no description
-      this.dueDate = task.dueDate;
-      this.completed = task.completed;
-      this.users = task.users || [];
+        this.validate(task);
+        this.taskId = task.taskId;
+        this.name = task.name;
+        this.description = task.description ?? null; // Default to null if no description
+        this.dueDate = task.dueDate;
+        this.completed = task.completed;
+        this.users = task.users || [];
     }
-  
+
     static from(prismaTask: any): Task {
-      return new Task({
-        taskId: prismaTask.taskId,
-        name: prismaTask.name,
-        description: prismaTask.description ?? null, // description can be null here
-        dueDate: prismaTask.dueDate,
-        completed: prismaTask.completed,
-        users: prismaTask.users?.map((user: any) => User.from(user)) || [],
-      });
+        return new Task({
+            taskId: prismaTask.taskId,
+            name: prismaTask.name,
+            description: prismaTask.description ?? null, // description can be null here
+            dueDate: prismaTask.dueDate,
+            completed: prismaTask.completed,
+            users: prismaTask.users?.map((user: any) => User.from(user)) || [],
+        });
     }
 
     private validate(task: {
@@ -42,7 +42,7 @@ export class Task {
         name: string;
         description: string | null;
         dueDate: Date;
-        users: User[]
+        users: User[];
     }) {
         if (!task.name) {
             throw new Error('Task name is required');
@@ -76,15 +76,17 @@ export class Task {
     }
 
     equals(task: Task): boolean {
-        return this.taskId === task.getTaskId() &&
+        return (
+            this.taskId === task.getTaskId() &&
             this.name === task.getName() &&
             this.dueDate === task.getDueDate() &&
             this.users === task.getUsers() &&
-            this.completed === task.getCompleted();
+            this.completed === task.getCompleted()
+        );
     }
-    
+
     addUserToTask(user: User) {
-        if (!this.users.find(existingUser => existingUser.id === user.id)) {
+        if (!this.users.find((existingUser) => existingUser.userId === user.userId)) {
             this.users.push(user);
         }
     }

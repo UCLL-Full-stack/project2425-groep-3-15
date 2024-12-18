@@ -14,7 +14,7 @@ const parseProjectDates = (project: Project): Project => {
     tasks: project.tasks
       ? project.tasks.map(
           (task: {
-            taskId: string;
+            taskId: number;
             name: string;
             description: string;
             dueDate: string | Date | null;
@@ -96,23 +96,33 @@ const getAllProjects = async (): Promise<Project[]> => {
   }
 };
 
-const getProjectById = async (projectId: string): Promise<Project> => {
-  try {
-    const response = await fetch(`${apiUrl}/projects/${projectId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch project");
-    }
-    const project: Project = await response.json();
-    return parseProjectDates(project);
-  } catch (error) {
-    console.error(`Error fetching project with ID "${projectId}"`, error);
-    throw error;
+const getProjectById = async (projectId: number): Promise<Project> => {
+  const response = await fetch(`${apiUrl}/projects/${projectId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch project details");
   }
+
+  const project = await response.json();
+
+  // Ensure the project.users array contains user objects
+  if (project.users) {
+    project.users = project.users.map((userProject: any) => ({
+      ...userProject,
+      user: userProject.user || {
+        firstName: "Unknown",
+        lastName: "User",
+        role: "Unknown",
+      },
+    }));
+  }
+
+  return project;
 };
 
 const createProject = async (projectName: string): Promise<Project> => {
@@ -137,7 +147,7 @@ const createProject = async (projectName: string): Promise<Project> => {
   }
 };
 
-const deleteProject = async (projectId: string): Promise<void> => {
+const deleteProject = async (projectId: number): Promise<void> => {
   try {
     const response = await fetch(`${apiUrl}/projects/${projectId}`, {
       method: "DELETE",

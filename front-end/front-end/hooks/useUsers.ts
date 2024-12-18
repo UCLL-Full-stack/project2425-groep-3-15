@@ -12,6 +12,7 @@ export default function useUsers(t: (key: string) => string) {
     const fetchUsers = async () => {
       try {
         const data = await UserService.getAllUsers();
+        console.log("Fetched users:", data);
         setUsers(data);
       } catch (err: any) {
         setError(err.message || t("error.fetchUsers"));

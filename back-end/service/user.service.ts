@@ -32,4 +32,8 @@ const getUserByEmail = async (email: string): Promise<User | null> => {
     return await userDB.getUserByEmail(email);
 };
 
-export default { createUser, getAllUsers, getUserById, getUserByEmail };
+const getUserProjects = async (userId: number) => {
+    return await userDB.getUserProjects(userId);
+};
+
+export default { createUser, getAllUsers, getUserById, getUserByEmail, getUserProjects };

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { ProjectInput } from '../types';
+import projectDB from '../repository/project.db';
 
 const prisma = new PrismaClient();
 
@@ -74,16 +75,7 @@ async function getProjectById(projectId: number) {
 }
 
 const deleteProject = async (projectId: number) => {
-    try {
-        await prisma.project.delete({
-            where: {
-                projectId: projectId,
-            },
-        });
-    } catch (error) {
-        console.error(`Error deleting project with ID ${projectId}:`, error);
-        throw error;
-    }
+    return await projectDB.deleteProject(projectId);
 };
 
 async function updateTaskStatus(taskId: number, completed: boolean) {
@@ -99,10 +91,15 @@ async function updateTaskStatus(taskId: number, completed: boolean) {
     return task;
 }
 
+const updateProjectUsers = async (projectId: number, userIds: number[]) => {
+    return await projectDB.updateProjectUsers(projectId, userIds);
+};
+
 export default {
     createProject,
     getAllProjects,
     getProjectById,
     deleteProject,
-    updateTaskStatus, // Add this line
+    updateTaskStatus,
+    updateProjectUsers,
 };

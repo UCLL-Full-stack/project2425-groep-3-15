@@ -194,7 +194,7 @@ userRouter.post(
 
             // Respond with the created user's details (excluding sensitive fields)
             res.status(201).json({
-                id: user.id,
+                id: user.userId,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
@@ -292,6 +292,22 @@ userRouter.post('/logout', (req: Request, res: Response) => {
 
     // Respond with a success message
     res.status(200).json({ message: 'Logged out successfully' });
+});
+
+userRouter.get('/:userId/projects', async (req, res) => {
+    const userId = parseInt(req.params.userId, 10);
+    try {
+        const userWithProjects = await userService.getUserProjects(userId);
+
+        if (!userWithProjects) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json(userWithProjects); // No TypeScript errors here
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error fetching projects for user' });
+    }
 });
 
 export default userRouter;

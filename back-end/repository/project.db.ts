@@ -1,5 +1,4 @@
 import database from './database';
-import { Project } from '../model/project';
 
 async function createProject(name: string, description?: string, startDate?: Date, endDate?: Date) {
     try {
@@ -96,15 +95,47 @@ const addUserToProject = async (projectId: number, userId: number) => {
 
 const deleteProject = async (projectId: number) => {
     try {
-        // Delete the project from the database
+        // Delete related records in the user_projects table
+        await database.userProject.deleteMany({
+            where: { projectId },
+        });
+
+        // Delete related records in the tasks table
+        await database.task.deleteMany({
+            where: { projectId },
+        });
+
+        // Delete the project
         await database.project.delete({
             where: {
-                projectId: projectId, // Ensure this matches your Prisma schema
+                projectId,
             },
         });
     } catch (error) {
         console.error(`Error deleting project with ID ${projectId}:`, error);
-        throw new Error(`Failed to delete project with ID ${projectId}`);
+        throw error;
+    }
+};
+
+const updateProjectUsers = async (projectId: number, userIds: number[]) => {
+    try {
+        // First, clear the existing users from the project
+        await database.userProject.deleteMany({
+            where: {
+                projectId: projectId,
+            },
+        });
+
+        // Then, add the new users to the project
+        await database.userProject.createMany({
+            data: userIds.map((userId) => ({
+                userId,
+                projectId,
+            })),
+        });
+    } catch (error) {
+        console.error('Error updating project users:', error);
+        throw new Error('Error updating project users');
     }
 };
 export default {
@@ -113,4 +144,5 @@ export default {
     getProjectById,
     addUserToProject,
     deleteProject,
+    updateProjectUsers,
 };

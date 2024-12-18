@@ -77,11 +77,13 @@
     "title": "Details van",
     "users": {
       "title": "Gebruikers",
-      "adduser": "+ Gebruiker toevoegen",
+      "adduser": "Gebruiker toevoegen",
       "id": "ID",
       "name": "Naam",
       "role": "Rol",
-      "noUsers": "Geen gebruikers beschikbaar"
+      "noUsers": "Geen gebruikers beschikbaar",
+      "addusers": "Opslaan",
+      "adduserss": "Gebruikers bewerken voor project"
     },
     "tasks": {
       "title": "Taken",
@@ -110,7 +112,8 @@
     "name": "Naam",
     "email": "E-mail",
     "role": "Rol",
-    "noUsers": "Geen gebruikers beschikbaar"
+    "noUsers": "Geen gebruikers beschikbaar",
+    "select": "Selecteer"
   },
   "loading": "Laden...",
   "newTask": {
@@ -126,5 +129,11 @@
   },
   "access": {
     "denied": "Geen toegang"
+  },
+  "projects": {
+    "title": "Projecten voor {{name}}",
+    "subtitle": "Projecten waar {{name}} deel van uitmaakt:",
+    "name": "Project(en):",
+    "userCount": "Aantal gebruikers"
   }
 }

@@ -1,8 +1,9 @@
 // hooks/useProjectDetails.ts
 import { useEffect, useState } from "react";
 import { Project, Task } from "@types";
+import ProjectService from "services/ProjectService";
 
-const useProjectDetails = (projectId: string | string[] | undefined) => {
+const useProjectDetails = (projectId: number) => {
   const [selectedProject, setSelectedProject] = useState<
     (Project & { tasks: Task[] }) | null
   >(null);
@@ -10,19 +11,17 @@ const useProjectDetails = (projectId: string | string[] | undefined) => {
   const [showTaskForm, setShowTaskForm] = useState(false);
 
   useEffect(() => {
+    const fetchProjectDetails = async () => {
+      try {
+        const project = await ProjectService.getProjectById(projectId);
+        setSelectedProject(project);
+      } catch (error) {
+        console.error("Error fetching project details:", error);
+      }
+    };
+
     if (projectId) {
-      const fetchProject = async () => {
-        try {
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}`
-          );
-          const data = await response.json();
-          setSelectedProject(data);
-        } catch (error) {
-          console.error("Error fetching project:", error);
-        }
-      };
-      fetchProject();
+      fetchProjectDetails();
     }
   }, [projectId]);
 
@@ -54,6 +53,15 @@ const useProjectDetails = (projectId: string | string[] | undefined) => {
     }
   };
 
+  const refreshProjectUsers = async () => {
+    try {
+      const project = await ProjectService.getProjectById(projectId);
+      setSelectedProject(project);
+    } catch (error) {
+      console.error("Error refreshing project users:", error);
+    }
+  };
+
   return {
     selectedProject,
     isEditing,
@@ -63,6 +71,7 @@ const useProjectDetails = (projectId: string | string[] | undefined) => {
     handleTaskCreated,
     handleStatusChange,
     handleTaskRemoved,
+    refreshProjectUsers,
   };
 };
 

@@ -1,5 +1,5 @@
-import React from "react";
-import { Project, User } from "../../types";
+import React, { useEffect } from "react";
+import { Project, User } from "@/types";
 import { useTranslation } from "next-i18next";
 
 type Props = {

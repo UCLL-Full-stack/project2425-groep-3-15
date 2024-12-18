@@ -58,7 +58,7 @@ const TaskSection: React.FC<TaskSectionProps> = ({
         />
         {showTaskForm && (
           <NewTaskForm
-            projectId={project.projectId.toString()}
+            projectId={project.projectId}
             onTaskCreated={handleTaskCreated}
             onClose={() => setShowTaskForm(false)}
           />
