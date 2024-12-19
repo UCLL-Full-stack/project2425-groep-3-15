@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next";
 type NewProjectModalProps = {
   onProjectCreated: (newProject: Project) => void;
   setSuccessMessage: (message: string | null) => void;
-  onClose: () => void; // New prop to handle closing the modal
+  onClose: () => void;
 };
 
 const NewProjectModal: React.FC<NewProjectModalProps> = ({
@@ -37,7 +37,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
       setSuccessMessage(t("project.successMessage"));
       setErrors({});
       onProjectCreated(newProject);
-      onClose(); // Close the modal after successful project creation
+      onClose();
     } catch (error: any) {
       if (
         error.response &&
@@ -55,7 +55,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      onClose(); // Close modal when clicking on the background
+      onClose();
     }
   };
 

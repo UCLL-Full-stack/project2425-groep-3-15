@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ProjectOverviewTable from "../components/projects/ProjectOverviewTable";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
@@ -28,25 +28,38 @@ describe("ProjectOverviewTable", () => {
   ];
 
   it("renders project names", () => {
-    render(<ProjectOverviewTable projects={projects} onDeleteProject={mockOnDeleteProject} />);
+    render(
+      <ProjectOverviewTable
+        projects={projects}
+        onDeleteProject={mockOnDeleteProject}
+      />
+    );
 
     expect(screen.getByText("Project 1")).toBeInTheDocument();
     expect(screen.getByText("Project 2")).toBeInTheDocument();
   });
 
-
-
   it("navigates to project page on double click", () => {
-    render(<ProjectOverviewTable projects={projects} onDeleteProject={mockOnDeleteProject} />);
+    render(
+      <ProjectOverviewTable
+        projects={projects}
+        onDeleteProject={mockOnDeleteProject}
+      />
+    );
 
-    const rows = screen.getAllByRole("row").slice(1); // Ignore header row
+    const rows = screen.getAllByRole("row").slice(1);
     fireEvent.doubleClick(rows[0]);
 
     expect(mockPush).toHaveBeenCalledWith("/projects/1");
   });
 
   it("navigates to project page on select button click", () => {
-    render(<ProjectOverviewTable projects={projects} onDeleteProject={mockOnDeleteProject} />);
+    render(
+      <ProjectOverviewTable
+        projects={projects}
+        onDeleteProject={mockOnDeleteProject}
+      />
+    );
 
     fireEvent.click(screen.getAllByText("project.select")[0]);
     expect(mockPush).toHaveBeenCalledWith("/projects/1");

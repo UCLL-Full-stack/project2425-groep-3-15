@@ -9,7 +9,7 @@ type NewTaskModalProps = {
     description: string;
     dueDate: string;
   }) => void;
-  onClose: () => void; // Close modal handler
+  onClose: () => void;
 };
 
 const NewTaskModal: React.FC<NewTaskModalProps> = ({
@@ -29,19 +29,16 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
     const maxFutureDate = new Date();
     maxFutureDate.setFullYear(today.getFullYear() + 50);
 
-    // Validate Task Name
     if (!taskName) {
       newErrors.taskName = t("newTask.nameError");
     }
 
-    // Validate Description
     if (!description) {
       newErrors.taskDescription = t("newTask.descriptionError");
     } else if (description.length > 50) {
       newErrors.taskDescription = t("newTask.descriptionLengthError");
     }
 
-    // Validate Due Date
     if (!dueDate) {
       newErrors.taskDueDate = t("newTask.dueError");
     } else {
@@ -65,7 +62,6 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
     }
 
     try {
-      // Pass taskName, description, and dueDate correctly to createTask
       const newTask = await TaskService.createTask(
         projectId,
         taskName,
@@ -73,10 +69,8 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({
         dueDate
       );
 
-      // Pass the created task back to the parent component
       onTaskCreated(newTask);
 
-      // Reset form and close modal
       setTaskName("");
       setDescription("");
       setDueDate("");

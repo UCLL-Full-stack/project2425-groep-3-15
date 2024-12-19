@@ -16,7 +16,6 @@ type Project = {
     name: string;
     userCount: number;
   };
-  // Add other project fields as needed
 };
 
 type OverviewUsersProps = {
@@ -29,7 +28,7 @@ const OverviewUsers: React.FC<OverviewUsersProps> = ({ users = [] }) => {
   const [projects, setProjects] = useState<Project[]>([]);
 
   const handleRowClick = async (user: User) => {
-    console.log("User clicked:", user); // Add this line to log the user object
+    console.log("User clicked:", user);
     setSelectedUser(user);
     try {
       const data = await UserService.getUserProjects(user.userId);

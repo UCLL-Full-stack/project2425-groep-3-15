@@ -7,7 +7,7 @@ const UserLoginForm: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordVisible, setPasswordVisible] = useState(false); // Toggle password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -51,7 +51,7 @@ const UserLoginForm: React.FC = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-        credentials: "include", // Ensures cookies are sent with the request
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -60,7 +60,6 @@ const UserLoginForm: React.FC = () => {
           { message: t("login.successMessage"), type: "success" },
         ]);
 
-        // Store non-sensitive data locally (e.g., user details, not the token)
         sessionStorage.setItem("loggedInUser", data.fullname);
         sessionStorage.setItem("userRole", data.role);
         sessionStorage.setItem("email", email);
@@ -117,7 +116,9 @@ const UserLoginForm: React.FC = () => {
             onChange={(event) => setEmail(event.target.value)}
             onPaste={(event) => {
               event.preventDefault();
-              const paste = (event.clipboardData || window.Clipboard).getData('text');
+              const paste = (event.clipboardData || window.Clipboard).getData(
+                "text"
+              );
               setEmail(paste.trim());
             }}
             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 tracking-tight"
@@ -139,7 +140,9 @@ const UserLoginForm: React.FC = () => {
             onChange={(event) => setPassword(event.target.value)}
             onPaste={(event) => {
               event.preventDefault();
-              const paste = (event.clipboardData || window.Clipboard).getData('text');
+              const paste = (event.clipboardData || window.Clipboard).getData(
+                "text"
+              );
               setPassword(paste.trim());
             }}
             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 tracking-tight"
@@ -151,7 +154,6 @@ const UserLoginForm: React.FC = () => {
             aria-label="Toggle password visibility"
           >
             {passwordVisible ? (
-              // Eye icon for visible password
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -172,7 +174,6 @@ const UserLoginForm: React.FC = () => {
                 />
               </svg>
             ) : (
-              // Crossed-out eye icon for hidden password
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -244,6 +245,5 @@ const UserLoginForm: React.FC = () => {
     </>
   );
 };
-
 
 export default UserLoginForm;

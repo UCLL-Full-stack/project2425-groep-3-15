@@ -1,4 +1,3 @@
-// components/common/CTAButtons.tsx
 import React from "react";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
@@ -12,7 +11,6 @@ const CTAButtons: React.FC<CTAButtonsProps> = ({ userRole }) => {
 
   return (
     <div className="flex space-x-4">
-      {/* 'Get Started' Button */}
       <Link
         href="/projects"
         className="px-6 py-3 text-white bg-blue-600 rounded-md shadow-md text-lg font-medium hover:bg-blue-700"
@@ -20,7 +18,6 @@ const CTAButtons: React.FC<CTAButtonsProps> = ({ userRole }) => {
         {t("app.cta.getStarted")}
       </Link>
 
-      {/* 'View Users' Button */}
       {userRole === "ADMIN" && (
         <Link
           href="/users"

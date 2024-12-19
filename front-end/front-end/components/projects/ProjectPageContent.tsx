@@ -1,4 +1,3 @@
-// components/projects/ProjectPageContent.tsx
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import useProjectDetails from "../../hooks/useProjectDetails";

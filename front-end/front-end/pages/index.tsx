@@ -1,4 +1,3 @@
-// pages/index.tsx
 import Head from "next/head";
 import Header from "../components/common/header";
 import Logo from "../components/common/Logo";
