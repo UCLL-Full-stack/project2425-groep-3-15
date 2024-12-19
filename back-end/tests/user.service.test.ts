@@ -7,7 +7,7 @@ jest.mock('../repository/user.db');
 
 describe('User Service Tests', () => {
     const mockUser = new User({
-        id: 1,
+        userId: 1,
         firstName: 'John',
         lastName: 'Doe',
         email: 'john.doe@test.com',
