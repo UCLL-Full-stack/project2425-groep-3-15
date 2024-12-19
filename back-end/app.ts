@@ -7,14 +7,16 @@ import swaggerUi from 'swagger-ui-express';
 import projectRouter from './controller/project.routes';
 import userRouter from './controller/user.routes';
 import { expressjwt } from 'express-jwt';
-
+import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 dotenv.config();
 
 const app = express();
+app.use(helmet());
+
 const port = process.env.APP_PORT || 3000;
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-import cookieParser from 'cookie-parser';
 app.use(cookieParser());
 
 // Set secure cookie options
