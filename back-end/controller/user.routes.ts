@@ -15,6 +15,41 @@ const userRouter = express.Router();
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         userId:
+ *           type: integer
+ *         firstName:
+ *           type: string
+ *           example: "John"
+ *         lastName:
+ *           type: string
+ *           example: "dill"
+ *         email:
+ *           type: string
+ *           example: "john.dill@example.com"
+ *         role:
+ *           type: string
+ *           example: "USER"
+ *     AuthenticationResponse:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           example: "john.dill@example.com"
+ *         fullname:
+ *           type: string
+ *           example: "John dill"
+ *         role:
+ *           type: string
+ *           example: "USER"
+ */
+
+/**
+ * @swagger
  * /users:
  *   get:
  *     summary: Retrieve a list of users
@@ -48,6 +83,7 @@ userRouter.get('/', async (req: Request, res: Response) => {
         res.status(400).json({ status: 'error', errorMessage: error.message });
     }
 });
+
 /**
  * @swagger
  * /users/email/{email}:
@@ -120,14 +156,19 @@ userRouter.get('/email/:email', async (req: Request, res: Response) => {
  *             properties:
  *               firstName:
  *                 type: string
+ *                 example: "John"
  *               lastName:
  *                 type: string
+ *                 example: "dill"
  *               email:
  *                 type: string
+ *                 example: "john.dill@example.com"
  *               password:
  *                 type: string
+ *                 example: "password123"
  *               role:
  *                 type: string
+ *                 example: "USER"
  *     responses:
  *       200:
  *         description: User created successfully
@@ -222,8 +263,10 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
  *             properties:
  *               email:
  *                 type: string
+ *                 example: "john.dill@example.com"
  *               password:
  *                 type: string
+ *                 example: "password123"
  *     responses:
  *       200:
  *         description: User logged in successfully
@@ -240,6 +283,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
  *               properties:
  *                 message:
  *                   type: string
+ *                   example: "Invalid email or password"
  */
 userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -282,6 +326,24 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
     }
 });
 
+/**
+ * @swagger
+ * /users/logout:
+ *   post:
+ *     summary: Logout from the application
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Logged out successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Logged out successfully"
+ */
 userRouter.post('/logout', (req: Request, res: Response) => {
     // Clear the token cookie
     res.clearCookie('token', {
@@ -294,6 +356,31 @@ userRouter.post('/logout', (req: Request, res: Response) => {
     res.status(200).json({ message: 'Logged out successfully' });
 });
 
+/**
+ * @swagger
+ * /users/{userId}/projects:
+ *   get:
+ *     summary: Retrieve projects assigned to a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: User's projects retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Project'
+ *       404:
+ *         description: User not found
+ */
 userRouter.get('/:userId/projects', async (req, res) => {
     const userId = parseInt(req.params.userId, 10);
     try {

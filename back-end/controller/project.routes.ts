@@ -18,21 +18,83 @@ export const projectRouter = express.Router();
  *     Project:
  *       type: object
  *       properties:
- *         id:
+ *         projectId:
  *           type: integer
  *         name:
  *           type: string
  *         description:
  *           type: string
- *         # Add other properties here as per your requirements
+ *         tasks:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Task'
+ *         users:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/User'
  *     ProjectInput:
  *       type: object
+ *       required:
+ *         - name
  *       properties:
+ *         name:
+ *           type: string
+ *           example: "Test Project"
+ *         description:
+ *           type: string
+ *           example: "This is a test project description."
+ *     Task:
+ *       type: object
+ *       properties:
+ *         taskId:
+ *           type: integer
  *         name:
  *           type: string
  *         description:
  *           type: string
- *         # Add other properties here as needed for creating a project
+ *         dueDate:
+ *           type: string
+ *           format: date-time
+ *         completed:
+ *           type: boolean
+ *     TaskInput:
+ *       type: object
+ *       required:
+ *         - name
+ *         - dueDate
+ *       properties:
+ *         name:
+ *           type: string
+ *           example: "Test Task"
+ *         description:
+ *           type: string
+ *           example: "This is a test task description."
+ *         dueDate:
+ *           type: string
+ *           format: date-time
+ *           example: "2024-01-01T12:00:00Z"
+ *         completed:
+ *           type: boolean
+ *           example: false
+ *     User:
+ *       type: object
+ *       properties:
+ *         userId:
+ *           type: integer
+ *         firstName:
+ *           type: string
+ *           example: "John"
+ *         lastName:
+ *           type: string
+ *           example: "Doe"
+ *         email:
+ *           type: string
+ *           example: "john.doe@example.com"
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  */
 
 /**
@@ -76,7 +138,7 @@ projectRouter.get('/', async (req: Request, res: Response) => {
  * /projects:
  *   post:
  *     security:
- *      - bearerAuth: []
+ *       - bearerAuth: []
  *     summary: Create a new project
  *     tags: [Projects]
  *     requestBody:
@@ -113,11 +175,13 @@ projectRouter.post('/', async (req: Request, res: Response) => {
         res.status(400).json({ status: 'error', errorMessage: (error as Error).message });
     }
 });
+
 /**
  * @swagger
  * /projects/{id}:
  *   get:
  *     summary: Retrieve a project by ID
+ *     tags: [Projects]
  *     parameters:
  *       - in: path
  *         name: id
@@ -169,6 +233,7 @@ projectRouter.get('/:id', async (req: Request, res: Response) => {
  * /projects/{id}/tasks:
  *   post:
  *     summary: Create a new task for a specific project
+ *     tags: [Projects]
  *     parameters:
  *       - in: path
  *         name: id
@@ -236,6 +301,43 @@ projectRouter.post('/:id/tasks', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * @swagger
+ * /projects/tasks/{taskId}/status:
+ *   patch:
+ *     summary: Update task status
+ *     tags: [Projects]
+ *     parameters:
+ *       - in: path
+ *         name: taskId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The task ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               completed:
+ *                 type: boolean
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: Updated task
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Task'
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Task not found
+ *       500:
+ *         description: Internal server error
+ */
 projectRouter.patch('/tasks/:taskId/status', async (req, res) => {
     const { taskId } = req.params;
     const { completed } = req.body;
@@ -269,6 +371,43 @@ projectRouter.patch('/tasks/:taskId/status', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /projects/tasks/{taskId}/status:
+ *   put:
+ *     summary: Update task status (alternative method)
+ *     tags: [Projects]
+ *     parameters:
+ *       - in: path
+ *         name: taskId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The task ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               completed:
+ *                 type: boolean
+ *                 example: false
+ *     responses:
+ *       200:
+ *         description: Updated task
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Task'
+ *       400:
+ *         description: Invalid input
+ *       404:
+ *         description: Task not found
+ *       500:
+ *         description: Internal server error
+ */
 projectRouter.put('/tasks/:taskId/status', async (req: Request, res: Response) => {
     const { taskId } = req.params;
     const { completed } = req.body;
@@ -294,6 +433,29 @@ projectRouter.put('/tasks/:taskId/status', async (req: Request, res: Response) =
     }
 });
 
+/**
+ * @swagger
+ * /projects/tasks/{taskId}:
+ *   delete:
+ *     summary: Delete a task
+ *     tags: [Projects]
+ *     parameters:
+ *       - in: path
+ *         name: taskId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The task ID to delete
+ *     responses:
+ *       200:
+ *         description: Deleted task
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Task'
+ *       500:
+ *         description: Internal server error
+ */
 projectRouter.delete('/tasks/:taskId', async (req, res) => {
     const { taskId } = req.params;
 
@@ -330,6 +492,7 @@ projectRouter.delete('/tasks/:taskId', async (req, res) => {
  *               properties:
  *                 message:
  *                   type: string
+ *                   example: "Project deleted successfully."
  *       404:
  *         description: Project not found
  *       500:
@@ -347,6 +510,45 @@ projectRouter.delete('/:projectId', async (req: Request, res: Response) => {
     }
 });
 
+/**
+ * @swagger
+ * /projects/{projectId}/users:
+ *   put:
+ *     summary: Update users assigned to a project
+ *     tags: [Projects]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The project ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2, 3]
+ *     responses:
+ *       200:
+ *         description: Project users updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Project users updated successfully."
+ *       500:
+ *         description: Internal server error
+ */
 projectRouter.put('/:projectId/users', async (req: Request, res: Response) => {
     const { projectId } = req.params;
     const { userIds } = req.body;
