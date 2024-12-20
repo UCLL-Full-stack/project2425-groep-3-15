@@ -163,7 +163,60 @@ const validateSignup = [
         .isIn(['ADMIN', 'USER', 'MASTER'])
         .withMessage('Invalid role, must be ADMIN, MASTER or USER'),
 ];
-
+/**
+ * @swagger
+ * /signup:
+ *   post:
+ *     summary: Sign up a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *               role:
+ *                 type: string
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - password
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 firstName:
+ *                   type: string
+ *                 lastName:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                 role:
+ *                   type: string
+ *       400:
+ *         description: Invalid input
+ *       500:
+ *         description: Internal server error
+ */
 userRouter.post(
     '/signup',
     validateSignup,
@@ -281,7 +334,23 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
         next(error);
     }
 });
-
+/**
+ * @swagger
+ * /logout:
+ *   post:
+ *     summary: Log out a user
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Logged out successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
 userRouter.post('/logout', (req: Request, res: Response) => {
     // Clear the token cookie
     res.clearCookie('token', {
@@ -293,7 +362,33 @@ userRouter.post('/logout', (req: Request, res: Response) => {
     // Respond with a success message
     res.status(200).json({ message: 'Logged out successfully' });
 });
-
+/**
+ * @swagger
+ * /users/{userId}/projects:
+ *   get:
+ *     summary: Get projects for a specific user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: List of projects for the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Project'
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Error fetching projects for user
+ */
 userRouter.get('/:userId/projects', async (req, res) => {
     const userId = parseInt(req.params.userId, 10);
     try {
